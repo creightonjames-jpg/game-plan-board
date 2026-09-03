@@ -1,0 +1,1422 @@
+<title>Game Plan Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;450;500;600;700&display=swap">
+
+<style>
+:root{
+  --paper:#F2F4F4;
+  --surface:#FFFFFF;
+  --surface-2:#E9EDEE;
+  --surface-3:#DEE4E5;
+  --line:#D5DCDD;
+  --line-soft:#E4E9EA;
+  --ink:#101A1C;
+  --ink-2:#4A5A5C;
+  --ink-3:#7C8B8D;
+  --accent:#14606F;
+  --accent-hover:#0E4A56;
+  --accent-soft:#DEEDEF;
+  --accent-line:#9CC4CB;
+  --ok:#2F7A4F;
+  --ok-soft:#DFF0E5;
+  --warn:#9A7318;
+  --warn-soft:#F6EBD2;
+  --crit:#A93B2A;
+  --crit-soft:#F7E2DE;
+  --on-accent:#FFFFFF;
+  --on-solid:#FFFFFF;
+  --bar-bg:#101A1C;
+  --bar-fg:#F2F4F4;
+  --shadow:0 1px 2px rgba(16,26,28,.05), 0 8px 24px -12px rgba(16,26,28,.18);
+  --shadow-lg:0 24px 60px -20px rgba(16,26,28,.35);
+  --sans:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --display:"Fraunces", "Iowan Old Style", Georgia, serif;
+  --r:8px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1517;
+    --surface:#151E20;
+    --surface-2:#1D2729;
+    --surface-3:#263234;
+    --line:#2C3A3D;
+    --line-soft:#232F31;
+    --ink:#E7EDED;
+    --ink-2:#9BAAAC;
+    --ink-3:#6C7C7E;
+    --accent:#4FB6C9;
+    --accent-hover:#78CBDA;
+    --accent-soft:#123239;
+    --accent-line:#2A5A66;
+    --ok:#63C08A;
+    --ok-soft:#132B20;
+    --warn:#D7A63F;
+    --warn-soft:#2E2617;
+    --crit:#E58771;
+    --crit-soft:#33201B;
+    --on-accent:#08191D;
+    --on-solid:#0E1517;
+    --bar-bg:#1D2729;
+    --bar-fg:#E7EDED;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+    --shadow-lg:0 24px 60px -20px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1517;
+  --surface:#151E20;
+  --surface-2:#1D2729;
+  --surface-3:#263234;
+  --line:#2C3A3D;
+  --line-soft:#232F31;
+  --ink:#E7EDED;
+  --ink-2:#9BAAAC;
+  --ink-3:#6C7C7E;
+  --accent:#4FB6C9;
+  --accent-hover:#78CBDA;
+  --accent-soft:#123239;
+  --accent-line:#2A5A66;
+  --ok:#63C08A;
+  --ok-soft:#132B20;
+  --warn:#D7A63F;
+  --warn-soft:#2E2617;
+  --crit:#E58771;
+  --crit-soft:#33201B;
+  --on-accent:#08191D;
+  --on-solid:#0E1517;
+  --bar-bg:#1D2729;
+  --bar-fg:#E7EDED;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  --shadow-lg:0 24px 60px -20px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:14px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font:inherit; color:inherit}
+button{cursor:pointer; background:none; border:none; padding:0}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:3px}
+h1,h2,h3,h4{margin:0; font-weight:600; text-wrap:balance}
+p{margin:0}
+ul{margin:0; padding:0; list-style:none}
+
+.mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
+.eyebrow{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3); font-weight:500;
+}
+
+/* ---------- shell ---------- */
+.app{display:grid; grid-template-columns:264px minmax(0,1fr); min-height:100vh}
+
+.rail{
+  background:var(--surface); border-right:1px solid var(--line);
+  display:flex; flex-direction:column; gap:2px;
+  padding:20px 14px 24px; position:sticky; top:0; height:100vh; overflow-y:auto;
+}
+.brand{padding:0 8px 18px; border-bottom:1px solid var(--line-soft); margin-bottom:14px}
+.brand h1{
+  font-family:var(--display); font-size:21px; font-weight:600;
+  letter-spacing:-.015em; line-height:1.1;
+}
+.brand .sub{margin-top:5px; font-size:11.5px; color:var(--ink-3)}
+
+.railhead{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 8px 6px;
+}
+.navitem{
+  display:flex; align-items:center; gap:9px; width:100%; text-align:left;
+  padding:7px 8px; border-radius:var(--r); color:var(--ink-2); font-size:13.5px;
+}
+.navitem:hover{background:var(--surface-2); color:var(--ink)}
+.navitem[aria-current="true"]{background:var(--accent-soft); color:var(--accent); font-weight:600}
+.navitem .dot{
+  width:7px; height:7px; border-radius:50%; flex:none;
+  background:var(--ink-3); opacity:.5;
+}
+.navitem[aria-current="true"] .dot{background:var(--accent); opacity:1}
+.navitem .count{
+  margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--ink-3);
+  font-variant-numeric:tabular-nums;
+}
+.navitem .count.flag{color:var(--crit); font-weight:600}
+.railfoot{margin-top:auto; padding:16px 8px 0; border-top:1px solid var(--line-soft); display:flex; flex-direction:column; gap:8px}
+.linkbtn{font-size:11.5px; color:var(--ink-3); text-align:left}
+.linkbtn:hover{color:var(--accent); text-decoration:underline}
+
+/* ---------- main ---------- */
+main{min-width:0; padding:0 0 80px}
+.topbar{
+  display:flex; align-items:center; gap:12px; padding:16px 32px;
+  border-bottom:1px solid var(--line); background:var(--paper);
+  position:sticky; top:0; z-index:20;
+}
+.search{
+  flex:1; max-width:420px; display:flex; align-items:center; gap:8px;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:6px 10px;
+}
+.search input{border:none; background:none; outline:none; width:100%; font-size:13.5px}
+.search input::placeholder{color:var(--ink-3)}
+.search svg{flex:none; color:var(--ink-3)}
+.topbar .spacer{flex:1}
+
+.wrap{padding:28px 32px; max-width:1180px}
+.pagehead{display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-bottom:24px}
+.pagehead h2{font-family:var(--display); font-size:28px; letter-spacing:-.02em; line-height:1.15}
+.pagehead .meta{margin-top:6px; color:var(--ink-2); font-size:13px}
+
+/* buttons */
+.btn{
+  display:inline-flex; align-items:center; gap:7px; padding:7px 13px;
+  border:1px solid var(--line); border-radius:var(--r); background:var(--surface);
+  font-size:13px; font-weight:500; color:var(--ink); white-space:nowrap;
+}
+.btn:hover{border-color:var(--ink-3)}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:var(--on-accent)}
+.btn.primary:hover{background:var(--accent-hover); border-color:var(--accent-hover)}
+.btn.ghost{border-color:transparent; background:none; color:var(--ink-2)}
+.btn.ghost:hover{background:var(--surface-2); color:var(--ink)}
+.btn.sm{padding:4px 9px; font-size:12px}
+
+/* ---------- stat strip ---------- */
+.stats{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  overflow:hidden; margin-bottom:28px;
+}
+.stat{background:var(--surface); padding:14px 16px; border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat .n{font-family:var(--mono); font-size:26px; font-weight:500; letter-spacing:-.02em; line-height:1.1}
+.stat .l{margin-top:4px; font-size:11.5px; color:var(--ink-2)}
+.stat.warn .n{color:var(--warn)}
+.stat.crit .n{color:var(--crit)}
+.stat.ok .n{color:var(--ok)}
+
+/* ---------- club cards ---------- */
+.clubgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:14px}
+.clubcard{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:16px 16px 14px; text-align:left; display:flex; flex-direction:column; gap:12px;
+  transition:border-color .12s, transform .12s;
+}
+.clubcard:hover{border-color:var(--accent-line); transform:translateY(-1px)}
+.clubcard .name{font-family:var(--display); font-size:17.5px; font-weight:600; letter-spacing:-.01em; line-height:1.2}
+.clubcard .where{margin-top:3px; font-size:11.5px; color:var(--ink-3)}
+.clubcard .gm{font-size:12.5px; color:var(--ink-2)}
+.tag{
+  display:inline-block; padding:1.5px 6px; border-radius:4px; font-family:var(--mono);
+  font-size:10px; letter-spacing:.04em; text-transform:uppercase; font-weight:500;
+  border:1px solid var(--line); color:var(--ink-2); background:var(--surface-2);
+}
+.cardstats{display:flex; gap:16px; border-top:1px solid var(--line-soft); padding-top:11px}
+.cardstats > div:not(.spark){display:flex; flex-direction:column; gap:1px}
+.cardstats .v{font-family:var(--mono); font-size:15px; font-weight:500}
+.cardstats .k{font-size:10.5px; color:var(--ink-3)}
+.cardstats .v.warn{color:var(--warn)} .cardstats .v.crit{color:var(--crit)} .cardstats .v.ok{color:var(--ok)}
+.spark{display:flex; flex-direction:row; align-items:flex-end; gap:3px; height:26px; margin-left:auto; flex:none}
+.spark i{
+  width:7px; height:100%; border-radius:2px; display:flex; align-items:flex-end;
+  background:var(--surface-3); overflow:hidden;
+}
+.spark i b{display:block; width:100%; background:var(--accent-line); border-radius:2px; min-height:2px}
+.spark i:last-child b{background:var(--accent)}
+.meetline{display:flex; justify-content:space-between; font-size:11.5px; color:var(--ink-3); font-family:var(--mono)}
+
+/* ---------- section ---------- */
+.section{margin-top:34px}
+.sectionhead{display:flex; align-items:baseline; gap:10px; margin-bottom:12px}
+.sectionhead h3{font-size:14.5px; letter-spacing:-.005em}
+.sectionhead .note{font-size:12px; color:var(--ink-3)}
+
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
+.panel .empty{padding:26px; text-align:center; color:var(--ink-3); font-size:13px}
+
+/* ---------- item rows ---------- */
+.bucket{border-bottom:1px solid var(--line); background:var(--surface)}
+.bucket:last-child{border-bottom:none}
+.buckethead{
+  display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+  padding:10px 16px; background:var(--surface-2);
+  border-bottom:1px solid var(--line-soft);
+}
+.buckethead:hover{background:var(--surface-3)}
+.buckethead h4{font-size:12.5px; font-weight:600; letter-spacing:.01em}
+.buckethead .chev{color:var(--ink-3); transition:transform .15s; flex:none}
+.buckethead[aria-expanded="false"] .chev{transform:rotate(-90deg)}
+.buckethead .tally{margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--ink-3)}
+.progress{width:64px; height:4px; border-radius:2px; background:var(--surface-3); overflow:hidden; flex:none}
+.progress i{display:block; height:100%; background:var(--ok)}
+
+.row{
+  display:flex; align-items:flex-start; gap:10px; width:100%; text-align:left;
+  padding:9px 16px 9px 0; border-bottom:1px solid var(--line-soft);
+  position:relative; border-left:3px solid transparent;
+}
+.row:last-child{border-bottom:none}
+.row:hover{background:var(--surface-2)}
+.row.sev-warn{border-left-color:var(--warn)}
+.row.sev-crit{border-left-color:var(--crit)}
+.row.is-done .title{color:var(--ink-3)}
+.row.is-dropped .title{color:var(--ink-3); text-decoration:line-through}
+.row .indent{flex:none}
+.marker{
+  flex:none; width:17px; height:17px; margin-top:1px; border-radius:4px;
+  border:1.5px solid var(--ink-3); display:grid; place-items:center;
+  color:var(--surface); background:var(--surface);
+}
+.marker:hover{border-color:var(--accent)}
+.marker.done{background:var(--ok); border-color:var(--ok); color:var(--on-solid)}
+.marker.decision{border-radius:0; transform:rotate(45deg); width:14px; height:14px; margin-top:2px}
+.marker.decision.done{background:var(--accent); border-color:var(--accent)}
+.marker.question{border-radius:50%; border-color:var(--warn); color:var(--warn); font-size:11px; font-weight:700; font-family:var(--mono)}
+.marker.question.done{background:var(--warn); color:var(--on-solid)}
+.rowbody{flex:1; min-width:0}
+.row .title{font-size:13.5px; line-height:1.45}
+.rowmeta{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:4px}
+.chip{
+  display:inline-flex; align-items:center; gap:4px; font-size:11px;
+  color:var(--ink-2); font-family:var(--mono);
+}
+.chip.owner{color:var(--ink-2)}
+.chip.due.over{color:var(--crit); font-weight:600}
+.chip.stall{color:var(--warn); font-weight:600}
+.chip.notes{color:var(--ink-3)}
+.pill{
+  flex:none; font-size:10.5px; font-family:var(--mono); letter-spacing:.03em;
+  text-transform:uppercase; padding:2px 7px; border-radius:20px; white-space:nowrap;
+  border:1px solid transparent; margin-top:2px;
+}
+.pill.not_started{background:var(--surface-2); color:var(--ink-3); border-color:var(--line)}
+.pill.in_progress{background:var(--accent-soft); color:var(--accent); border-color:var(--accent-line)}
+.pill.done{background:var(--ok-soft); color:var(--ok)}
+.pill.parked{background:var(--warn-soft); color:var(--warn)}
+.pill.dropped{background:var(--surface-2); color:var(--ink-3); border-color:var(--line)}
+.lastnote{
+  margin-top:5px; font-size:12.5px; color:var(--ink-2); line-height:1.45;
+  border-left:2px solid var(--line); padding-left:9px;
+}
+.lastnote b{font-family:var(--mono); font-size:11px; font-weight:500; color:var(--ink-3)}
+
+/* filters */
+.filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; align-items:center}
+.fchip{
+  padding:4px 11px; border-radius:20px; border:1px solid var(--line);
+  background:var(--surface); font-size:12px; color:var(--ink-2);
+}
+.fchip:hover{border-color:var(--ink-3)}
+.fchip[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+.fchip .n{font-family:var(--mono); font-size:11px; opacity:.65; margin-left:4px}
+
+/* attention table */
+.att{width:100%; border-collapse:collapse}
+.att th{
+  text-align:left; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-3); font-weight:500;
+  padding:9px 14px; border-bottom:1px solid var(--line); background:var(--surface-2);
+}
+.att td{padding:10px 14px; border-bottom:1px solid var(--line-soft); vertical-align:top; font-size:13px}
+.att tr:last-child td{border-bottom:none}
+.att tbody tr{cursor:pointer}
+.att tbody tr:hover{background:var(--surface-2)}
+.att .club{font-size:12px; color:var(--ink-2); white-space:nowrap}
+.att .num{font-family:var(--mono); font-size:12px; white-space:nowrap}
+.att .num.crit{color:var(--crit); font-weight:600}
+.att .num.warn{color:var(--warn); font-weight:600}
+.tablewrap{overflow-x:auto}
+
+/* ---------- drawer ---------- */
+.scrim{
+  position:fixed; inset:0; background:rgba(16,26,28,.4); z-index:40;
+  opacity:0; pointer-events:none; transition:opacity .18s;
+}
+.scrim.open{opacity:1; pointer-events:auto}
+.drawer{
+  position:fixed; top:0; right:0; height:100vh; width:min(480px,100vw);
+  background:var(--surface); border-left:1px solid var(--line); z-index:50;
+  transform:translateX(102%); transition:transform .22s cubic-bezier(.4,0,.2,1);
+  display:flex; flex-direction:column; box-shadow:var(--shadow-lg);
+}
+.drawer.open{transform:none}
+.drawerhead{padding:18px 20px 14px; border-bottom:1px solid var(--line)}
+.drawerhead .top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:10px}
+.drawerhead h3{font-size:16px; line-height:1.35; letter-spacing:-.005em}
+.drawerbody{flex:1; overflow-y:auto; padding:18px 20px 28px}
+.fields{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:22px}
+.field{display:flex; flex-direction:column; gap:5px}
+.field label{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3)}
+.field select,.field input{
+  border:1px solid var(--line); background:var(--surface); border-radius:6px;
+  padding:6px 8px; font-size:13px; outline:none; width:100%;
+}
+.field select:focus,.field input:focus,textarea:focus{border-color:var(--accent)}
+textarea{
+  border:1px solid var(--line); background:var(--surface); border-radius:6px;
+  padding:9px 10px; font-size:13.5px; outline:none; width:100%; resize:vertical;
+  font-family:var(--sans); line-height:1.5;
+}
+.composer{display:flex; flex-direction:column; gap:8px; margin-bottom:24px}
+.composer .actions{display:flex; gap:8px; align-items:center}
+
+.timeline{position:relative; padding-left:20px}
+.timeline::before{content:""; position:absolute; left:4.5px; top:5px; bottom:5px; width:1px; background:var(--line)}
+.tl{position:relative; padding-bottom:18px}
+.tl::before{
+  content:""; position:absolute; left:-20px; top:5px; width:9px; height:9px;
+  border-radius:50%; background:var(--surface); border:2px solid var(--line-soft);
+  box-shadow:0 0 0 3px var(--surface);
+}
+.tl.mark::before{background:var(--accent); border-color:var(--accent)}
+.tl .when{font-family:var(--mono); font-size:11px; color:var(--ink-3)}
+.tl .who{font-size:11.5px; color:var(--ink-2); font-weight:600}
+.tl .what{font-size:13.5px; margin-top:3px; line-height:1.5}
+.tl .what.sys{color:var(--ink-2); font-style:italic}
+
+/* ---------- meeting mode ---------- */
+.meetbar{
+  background:var(--bar-bg); color:var(--bar-fg); padding:12px 32px;
+  display:flex; align-items:center; gap:16px; position:sticky; top:0; z-index:25;
+  box-shadow:inset 0 -2px 0 var(--accent);
+}
+.meetbar .live{
+  display:inline-flex; align-items:center; gap:7px; font-family:var(--mono);
+  font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+}
+.meetbar .live i{width:7px; height:7px; border-radius:50%; background:var(--crit); display:block}
+@media (prefers-reduced-motion:no-preference){.meetbar .live i{animation:pulse 2s ease-in-out infinite}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.meetbar .who{font-family:var(--display); font-size:16px; font-weight:600}
+.meetbar .tally{margin-left:auto; font-family:var(--mono); font-size:12px; opacity:.7}
+.meetbar .btn{background:transparent; border-color:color-mix(in srgb, var(--bar-fg) 32%, transparent); color:var(--bar-fg)}
+.meetbar .btn:hover{background:color-mix(in srgb, var(--bar-fg) 12%, transparent); border-color:var(--bar-fg)}
+.meetbar .btn.primary{background:var(--accent); color:var(--on-accent); border-color:var(--accent)}
+.meetbar .btn.primary:hover{background:var(--accent-hover); border-color:var(--accent-hover)}
+
+.mrow{
+  display:flex; gap:12px; padding:12px 16px; border-bottom:1px solid var(--line-soft);
+  border-left:3px solid transparent; align-items:flex-start;
+}
+.mrow:last-child{border-bottom:none}
+.mrow.sev-warn{border-left-color:var(--warn)} .mrow.sev-crit{border-left-color:var(--crit)}
+.mrow.touched{background:var(--accent-soft)}
+.mrow .mbody{flex:1; min-width:0}
+.mrow .mtitle{font-size:14px; line-height:1.4}
+.statusgroup{display:flex; gap:0; border:1px solid var(--line); border-radius:6px; overflow:hidden; flex:none}
+.statusgroup button{
+  padding:4px 8px; font-size:11px; font-family:var(--mono); color:var(--ink-2);
+  border-right:1px solid var(--line); background:var(--surface);
+}
+.statusgroup button:last-child{border-right:none}
+.statusgroup button:hover{background:var(--surface-2)}
+.statusgroup button[aria-pressed="true"]{background:var(--ink); color:var(--paper)}
+.notefield{
+  margin-top:8px; display:flex; gap:8px; align-items:center;
+}
+.notefield input{
+  flex:1; border:1px solid var(--line); background:var(--surface); border-radius:6px;
+  padding:6px 9px; font-size:13px; outline:none;
+}
+.notefield input:focus{border-color:var(--accent)}
+.whosel{
+  border:1px solid var(--line); background:var(--surface); border-radius:6px;
+  padding:5px 7px; font-size:11.5px; font-family:var(--mono); color:var(--ink-2);
+  outline:none; max-width:190px;
+}
+.whosel:focus{border-color:var(--accent)}
+
+/* ---------- recap ---------- */
+.recap{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:36px 40px; max-width:760px;
+}
+.recap h2{font-family:var(--display); font-size:26px; letter-spacing:-.02em; margin-bottom:4px}
+.recap .rmeta{font-family:var(--mono); font-size:12px; color:var(--ink-3); margin-bottom:26px; padding-bottom:18px; border-bottom:2px solid var(--ink)}
+.recap section{margin-bottom:26px}
+.recap section h3{
+  font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); margin-bottom:9px; font-weight:500;
+}
+.recap li{
+  padding:7px 0 7px 18px; border-bottom:1px solid var(--line-soft); position:relative;
+  font-size:13.5px; line-height:1.5;
+}
+.recap li:last-child{border-bottom:none}
+.recap li::before{content:""; position:absolute; left:2px; top:14px; width:5px; height:5px; border-radius:50%; background:var(--accent-line)}
+.recap li .sub{display:block; font-size:12px; color:var(--ink-2); margin-top:2px}
+.recap li .own{font-family:var(--mono); font-size:11.5px; color:var(--ink-3)}
+.recap .none{font-size:13px; color:var(--ink-3); font-style:italic}
+
+/* search results */
+.sresult{padding:11px 16px; border-bottom:1px solid var(--line-soft); width:100%; text-align:left; display:block}
+.sresult:last-child{border-bottom:none}
+.sresult:hover{background:var(--surface-2)}
+.sresult .t{font-size:13.5px}
+.sresult .c{font-size:11.5px; color:var(--ink-3); font-family:var(--mono); margin-top:2px}
+mark{background:var(--warn-soft); color:inherit; border-radius:2px; padding:0 1px}
+
+.toast{
+  position:fixed; bottom:24px; left:50%; transform:translate(-50%,80px);
+  background:var(--ink); color:var(--paper); padding:10px 18px; border-radius:20px;
+  font-size:13px; z-index:80; transition:transform .22s; box-shadow:var(--shadow-lg);
+}
+.toast.show{transform:translate(-50%,0)}
+
+@media (max-width:920px){
+  .app{grid-template-columns:1fr}
+  .rail{position:static; height:auto; border-right:none; border-bottom:1px solid var(--line)}
+  .wrap,.topbar,.meetbar{padding-left:18px; padding-right:18px}
+  .recap{padding:24px 20px}
+  .fields{grid-template-columns:1fr}
+}
+@media print{
+  .rail,.topbar,.pagehead .btn,.meetbar{display:none}
+  body{background:#fff}
+  .recap{border:none; padding:0}
+}
+</style>
+
+<div class="app">
+  <nav class="rail">
+    <div class="brand">
+      <h1>Game&nbsp;Plan Board</h1>
+      <div class="sub">Regional portfolio &middot; Central &amp; Southeast</div>
+    </div>
+    <button class="navitem" data-nav="portfolio"><span class="dot"></span>Portfolio</button>
+    <div class="railhead"><span class="eyebrow">Clubs</span></div>
+    <div id="clublist"></div>
+    <div class="railfoot">
+      <button class="linkbtn" id="resetbtn">Reset demo data</button>
+      <div class="eyebrow" style="line-height:1.5">Prototype &middot; fictional clubs<br>and fictional data</div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="topbar" id="topbar">
+      <div class="search">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+        <input id="q" type="search" placeholder="Search every club, item and note&hellip;" autocomplete="off">
+      </div>
+      <div class="spacer"></div>
+      <button class="btn ghost sm" id="themebtn">Theme</button>
+    </div>
+    <div id="view"></div>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"></aside>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+/* ============================================================
+   Fictional demo data. Six clubs, one regional director.
+   Dates are generated as offsets from today so the ages,
+   overdue flags and stall counts always read as real.
+   ============================================================ */
+
+const DAY = 864e5;
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+const iso = d => new Date(d).toISOString().slice(0,10);
+const ago = n => iso(TODAY.getTime() - n*DAY);
+const ahead = n => iso(TODAY.getTime() + n*DAY);
+const daysBetween = (a,b) => Math.round((new Date(b) - new Date(a))/DAY);
+const daysSince = d => daysBetween(d, iso(TODAY));
+
+const BUCKETS = ["Membership Sales","Lead Generation","Retention & Engagement",
+  "Board & Governance","Events & Programming","Operations","Capital & Facilities"];
+
+const CLUBS = [
+  {id:"cr", name:"Cedar Ridge Country Club", short:"Cedar Ridge", kind:"Private", loc:"Austin, TX",
+   gm:"Marcus Webb", last:12, next:9,
+   team:["Marcus Webb (GM)","Lindsey Cho (Membership)","Dev Patel (Head Golf)","Board","You (Regional)"]},
+  {id:"hb", name:"Harbor Bluff Golf Club", short:"Harbor Bluff", kind:"Daily Fee", loc:"Clearwater, FL",
+   gm:"Dana Okafor", last:5, next:23,
+   team:["Dana Okafor (GM)","Trey Bonham (Golf Ops)","Sam Iyer (F&B)","You (Regional)"]},
+  {id:"wh", name:"Wexford Hills Country Club", short:"Wexford Hills", kind:"Private", loc:"Plano, TX",
+   gm:"Ray Tolliver", last:26, next:4,
+   team:["Ray Tolliver (GM)","Nadia Brooks (Membership)","Owen Reyes (F&B)","Board","You (Regional)"]},
+  {id:"pt", name:"Palmetto Trace Golf Club", short:"Palmetto Trace", kind:"Daily Fee", loc:"Mount Pleasant, SC",
+   gm:"Priya Raman", last:19, next:16,
+   team:["Priya Raman (GM)","Cal Whitaker (Superintendent)","Jo Márquez (Golf Shop)","You (Regional)"]},
+  {id:"tw", name:"Thornwood Country Club", short:"Thornwood", kind:"Private", loc:"Overland Park, KS",
+   gm:"Hal Brennan", last:41, next:6,
+   team:["Hal Brennan (GM)","Erin Vogel (Membership)","Board","You (Regional)"]},
+  {id:"sc", name:"Silver Creek Golf Club", short:"Silver Creek", kind:"Daily Fee", loc:"Littleton, CO",
+   gm:"Tess Nakamura", last:8, next:30,
+   team:["Tess Nakamura (GM)","Bryce Halloran (Golf Ops)","You (Regional)"]}
+];
+
+/* item shape: c club, b bucket, k key (only if it has children), p parent key,
+   t title, ty type, o owner, s status, cr created(daysAgo), dn done(daysAgo),
+   du due(+/- days from today), u updates [[daysAgo, who, text], ...]            */
+const SEED = [
+/* ---------- CEDAR RIDGE : the membership push ---------- */
+{c:"cr",b:"Membership Sales",t:"Refresh the membership collateral packets",ty:"task",o:"Lindsey Cho (Membership)",s:"done",cr:118,dn:61,
+ u:[[118,"You (Regional)","Current packet is three price changes out of date. Lindsey owns the rewrite."],[61,"Lindsey Cho (Membership)","250 printed, 60 to the front desk, rest in the membership office."]]},
+{c:"cr",b:"Membership Sales",t:"Preview offer — extend it or let it expire?",ty:"decision",o:"Board",s:"done",cr:96,dn:47,
+ u:[[96,"Marcus Webb (GM)","Preview expires 9/30. Board wants a read on conversion before deciding."],[61,"You (Regional)","11 of 34 previews converted. That is worth extending."],[47,"Board","Decided: extend the preview through October, dues start date moves to 1/1/27."]]},
+{c:"cr",b:"Membership Sales",t:"Rewrite the new member guide",ty:"task",o:"Lindsey Cho (Membership)",s:"done",cr:96,dn:39,
+ u:[[39,"Lindsey Cho (Membership)","Done and posted to the member portal. Print run of 100 for the mixer."]]},
+{c:"cr",b:"Membership Sales",t:"Run a fall showcase event?",ty:"question",o:"Marcus Webb (GM)",s:"done",cr:96,dn:47,
+ u:[[47,"Marcus Webb (GM)","Passing this season. Redirecting the spend into referral incentives instead."]]},
+{c:"cr",b:"Membership Sales",t:"Tennis initiation fee increase",ty:"decision",o:"Board",s:"in_progress",cr:96,du:26,
+ u:[[96,"You (Regional)","Racquets is at capacity and priced 40% under the market."],[9,"Board","Yes — effective 1/1. Rollout plan owed back to the board by 10/1."]]},
+{c:"cr",b:"Membership Sales",t:"Build the tennis fee rollout comms plan",ty:"task",o:"Lindsey Cho (Membership)",s:"not_started",cr:9,du:23,
+ u:[[9,"You (Regional)","Needs a member letter, a court-side sign and a script for the racquets pro."]]},
+{c:"cr",b:"Membership Sales",t:"Draft the referral incentive structure for the board",ty:"task",o:"You (Regional)",s:"in_progress",cr:44,du:11,
+ u:[[44,"You (Regional)","Modeling three versions: dues credit, guest passes, and a tiered mix."],[16,"You (Regional)","Dues credit is cleanest to administer. Writing it up."]]},
+
+{c:"cr",b:"Lead Generation",k:"q4",t:"Q4 lead buckets",ty:"task",o:"Lindsey Cho (Membership)",s:"in_progress",cr:74,
+ u:[[74,"You (Regional)","Six buckets. Every bucket needs a named owner and a weekly number."]]},
+{c:"cr",b:"Lead Generation",p:"q4",t:"Pull and assign the call lists",ty:"task",o:"Lindsey Cho (Membership)",s:"not_started",cr:74,du:-6,
+ u:[[74,"You (Regional)","Lapsed members, unconverted previews and last year's guest list."]]},
+{c:"cr",b:"Lead Generation",p:"q4",k:"mb",t:"Member bucket — 5 leads from 2 new and 3 tenured",ty:"task",o:"Lindsey Cho (Membership)",s:"in_progress",cr:74,
+ u:[[74,"You (Regional)","Target is 5 named leads a month. Tenured members are the untapped half."],[18,"Lindsey Cho (Membership)","3 named so far this month, all from the two new members."]]},
+{c:"cr",b:"Lead Generation",p:"mb",t:"Generation through education",ty:"task",o:"Lindsey Cho (Membership)",s:"not_started",cr:74,u:[]},
+{c:"cr",b:"Lead Generation",p:"mb",t:"60-day invitation touch",ty:"task",o:"Lindsey Cho (Membership)",s:"not_started",cr:74,u:[]},
+{c:"cr",b:"Lead Generation",p:"mb",t:"Video and email education series",ty:"task",o:"Dev Patel (Head Golf)",s:"in_progress",cr:74,
+ u:[[21,"Dev Patel (Head Golf)","Two of six videos shot. Filming the rest the week of the mixer."]]},
+{c:"cr",b:"Lead Generation",p:"mb",t:"Partner education and the referral leaderboard",ty:"task",o:"Lindsey Cho (Membership)",s:"not_started",cr:74,u:[]},
+{c:"cr",b:"Lead Generation",p:"q4",t:"Member events bucket",ty:"task",o:"Lindsey Cho (Membership)",s:"not_started",cr:74,u:[]},
+{c:"cr",b:"Lead Generation",p:"q4",t:"Corporate and relocation bucket",ty:"task",o:"Marcus Webb (GM)",s:"not_started",cr:74,u:[]},
+{c:"cr",b:"Lead Generation",p:"q4",t:"New homeowner postcard",ty:"task",o:"Lindsey Cho (Membership)",s:"done",cr:74,dn:22,
+ u:[[22,"Lindsey Cho (Membership)","1,400 mailed to the two new sections. Tracking with a dedicated landing page."]]},
+{c:"cr",b:"Lead Generation",p:"q4",k:"gp",t:"Guest play capture",ty:"task",o:"Dev Patel (Head Golf)",s:"done",cr:74,dn:29,
+ u:[[29,"Dev Patel (Head Golf)","Tablet at the first tee is working. Thank-you email fires the same night."]]},
+{c:"cr",b:"Lead Generation",p:"gp",t:"Capture the guest data properly at check-in",ty:"task",o:"Dev Patel (Head Golf)",s:"done",cr:74,dn:29,u:[]},
+{c:"cr",b:"Lead Generation",p:"gp",t:"How does membership get the guest list each week?",ty:"question",o:"Lindsey Cho (Membership)",s:"not_started",cr:74,
+ u:[[51,"You (Regional)","Still unanswered. The data is being captured and nobody is working it."]]},
+
+{c:"cr",b:"Board & Governance",t:"Board commits to attending the new member mixer",ty:"task",o:"Board",s:"done",cr:96,dn:61,
+ u:[[61,"Lindsey Cho (Membership)","Committed. Lindsey sends every board member an invite each month."]]},
+{c:"cr",b:"Board & Governance",t:"Put a blank invitation in every board member's hand at the October meeting",ty:"task",o:"Marcus Webb (GM)",s:"in_progress",cr:96,du:19,
+ u:[[68,"You (Regional)","The point is education, not the invitation. Walk them through how it works."]]},
+{c:"cr",b:"Board & Governance",t:"Bring invitations and leaderboard posters to the board meeting",ty:"task",o:"Lindsey Cho (Membership)",s:"done",cr:96,dn:61,u:[]},
+{c:"cr",b:"Board & Governance",t:"Board packet — one page or the full deck?",ty:"question",o:"Marcus Webb (GM)",s:"in_progress",cr:33,du:12,
+ u:[[33,"Marcus Webb (GM)","Board says the deck is too long. Trying a one-pager in October."]]},
+
+{c:"cr",b:"Retention & Engagement",t:"Reinstate the 90-day new member check-in",ty:"task",o:"Lindsey Cho (Membership)",s:"in_progress",cr:61,
+ u:[[61,"You (Regional)","This lapsed in the spring. It was the single best retention habit here."],[13,"Lindsey Cho (Membership)","Calendar reminders rebuilt. First eight calls happen this week."]]},
+{c:"cr",b:"Retention & Engagement",t:"Write the at-risk member call script",ty:"task",o:"You (Regional)",s:"not_started",cr:61,
+ u:[[39,"You (Regional)","Blocked on the usage report from the POS."]]},
+{c:"cr",b:"Retention & Engagement",t:"Schedule the fall member survey",ty:"task",o:"You (Regional)",s:"in_progress",cr:26,du:18,
+ u:[[7,"You (Regional)","Window is 10/6 to 10/20 so the board sees results before budget season."]]},
+
+{c:"cr",b:"Events & Programming",t:"Lock next year's Member-Guest date",ty:"task",o:"Dev Patel (Head Golf)",s:"done",cr:47,dn:15,
+ u:[[15,"Dev Patel (Head Golf)","May 14-16. Hotel block held, invitations go out in January."]]},
+{c:"cr",b:"Events & Programming",t:"Fall member mixer — October 17",ty:"task",o:"Lindsey Cho (Membership)",s:"in_progress",cr:47,du:44,
+ u:[[11,"Lindsey Cho (Membership)","Menu set, band booked. 62 RSVPs so far."]]},
+
+{c:"cr",b:"Operations",t:"Front desk phone coverage during the peak hour",ty:"task",o:"Marcus Webb (GM)",s:"parked",cr:88,
+ u:[[88,"You (Regional)","Calls are rolling to voicemail between 4 and 6."],[54,"Marcus Webb (GM)","Parked until the fall staffing plan is set. Revisit in November."]]},
+{c:"cr",b:"Capital & Facilities",t:"Range netting — collect three bids",ty:"task",o:"Marcus Webb (GM)",s:"in_progress",cr:81,du:-3,
+ u:[[81,"You (Regional)","Two balls onto the neighboring street this summer. This one has a clock on it."],[34,"Marcus Webb (GM)","Two bids in, third contractor has not called back."]]},
+{c:"cr",b:"Capital & Facilities",t:"Scope the locker room refresh",ty:"task",o:"Marcus Webb (GM)",s:"not_started",cr:54,u:[]},
+
+/* ---------- HARBOR BLUFF : daily fee, yield and weather ---------- */
+{c:"hb",b:"Operations",t:"Rebuild the rate card by day part",ty:"task",o:"Trey Bonham (Golf Ops)",s:"in_progress",cr:63,du:14,
+ u:[[63,"You (Regional)","Twilight is underpriced and Saturday morning is leaving money on the table."],[6,"Trey Bonham (Golf Ops)","Draft card built. Modeling it against last year's rounds now."]]},
+{c:"hb",b:"Operations",t:"Cut third-party tee time inventory from 30% to 18%",ty:"task",o:"Dana Okafor (GM)",s:"in_progress",cr:63,du:52,
+ u:[[63,"You (Regional)","Barter rounds are crowding out full-rate direct bookings on weekends."],[6,"Dana Okafor (GM)","Down to 26%. Pulling weekend mornings off the channel first."]]},
+{c:"hb",b:"Operations",t:"Pace of play — target 4:15 on weekends",ty:"task",o:"Trey Bonham (Golf Ops)",s:"not_started",cr:40,
+ u:[[40,"You (Regional)","Running 4:48. Every negative review this quarter mentions it."]]},
+{c:"hb",b:"Lead Generation",t:"Relaunch the email list — 6,200 addresses, no sends since April",ty:"task",o:"Dana Okafor (GM)",s:"in_progress",cr:47,du:9,
+ u:[[47,"You (Regional)","There is a real asset sitting unused here."],[6,"Dana Okafor (GM)","Warm-up sequence written. First send goes out Monday."]]},
+{c:"hb",b:"Lead Generation",t:"Corporate outing package for Q4",ty:"task",o:"Sam Iyer (F&B)",s:"not_started",cr:47,du:-11,
+ u:[[38,"You (Regional)","Outing season is here and there is no package to sell."]]},
+{c:"hb",b:"Retention & Engagement",t:"Loyalty card — worth doing?",ty:"question",o:"Dana Okafor (GM)",s:"in_progress",cr:33,
+ u:[[6,"Dana Okafor (GM)","Leaning yes for a prepaid round card. Needs a margin check before we commit."]]},
+{c:"hb",b:"Events & Programming",t:"Friday night league — build a fall session",ty:"task",o:"Trey Bonham (Golf Ops)",s:"done",cr:75,dn:20,
+ u:[[20,"Trey Bonham (Golf Ops)","Nine weeks, 44 players signed, F&B minimum built into the entry fee."]]},
+{c:"hb",b:"Capital & Facilities",t:"Cart path repair on 7 and 12",ty:"task",o:"Dana Okafor (GM)",s:"done",cr:75,dn:34,u:[]},
+{c:"hb",b:"Capital & Facilities",t:"Hurricane readiness — walk the plan before October",ty:"task",o:"Dana Okafor (GM)",s:"in_progress",cr:33,du:27,
+ u:[[6,"Dana Okafor (GM)","Pump plan and equipment staging confirmed. Contact tree needs updating."]]},
+{c:"hb",b:"Capital & Facilities",t:"Replace the irrigation controller on the back nine",ty:"decision",o:"You (Regional)",s:"not_started",cr:33,
+ u:[[33,"Dana Okafor (GM)","$41k. Needs to go on the capital list or be deferred another year."]]},
+{c:"hb",b:"Operations",t:"Beverage cart staffing on weekdays",ty:"task",o:"Sam Iyer (F&B)",s:"parked",cr:47,
+ u:[[40,"Sam Iyer (F&B)","Parked until Labor Day traffic settles. Revisit with the fall schedule."]]},
+{c:"hb",b:"Membership Sales",t:"Annual pass — set the price and the cap",ty:"decision",o:"Dana Okafor (GM)",s:"in_progress",cr:26,du:34,
+ u:[[6,"You (Regional)","Cap it. An uncapped pass at this rate cannibalizes Saturday morning."]]},
+
+/* ---------- WEXFORD HILLS : new GM, F&B, capital vote ---------- */
+{c:"wh",b:"Operations",t:"New GM 90-day plan — Ray started 8/3",ty:"task",o:"You (Regional)",s:"in_progress",cr:31,du:59,
+ u:[[31,"You (Regional)","Week one through four written. Reviewing week five onward with Ray."],[26,"Ray Tolliver (GM)","Met every department head. F&B is the fire."]]},
+{c:"wh",b:"Operations",t:"F&B is running 31% food cost — get it under 27%",ty:"task",o:"Owen Reyes (F&B)",s:"in_progress",cr:26,du:44,
+ u:[[26,"You (Regional)","No portion controls, no inventory discipline, menu is too broad."],[26,"Owen Reyes (F&B)","Weekly inventory restarted. Menu cut from 34 items to 22."]]},
+{c:"wh",b:"Operations",t:"Rewrite the banquet event order process",ty:"task",o:"Owen Reyes (F&B)",s:"not_started",cr:26,
+ u:[[26,"You (Regional)","Two double-booked rooms in July. There is no written process."]]},
+{c:"wh",b:"Board & Governance",t:"Clubhouse assessment — the member vote",ty:"decision",o:"Board",s:"in_progress",cr:82,du:5,
+ u:[[82,"You (Regional)","$4.2M scope. Vote is scheduled and the room is not warmed up yet."],[47,"Nadia Brooks (Membership)","Three town halls scheduled. Turnout at the first was 38."],[26,"Ray Tolliver (GM)","Straw poll is close. We need the under-50 members in the room."]]},
+{c:"wh",b:"Board & Governance",t:"Town hall #3 — bring the renderings",ty:"task",o:"Ray Tolliver (GM)",s:"not_started",cr:26,du:2,
+ u:[]},
+{c:"wh",b:"Board & Governance",t:"Board is operating in the weeds — reset the charter",ty:"task",o:"You (Regional)",s:"in_progress",cr:82,
+ u:[[82,"You (Regional)","Board voted on beverage cart hours last month. That is a management call."],[26,"You (Regional)","Charter draft sent to the president. Discussing at the October meeting."]]},
+{c:"wh",b:"Membership Sales",t:"Waitlist is 31 deep and nobody is calling them",ty:"task",o:"Nadia Brooks (Membership)",s:"in_progress",cr:82,du:-2,
+ u:[[82,"You (Regional)","31 people who already said yes. This is the cheapest revenue in the club."],[26,"Nadia Brooks (Membership)","14 called, 6 ready to join once the assessment vote settles."]]},
+{c:"wh",b:"Membership Sales",t:"Should new members be exempt from the assessment?",ty:"question",o:"Board",s:"in_progress",cr:47,du:5,
+ u:[[26,"Nadia Brooks (Membership)","This is the first question every waitlist call asks. We need an answer."]]},
+{c:"wh",b:"Retention & Engagement",t:"Exit interviews for every resignation",ty:"task",o:"Nadia Brooks (Membership)",s:"done",cr:82,dn:33,
+ u:[[33,"Nadia Brooks (Membership)","Now standard. Nine done. F&B quality is the top reason, by a distance."]]},
+{c:"wh",b:"Retention & Engagement",t:"Dining minimum — enforce it or drop it?",ty:"decision",o:"Ray Tolliver (GM)",s:"not_started",cr:47,
+ u:[[47,"You (Regional)","It is on the books and has not been enforced in two years."]]},
+{c:"wh",b:"Events & Programming",t:"Fall member-member — sold out?",ty:"task",o:"Ray Tolliver (GM)",s:"done",cr:47,dn:12,u:[]},
+{c:"wh",b:"Capital & Facilities",t:"Get three bids on the pool deck resurface",ty:"task",o:"Ray Tolliver (GM)",s:"not_started",cr:47,du:20,u:[]},
+{c:"wh",b:"Lead Generation",t:"Rebuild the referral program before the assessment lands",ty:"task",o:"Nadia Brooks (Membership)",s:"parked",cr:47,
+ u:[[33,"Ray Tolliver (GM)","Parked until after the vote. Wrong moment to ask members for names."]]},
+
+/* ---------- PALMETTO TRACE : agronomy and staffing ---------- */
+{c:"pt",b:"Capital & Facilities",t:"Greens 4, 11 and 15 — decide on the regrass",ty:"decision",o:"You (Regional)",s:"in_progress",cr:71,du:12,
+ u:[[71,"Cal Whitaker (Superintendent)","Losing turf every August in the same three spots. Drainage, not disease."],[19,"You (Regional)","Getting an agronomy read before we spend. Decision needed before the fall window."]]},
+{c:"pt",b:"Capital & Facilities",t:"Cart fleet — lease renewal is up in November",ty:"decision",o:"Priya Raman (GM)",s:"in_progress",cr:71,du:38,
+ u:[[19,"Priya Raman (GM)","Two proposals in. Buying looks better than leasing at our round count."]]},
+{c:"pt",b:"Operations",t:"Turn staff is 4 short of the summer plan",ty:"task",o:"Cal Whitaker (Superintendent)",s:"in_progress",cr:56,
+ u:[[19,"Cal Whitaker (Superintendent)","Two hired. Raised the starting rate a dollar to compete with the resorts."]]},
+{c:"pt",b:"Operations",t:"Golf shop inventory is 40% over plan",ty:"task",o:"Jo Márquez (Golf Shop)",s:"in_progress",cr:56,du:-8,
+ u:[[56,"You (Regional)","Sitting on last season's outerwear. Needs a markdown calendar."],[19,"Jo Márquez (Golf Shop)","Markdown rack up. Cleared about a third."]]},
+{c:"pt",b:"Lead Generation",t:"League play — three leagues, all shrinking",ty:"task",o:"Jo Márquez (Golf Shop)",s:"not_started",cr:56,
+ u:[[43,"You (Regional)","Nobody owns league recruiting. That is why they are shrinking."]]},
+{c:"pt",b:"Lead Generation",t:"Hotel partnership with the two properties on the boulevard",ty:"task",o:"Priya Raman (GM)",s:"not_started",cr:38,du:25,u:[]},
+{c:"pt",b:"Events & Programming",t:"Junior clinics — build a winter session",ty:"task",o:"Jo Márquez (Golf Shop)",s:"not_started",cr:38,u:[]},
+{c:"pt",b:"Events & Programming",t:"Charity outing calendar for spring",ty:"task",o:"Priya Raman (GM)",s:"in_progress",cr:38,du:47,
+ u:[[19,"Priya Raman (GM)","Four of last year's six confirmed already."]]},
+{c:"pt",b:"Retention & Engagement",t:"Google reviews sitting at 3.6 — get to 4.2",ty:"task",o:"Priya Raman (GM)",s:"in_progress",cr:71,
+ u:[[71,"You (Regional)","Conditions complaints, not service. Fix the greens and this follows."],[19,"Priya Raman (GM)","3.8 now. Asking every league player for a review after the round."]]},
+{c:"pt",b:"Operations",t:"Rain check policy is inconsistent between shifts",ty:"task",o:"Jo Márquez (Golf Shop)",s:"done",cr:56,dn:24,
+ u:[[24,"Jo Márquez (Golf Shop)","Written policy posted at both registers. Everyone trained."]]},
+{c:"pt",b:"Membership Sales",t:"Should we sell an unlimited annual pass here?",ty:"question",o:"You (Regional)",s:"not_started",cr:38,
+ u:[[38,"Priya Raman (GM)","Silver Creek runs one. Worth a look, worth a hard margin check first."]]},
+
+/* ---------- THORNWOOD : the club I have not been to in six weeks ---------- */
+{c:"tw",b:"Membership Sales",t:"Dues restructure — three tiers instead of seven",ty:"decision",o:"Board",s:"in_progress",cr:104,du:-14,
+ u:[[104,"You (Regional)","Seven categories nobody can explain. Members game the cheapest one."],[62,"Hal Brennan (GM)","Board wants a full financial model before they will discuss it."]]},
+{c:"tw",b:"Membership Sales",t:"Build the dues restructure financial model",ty:"task",o:"You (Regional)",s:"in_progress",cr:62,du:-4,
+ u:[[41,"You (Regional)","Model built for two scenarios. Needs the third before the board sees it."]]},
+{c:"tw",b:"Membership Sales",t:"Waitlist policy — is the club actually full?",ty:"question",o:"Hal Brennan (GM)",s:"not_started",cr:104,
+ u:[[104,"You (Regional)","We say full at 420. Golf usage says otherwise on four days a week."]]},
+{c:"tw",b:"Retention & Engagement",t:"Racquets membership grew 22% — protect it",ty:"task",o:"Erin Vogel (Membership)",s:"in_progress",cr:83,
+ u:[[41,"Erin Vogel (Membership)","Court time is the constraint now. Considering a fifth court."]]},
+{c:"tw",b:"Retention & Engagement",t:"Under-40 members are resigning at 3x the club rate",ty:"task",o:"Erin Vogel (Membership)",s:"not_started",cr:83,
+ u:[[83,"You (Regional)","Nine of the twelve resignations this year were under 40."]]},
+{c:"tw",b:"Board & Governance",t:"Clubhouse renovation — phase 1 scope sign-off",ty:"decision",o:"Board",s:"in_progress",cr:104,du:33,
+ u:[[41,"Hal Brennan (GM)","Architect presents to the board in October. Scope is still moving."]]},
+{c:"tw",b:"Board & Governance",t:"Nominating committee has no bench",ty:"task",o:"Hal Brennan (GM)",s:"not_started",cr:83,
+ u:[[62,"You (Regional)","Same four names every year. Needs a real pipeline."]]},
+{c:"tw",b:"Events & Programming",t:"Holiday calendar out to members by October 1",ty:"task",o:"Erin Vogel (Membership)",s:"in_progress",cr:41,du:28,u:[]},
+{c:"tw",b:"Events & Programming",t:"Add a fifth court to the racquets schedule",ty:"task",o:"Hal Brennan (GM)",s:"not_started",cr:41,u:[]},
+{c:"tw",b:"Operations",t:"Locker room attendant coverage on weekends",ty:"task",o:"Hal Brennan (GM)",s:"dropped",cr:83,
+ u:[[62,"Hal Brennan (GM)","Dropping it. Two member comments in a year does not justify the payroll."]]},
+{c:"tw",b:"Capital & Facilities",t:"Pool heater is at end of life",ty:"task",o:"Hal Brennan (GM)",s:"in_progress",cr:62,du:75,
+ u:[[41,"Hal Brennan (GM)","Quoted. Going in the winter capital request, not an emergency yet."]]},
+{c:"tw",b:"Lead Generation",t:"Legacy program for members' adult children",ty:"task",o:"Erin Vogel (Membership)",s:"done",cr:104,dn:48,
+ u:[[48,"Erin Vogel (Membership)","Launched. Four joined in the first two months, all under 40."]]},
+
+/* ---------- SILVER CREEK : shoulder season and simulators ---------- */
+{c:"sc",b:"Capital & Facilities",t:"Two simulator bays in the grill room",ty:"decision",o:"You (Regional)",s:"in_progress",cr:66,du:18,
+ u:[[66,"Tess Nakamura (GM)","$88k installed. Would give us six months of revenue instead of seven."],[9,"You (Regional)","Pro forma pencils at 41% utilization. That is achievable here."]]},
+{c:"sc",b:"Operations",t:"Shoulder season plan — October through November",ty:"task",o:"Tess Nakamura (GM)",s:"in_progress",cr:52,du:16,
+ u:[[52,"You (Regional)","Sixty days of good weather that we price like the dead of winter."],[9,"Tess Nakamura (GM)","Dynamic pricing set through November 15. Frost delay policy rewritten."]]},
+{c:"sc",b:"Operations",t:"Reduce GolfNow dependency below 20% of rounds",ty:"task",o:"Bryce Halloran (Golf Ops)",s:"in_progress",cr:66,du:63,
+ u:[[9,"Bryce Halloran (Golf Ops)","At 29%. Direct booking incentive live on the website."]]},
+{c:"sc",b:"Lead Generation",t:"Winter pass presale before Thanksgiving",ty:"task",o:"Tess Nakamura (GM)",s:"not_started",cr:52,du:79,u:[]},
+{c:"sc",b:"Lead Generation",t:"Corporate holiday party packages",ty:"task",o:"Tess Nakamura (GM)",s:"not_started",cr:52,du:41,
+ u:[[38,"You (Regional)","The grill room sits empty in December. Somebody should be selling it."]]},
+{c:"sc",b:"Events & Programming",t:"Junior program — 18 kids, room for 40",ty:"task",o:"Bryce Halloran (Golf Ops)",s:"in_progress",cr:66,
+ u:[[9,"Bryce Halloran (Golf Ops)","Two school partnerships signed. Spring session should double."]]},
+{c:"sc",b:"Events & Programming",t:"Nine-and-dine on Thursday nights",ty:"task",o:"Tess Nakamura (GM)",s:"done",cr:66,dn:27,
+ u:[[27,"Tess Nakamura (GM)","Ran eight weeks, averaged 32 players. Bringing it back in May."]]},
+{c:"sc",b:"Retention & Engagement",t:"Text the frost delay instead of making them call",ty:"task",o:"Bryce Halloran (Golf Ops)",s:"done",cr:52,dn:14,u:[]},
+{c:"sc",b:"Operations",t:"Range picking is eating two hours a day",ty:"task",o:"Bryce Halloran (Golf Ops)",s:"parked",cr:52,
+ u:[[38,"Bryce Halloran (Golf Ops)","Parked. The picker replacement is a spring capital item."]]},
+{c:"sc",b:"Membership Sales",t:"Is there a private club membership product here at all?",ty:"question",o:"You (Regional)",s:"not_started",cr:38,
+ u:[[38,"You (Regional)","Worth testing a small founders group. Needs a real look, not a hunch."]]},
+{c:"sc",b:"Capital & Facilities",t:"Parking lot resurface — defer to spring?",ty:"decision",o:"Tess Nakamura (GM)",s:"done",cr:66,dn:31,
+ u:[[31,"Tess Nakamura (GM)","Deferred to spring. Patching the worst of it before the freeze."]]}
+];
+
+const MEETING_LOG = [
+  {c:"cr", d:12, kind:"Club visit"}, {c:"cr", d:47, kind:"Club visit"}, {c:"cr", d:61, kind:"Club visit"}, {c:"cr", d:96, kind:"Club visit"},
+  {c:"hb", d:5, kind:"Call"}, {c:"hb", d:20, kind:"Call"}, {c:"hb", d:47, kind:"Club visit"}, {c:"hb", d:75, kind:"Club visit"},
+  {c:"wh", d:26, kind:"Club visit"}, {c:"wh", d:47, kind:"Call"}, {c:"wh", d:82, kind:"Club visit"},
+  {c:"pt", d:19, kind:"Club visit"}, {c:"pt", d:38, kind:"Call"}, {c:"pt", d:56, kind:"Club visit"}, {c:"pt", d:71, kind:"Club visit"},
+  {c:"tw", d:41, kind:"Call"}, {c:"tw", d:62, kind:"Club visit"}, {c:"tw", d:83, kind:"Club visit"}, {c:"tw", d:104, kind:"Club visit"},
+  {c:"sc", d:9, kind:"Call"}, {c:"sc", d:38, kind:"Club visit"}, {c:"sc", d:52, kind:"Club visit"}, {c:"sc", d:66, kind:"Club visit"}
+];
+
+/* ============================================================
+   Build state
+   ============================================================ */
+
+const STALL_DAYS = 30;
+const STATUSES = {not_started:"Not started", in_progress:"In progress", done:"Done", parked:"Parked", dropped:"Dropped"};
+const OPEN = s => s === "not_started" || s === "in_progress";
+
+function buildSeed(){
+  const keyed = {}, items = [];
+  SEED.forEach((s, i) => {
+    const id = s.c + "-" + String(i).padStart(3,"0");
+    if (s.k) keyed[s.c + ":" + s.k] = id;
+    items.push({
+      id, club:s.c, bucket:s.b, _pkey: s.p ? s.c + ":" + s.p : null, parent:null,
+      title:s.t, type:s.ty || "task", owner:s.o, status:s.s,
+      created:ago(s.cr), due: s.du === undefined ? null : (s.du >= 0 ? ahead(s.du) : ago(-s.du)),
+      completed: s.dn === undefined ? null : ago(s.dn),
+      updates:(s.u || []).map(u => ({date:ago(u[0]), who:u[1], text:u[2]}))
+    });
+  });
+  items.forEach(it => { if (it._pkey) it.parent = keyed[it._pkey] || null; delete it._pkey; });
+  const meetings = MEETING_LOG.map((m,i) => ({id:"m"+i, club:m.c, date:ago(m.d), kind:m.kind, changes:[], closed:true}));
+  return {items, meetings, v:1};
+}
+
+const KEY = "gpb.demo.v1";
+let db;
+try {
+  const raw = localStorage.getItem(KEY);
+  db = raw ? JSON.parse(raw) : buildSeed();
+  if (!db || !db.items || db.v !== 1) db = buildSeed();
+} catch(e){ db = buildSeed(); }
+
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(db)); } catch(e){} }
+
+const state = {view:"portfolio", club:null, filter:"open", q:"", drawer:null, meeting:null};
+
+/* ---------- derived ---------- */
+const club = id => CLUBS.find(c => c.id === id);
+const item = id => db.items.find(i => i.id === id);
+const lastTouch = it => {
+  const u = it.updates.length ? it.updates[it.updates.length-1].date : it.created;
+  return it.completed && it.completed > u ? it.completed : u;
+};
+const ageDays = it => daysSince(lastTouch(it));
+const isStalled = it => OPEN(it.status) && ageDays(it) >= STALL_DAYS;
+const isOverdue = it => OPEN(it.status) && it.due && daysSince(it.due) > 0;
+const severity = it => isOverdue(it) ? "crit" : isStalled(it) ? "warn" : null;
+const carryOver = it => db.meetings.filter(m => m.club === it.club && m.closed && m.date > it.created).length;
+const clubItems = id => db.items.filter(i => i.club === id);
+const meetingsFor = id => db.meetings.filter(m => m.club === id && m.closed).sort((a,b) => b.date.localeCompare(a.date));
+
+function clubStats(id){
+  const list = clubItems(id);
+  return {
+    total:list.length,
+    open:list.filter(i => OPEN(i.status)).length,
+    stalled:list.filter(isStalled).length,
+    overdue:list.filter(isOverdue).length,
+    closed30:list.filter(i => i.completed && daysSince(i.completed) <= 30).length,
+    done:list.filter(i => i.status === "done").length,
+    questions:list.filter(i => i.type === "question" && OPEN(i.status)).length
+  };
+}
+function momentum(id){
+  const list = clubItems(id).filter(i => i.completed);
+  return [4,3,2,1,0].map(b => list.filter(i => {
+    const d = daysSince(i.completed);
+    return d >= b*30 && d < (b+1)*30;
+  }).length);
+}
+
+/* ---------- helpers ---------- */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = d => new Date(d+"T12:00:00").toLocaleDateString(undefined,{month:"short", day:"numeric"});
+const fmtLong = d => new Date(d+"T12:00:00").toLocaleDateString(undefined,{weekday:"long", month:"long", day:"numeric", year:"numeric"});
+function relDue(d){
+  const n = daysSince(d);
+  if (n === 0) return "due today";
+  return n > 0 ? n + "d overdue" : "due " + fmt(d);
+}
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+/* ============================================================
+   Render
+   ============================================================ */
+const view = document.getElementById("view");
+
+function renderRail(){
+  const nav = document.querySelector('[data-nav="portfolio"]');
+  nav.setAttribute("aria-current", state.view === "portfolio" ? "true" : "false");
+  document.getElementById("clublist").innerHTML = CLUBS.map(c => {
+    const s = clubStats(c.id);
+    const flag = s.overdue + s.stalled;
+    return `<button class="navitem" data-club="${c.id}" aria-current="${state.club === c.id && state.view !== "portfolio" ? "true":"false"}">
+      <span class="dot"></span>${esc(c.short)}
+      <span class="count ${flag ? "flag":""}">${flag ? flag + "!" : s.open}</span>
+    </button>`;
+  }).join("");
+}
+
+/* ---------- portfolio ---------- */
+function renderPortfolio(){
+  const all = db.items;
+  const open = all.filter(i => OPEN(i.status));
+  const stalled = all.filter(isStalled);
+  const overdue = all.filter(isOverdue);
+  const closed30 = all.filter(i => i.completed && daysSince(i.completed) <= 30);
+  const questions = all.filter(i => i.type === "question" && OPEN(i.status));
+
+  const attention = [...overdue, ...stalled.filter(i => !isOverdue(i))]
+    .sort((a,b) => {
+      const ao = isOverdue(a) ? daysSince(a.due) : -1, bo = isOverdue(b) ? daysSince(b.due) : -1;
+      return bo - ao || ageDays(b) - ageDays(a);
+    }).slice(0,12);
+
+  const wins = closed30.sort((a,b) => b.completed.localeCompare(a.completed)).slice(0,8);
+
+  view.innerHTML = `<div class="wrap">
+    <div class="pagehead">
+      <div>
+        <span class="eyebrow">Portfolio</span>
+        <h2>Six clubs, one game plan each</h2>
+        <p class="meta">${all.length} tracked items &middot; last portfolio sweep ${fmt(ago(2))}</p>
+      </div>
+      <button class="btn" id="tmpl">Standard plan template</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n">${open.length}</div><div class="l">Open commitments</div></div>
+      <div class="stat crit"><div class="n">${overdue.length}</div><div class="l">Past their due date</div></div>
+      <div class="stat warn"><div class="n">${stalled.length}</div><div class="l">No update in 30+ days</div></div>
+      <div class="stat"><div class="n">${questions.length}</div><div class="l">Open questions</div></div>
+      <div class="stat ok"><div class="n">${closed30.length}</div><div class="l">Closed in 30 days</div></div>
+    </div>
+
+    <div class="clubgrid">${CLUBS.map(c => {
+      const s = clubStats(c.id), m = momentum(c.id), peak = Math.max(1, ...m);
+      const nextIn = c.next;
+      return `<button class="clubcard" data-open="${c.id}">
+        <div>
+          <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-start">
+            <div>
+              <div class="name">${esc(c.short)}</div>
+              <div class="where">${esc(c.loc)}</div>
+            </div>
+            <span class="tag">${esc(c.kind)}</span>
+          </div>
+          <div class="gm" style="margin-top:8px">${esc(c.gm)}</div>
+        </div>
+        <div class="cardstats">
+          <div><span class="v">${s.open}</span><span class="k">open</span></div>
+          <div><span class="v ${s.overdue?"crit":""}">${s.overdue}</span><span class="k">overdue</span></div>
+          <div><span class="v ${s.stalled?"warn":""}">${s.stalled}</span><span class="k">stalled</span></div>
+          <div><span class="v ok">${s.closed30}</span><span class="k">closed 30d</span></div>
+          <div class="spark" title="Items closed per month over the last five months: ${m.join(", ")}">${
+            m.map(n => `<i><b style="height:${n ? Math.max(4, Math.round(n/peak*26)) : 2}px"></b></i>`).join("")}</div>
+        </div>
+        <div class="meetline">
+          <span>last ${c.last}d ago</span><span>next in ${nextIn}d</span>
+        </div>
+      </button>`;
+    }).join("")}</div>
+
+    <div class="section">
+      <div class="sectionhead">
+        <h3>Needs attention</h3>
+        <span class="note">Overdue first, then anything untouched for ${STALL_DAYS}+ days</span>
+      </div>
+      <div class="panel tablewrap">
+        <table class="att">
+          <thead><tr><th>Item</th><th>Club</th><th>Owner</th><th>Why</th></tr></thead>
+          <tbody>${attention.map(i => `<tr data-item="${i.id}">
+            <td>${esc(i.title)}</td>
+            <td class="club">${esc(club(i.club).short)}</td>
+            <td class="club">${esc(i.owner.replace(/ \(.*\)/,""))}</td>
+            <td class="num ${isOverdue(i)?"crit":"warn"}">${isOverdue(i) ? daysSince(i.due)+"d overdue" : "silent "+ageDays(i)+"d"}</td>
+          </tr>`).join("")}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sectionhead"><h3>Closed in the last 30 days</h3><span class="note">What to open the next call with</span></div>
+      <div class="panel">${wins.map(i => `<button class="sresult" data-item="${i.id}">
+        <div class="t">${esc(i.title)}</div>
+        <div class="c">${esc(club(i.club).short)} &middot; ${fmt(i.completed)} &middot; ${esc(i.owner)}</div>
+      </button>`).join("")}</div>
+    </div>
+  </div>`;
+}
+
+/* ---------- club board ---------- */
+function itemRow(it, depth){
+  const sev = severity(it);
+  const kids = db.items.filter(k => k.parent === it.id);
+  const note = it.updates.length ? it.updates[it.updates.length-1] : null;
+  const co = carryOver(it);
+  const mark = it.type === "decision"
+    ? `<span class="marker decision ${it.status==="done"?"done":""}"></span>`
+    : it.type === "question"
+      ? `<span class="marker question ${it.status==="done"?"done":""}">?</span>`
+      : `<span class="marker ${it.status==="done"?"done":""}">${it.status==="done"
+        ? '<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 4.8 8.5 9.5 3.6"/></svg>' : ""}</span>`;
+  return `<div class="row ${sev?"sev-"+sev:""} is-${it.status}" data-item="${it.id}" tabindex="0" role="button">
+      <span class="indent" style="width:${16 + depth*22}px"></span>
+      ${mark}
+      <div class="rowbody">
+        <div class="title">${esc(it.title)}</div>
+        <div class="rowmeta">
+          <span class="chip owner">${esc(it.owner)}</span>
+          ${it.due && OPEN(it.status) ? `<span class="chip due ${isOverdue(it)?"over":""}">${relDue(it.due)}</span>` : ""}
+          ${isStalled(it) ? `<span class="chip stall">silent ${ageDays(it)}d</span>` : ""}
+          ${OPEN(it.status) && co >= 2 ? `<span class="chip notes">carried ${co} meetings</span>` : ""}
+          ${it.updates.length ? `<span class="chip notes">${it.updates.length} note${it.updates.length>1?"s":""}</span>` : ""}
+        </div>
+        ${note ? `<div class="lastnote"><b>${fmt(note.date)} &middot; ${esc(note.who)}</b><br>${esc(note.text)}</div>` : ""}
+      </div>
+      <span class="pill ${it.status}">${STATUSES[it.status]}</span>
+    </div>` + kids.map(k => itemRow(k, depth+1)).join("");
+}
+
+function filterItems(list){
+  if (state.filter === "open") return list.filter(i => OPEN(i.status));
+  if (state.filter === "attention") return list.filter(i => isStalled(i) || isOverdue(i));
+  if (state.filter === "questions") return list.filter(i => i.type === "question");
+  if (state.filter === "decisions") return list.filter(i => i.type === "decision");
+  if (state.filter === "mine") return list.filter(i => i.owner.startsWith("You"));
+  return list;
+}
+
+function renderClub(){
+  const c = club(state.club), s = clubStats(c.id), all = clubItems(c.id);
+  const keep = new Set(filterItems(all).map(i => i.id));
+  // keep ancestors of any matching child so the outline stays intact
+  all.forEach(i => { if (keep.has(i.id)) { let p = i.parent; while (p){ keep.add(p); p = (item(p)||{}).parent; } } });
+  const shown = all.filter(i => keep.has(i.id));
+  const past = meetingsFor(c.id);
+
+  const counts = {
+    all: all.length,
+    open: all.filter(i => OPEN(i.status)).length,
+    attention: all.filter(i => isStalled(i) || isOverdue(i)).length,
+    questions: all.filter(i => i.type === "question").length,
+    decisions: all.filter(i => i.type === "decision").length,
+    mine: all.filter(i => i.owner.startsWith("You")).length
+  };
+  const F = [["open","Open"],["attention","Needs attention"],["questions","Questions"],["decisions","Decisions"],["mine","Mine"],["all","Everything"]];
+
+  view.innerHTML = `<div class="wrap">
+    <div class="pagehead">
+      <div>
+        <span class="eyebrow">${esc(c.kind)} &middot; ${esc(c.loc)} &middot; ${esc(c.gm)}</span>
+        <h2>${esc(c.name)}</h2>
+        <p class="meta">${s.open} open &middot; ${s.overdue} overdue &middot; ${s.stalled} stalled &middot; last met ${past.length?fmt(past[0].date)+" ("+past[0].kind.toLowerCase()+")":"—"} &middot; next in ${c.next} days</p>
+      </div>
+      <div style="display:flex; gap:8px">
+        <button class="btn" id="addbtn">Add item</button>
+        <button class="btn primary" id="startmeet">Start meeting</button>
+      </div>
+    </div>
+
+    <div class="filters">${F.map(([k,l]) =>
+      `<button class="fchip" data-filter="${k}" aria-pressed="${state.filter===k}">${l}<span class="n">${counts[k]}</span></button>`).join("")}
+    </div>
+
+    <div class="panel">${BUCKETS.map(b => {
+      const roots = shown.filter(i => i.bucket === b && !i.parent);
+      if (!roots.length) return "";
+      const bAll = all.filter(i => i.bucket === b);
+      const bDone = bAll.filter(i => i.status === "done" || i.status === "dropped").length;
+      const pct = bAll.length ? Math.round(bDone/bAll.length*100) : 0;
+      const collapsed = state.collapsed && state.collapsed[c.id+b];
+      return `<div class="bucket">
+        <button class="buckethead" data-bucket="${esc(b)}" aria-expanded="${!collapsed}">
+          <svg class="chev" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
+          <h4>${esc(b)}</h4>
+          <span class="tally">${bDone}/${bAll.length}</span>
+          <span class="progress"><i style="width:${pct}%"></i></span>
+        </button>
+        ${collapsed ? "" : roots.map(i => itemRow(i,0)).join("")}
+      </div>`;
+    }).join("") || `<div class="empty">Nothing matches this filter.</div>`}</div>
+
+    <div class="section">
+      <div class="sectionhead"><h3>Meeting history</h3><span class="note">Every checkpoint over the same living plan</span></div>
+      <div class="panel">${past.map(m => `<div class="sresult" style="cursor:default">
+        <div class="t">${esc(m.kind)} &mdash; ${fmtLong(m.date)}</div>
+        <div class="c">${daysSince(m.date)} days ago${m.changes && m.changes.length ? " &middot; " + m.changes.length + " changes recorded" : ""}</div>
+      </div>`).join("")}</div>
+    </div>
+  </div>`;
+}
+
+/* ---------- meeting mode ---------- */
+function renderMeeting(){
+  const m = state.meeting, c = club(m.club);
+  const all = clubItems(m.club);
+  const live = all.filter(i => OPEN(i.status)).sort((a,b) => {
+    const rank = i => isOverdue(i) ? 0 : isStalled(i) ? 1 : 2;
+    return rank(a) - rank(b) || BUCKETS.indexOf(a.bucket) - BUCKETS.indexOf(b.bucket);
+  });
+  const touched = new Set(m.changes.map(ch => ch.item));
+  const newOnes = all.filter(i => m.created && m.created.includes(i.id));
+
+  view.innerHTML = `
+  <div class="meetbar">
+    <span class="live"><i></i>Meeting in progress</span>
+    <span class="who">${esc(c.short)}</span>
+    <span class="tally">${m.changes.length} change${m.changes.length===1?"":"s"} recorded</span>
+    <button class="btn" id="meetadd">Add item</button>
+    <button class="btn primary" id="meetend">End and write the recap</button>
+  </div>
+  <div class="wrap">
+    <div class="pagehead">
+      <div>
+        <span class="eyebrow">${fmtLong(m.date)}</span>
+        <h2>Working the plan</h2>
+        <p class="meta">${live.length} open items, ordered by what is hurting. Set a status, drop a note, move on.</p>
+      </div>
+    </div>
+    <div class="panel">${live.map(i => {
+      const sev = severity(i);
+      return `<div class="mrow ${sev?"sev-"+sev:""} ${touched.has(i.id)?"touched":""}">
+        <div class="mbody">
+          <div class="mtitle">${esc(i.title)}</div>
+          <div class="rowmeta">
+            <span class="chip owner">${esc(i.owner)}</span>
+            <span class="chip notes">${esc(i.bucket)}</span>
+            ${i.due ? `<span class="chip due ${isOverdue(i)?"over":""}">${relDue(i.due)}</span>` : ""}
+            ${isStalled(i) ? `<span class="chip stall">silent ${ageDays(i)}d</span>` : ""}
+          </div>
+          <div class="notefield">
+            <input type="text" placeholder="What did you land on?" data-note="${i.id}">
+            <select class="whosel" data-who="${i.id}" aria-label="Who said it">${
+              c.team.map(p => `<option ${p === i.owner ? "selected" : ""}>${esc(p)}</option>`).join("")}</select>
+            <button class="btn sm" data-savenote="${i.id}">Log</button>
+            <button class="btn sm ghost" data-open-item="${i.id}">History</button>
+          </div>
+        </div>
+        <div class="statusgroup">
+          ${["not_started","in_progress","done","parked"].map(s =>
+            `<button data-set="${i.id}|${s}" aria-pressed="${i.status===s}">${
+              {not_started:"open",in_progress:"working",done:"done",parked:"park"}[s]}</button>`).join("")}
+        </div>
+      </div>`;
+    }).join("") || `<div class="empty">Nothing open. Enjoy it while it lasts.</div>`}</div>
+
+    ${newOnes.length ? `<div class="section">
+      <div class="sectionhead"><h3>Added in this meeting</h3></div>
+      <div class="panel">${newOnes.map(i => `<div class="sresult" style="cursor:default">
+        <div class="t">${esc(i.title)}</div><div class="c">${esc(i.owner)} &middot; ${esc(i.bucket)}</div></div>`).join("")}</div>
+    </div>` : ""}
+  </div>`;
+}
+
+/* ---------- recap ---------- */
+function buildRecap(m){
+  const changes = m.changes;
+  const seen = id => item(id);
+  const decisions = changes.filter(ch => ch.note && (seen(ch.item)||{}).type === "decision");
+  const closed = changes.filter(ch => ch.to === "done");
+  const parked = changes.filter(ch => ch.to === "parked");
+  const notes = changes.filter(ch => ch.note && !decisions.includes(ch));
+  const created = (m.created||[]).map(seen).filter(Boolean);
+  const all = clubItems(m.club);
+  const stillStalled = all.filter(i => isStalled(i) && !changes.some(ch => ch.item === i.id));
+  const openQs = all.filter(i => i.type === "question" && OPEN(i.status));
+  const commitments = all.filter(i => OPEN(i.status) && i.due).sort((a,b) => a.due.localeCompare(b.due)).slice(0,10);
+  return {decisions, closed, parked, notes, created, stillStalled, openQs, commitments};
+}
+
+function renderRecap(){
+  const m = state.meeting, c = club(m.club), r = buildRecap(m);
+  const li = (t, sub, own) => `<li>${esc(t)}${sub?`<span class="sub">${esc(sub)}</span>`:""}${own?`<span class="sub own">${esc(own)}</span>`:""}</li>`;
+  const sec = (title, rows, empty) => `<section><h3>${title}</h3>${
+    rows.length ? `<ul>${rows.join("")}</ul>` : `<p class="none">${empty}</p>`}</section>`;
+
+  view.innerHTML = `<div class="wrap">
+    <div class="pagehead">
+      <div><span class="eyebrow">Generated from the meeting</span><h2>Recap</h2>
+      <p class="meta">Every line below came from a status change or a note logged during the call. Nothing retyped.</p></div>
+      <div style="display:flex; gap:8px">
+        <button class="btn" id="copyrecap">Copy as text</button>
+        <button class="btn" onclick="window.print()">Print</button>
+        <button class="btn primary" id="backtoclub">Back to the plan</button>
+      </div>
+    </div>
+    <div class="recap" id="recapdoc">
+      <h2>${esc(c.name)}</h2>
+      <div class="rmeta">Game plan review &middot; ${fmtLong(m.date)} &middot; ${esc(c.gm)} and regional support</div>
+      ${sec("Decisions made", r.decisions.map(ch => li(item(ch.item).title, ch.note)), "No decisions were recorded in this meeting.")}
+      ${sec("Closed out", r.closed.map(ch => li(item(ch.item).title, ch.note || "", item(ch.item).owner)), "Nothing was closed in this meeting.")}
+      ${sec("New commitments", r.created.map(i => li(i.title, i.due ? "Due " + fmt(i.due) : "", i.owner)), "No new items were added.")}
+      ${sec("Updates logged", r.notes.map(ch => li(item(ch.item).title, ch.note, item(ch.item).owner)), "No notes were logged.")}
+      ${sec("Parked", r.parked.map(ch => li(item(ch.item).title, ch.note || "")), "Nothing was parked.")}
+      ${sec("Still open and still silent", r.stillStalled.map(i => li(i.title, "No update in " + ageDays(i) + " days", i.owner)), "Everything open was touched.")}
+      ${sec("Open questions carried forward", r.openQs.map(i => li(i.title, "", i.owner)), "No open questions.")}
+      ${sec("What is due next", r.commitments.map(i => li(i.title, relDue(i.due), i.owner)), "Nothing has a date on it, which is its own problem.")}
+    </div>
+  </div>`;
+}
+
+function recapText(){
+  const m = state.meeting, c = club(m.club), r = buildRecap(m);
+  const L = [];
+  L.push(c.name + " — game plan review");
+  L.push(fmtLong(m.date));
+  L.push("");
+  const block = (t, rows) => { if (!rows.length) return; L.push(t.toUpperCase()); rows.forEach(x => L.push("  - " + x)); L.push(""); };
+  block("Decisions made", r.decisions.map(ch => item(ch.item).title + (ch.note ? " — " + ch.note : "")));
+  block("Closed out", r.closed.map(ch => item(ch.item).title + " (" + item(ch.item).owner + ")"));
+  block("New commitments", r.created.map(i => i.title + " — " + i.owner + (i.due ? ", due " + fmt(i.due) : "")));
+  block("Updates logged", r.notes.map(ch => item(ch.item).title + " — " + ch.note));
+  block("Parked", r.parked.map(ch => item(ch.item).title));
+  block("Still open and still silent", r.stillStalled.map(i => i.title + " — no update in " + ageDays(i) + " days (" + i.owner + ")"));
+  block("Open questions carried forward", r.openQs.map(i => i.title + " — " + i.owner));
+  block("What is due next", r.commitments.map(i => i.title + " — " + i.owner + ", " + relDue(i.due)));
+  return L.join("\n");
+}
+
+/* ---------- search ---------- */
+function renderSearch(){
+  const q = state.q.toLowerCase();
+  const hits = db.items.filter(i =>
+    i.title.toLowerCase().includes(q) ||
+    i.owner.toLowerCase().includes(q) ||
+    i.updates.some(u => u.text.toLowerCase().includes(q)));
+  const hl = t => esc(t).replace(new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&") + ")","ig"), "<mark>$1</mark>");
+  const byClub = {};
+  hits.forEach(i => (byClub[i.club] = byClub[i.club] || []).push(i));
+
+  view.innerHTML = `<div class="wrap">
+    <div class="pagehead"><div>
+      <span class="eyebrow">Search across every club and every note</span>
+      <h2>${hits.length} match${hits.length===1?"":"es"} for &ldquo;${esc(state.q)}&rdquo;</h2>
+    </div></div>
+    ${Object.keys(byClub).length ? Object.keys(byClub).map(cid => `<div class="section" style="margin-top:20px">
+      <div class="sectionhead"><h3>${esc(club(cid).short)}</h3><span class="note">${byClub[cid].length} item${byClub[cid].length===1?"":"s"}</span></div>
+      <div class="panel">${byClub[cid].map(i => {
+        const noteHit = i.updates.find(u => u.text.toLowerCase().includes(q));
+        return `<button class="sresult" data-item="${i.id}">
+          <div class="t">${hl(i.title)}</div>
+          <div class="c">${esc(i.bucket)} &middot; ${esc(i.owner)} &middot; ${STATUSES[i.status]}</div>
+          ${noteHit ? `<div class="lastnote" style="margin-top:6px"><b>${fmt(noteHit.date)} &middot; ${esc(noteHit.who)}</b><br>${hl(noteHit.text)}</div>` : ""}
+        </button>`;
+      }).join("")}</div>
+    </div>`).join("") : `<div class="panel"><div class="empty">Nothing matched. Try an owner's name, a club, or a phrase from a note.</div></div>`}
+  </div>`;
+}
+
+/* ---------- drawer ---------- */
+function renderDrawer(){
+  const d = document.getElementById("drawer");
+  const sc = document.getElementById("scrim");
+  if (!state.drawer){ d.classList.remove("open"); d.setAttribute("aria-hidden","true"); sc.classList.remove("open"); return; }
+  const it = item(state.drawer); if (!it) return;
+  const c = club(it.club);
+  const events = [
+    {date:it.created, who:"", text:"Added to the game plan", sys:true},
+    ...it.updates.map(u => ({...u, sys:false})),
+    ...(it.completed ? [{date:it.completed, who:"", text:"Marked " + STATUSES[it.status].toLowerCase(), sys:true}] : [])
+  ].sort((a,b) => a.date.localeCompare(b.date));
+  const co = carryOver(it);
+
+  d.innerHTML = `
+    <div class="drawerhead">
+      <div class="top">
+        <div>
+          <span class="eyebrow">${esc(c.short)} &middot; ${esc(it.bucket)}</span>
+          <h3 style="margin-top:6px">${esc(it.title)}</h3>
+        </div>
+        <button class="btn ghost sm" id="closedrawer" aria-label="Close">Close</button>
+      </div>
+      <div class="rowmeta">
+        <span class="pill ${it.status}">${STATUSES[it.status]}</span>
+        ${isStalled(it) ? `<span class="chip stall">silent ${ageDays(it)}d</span>` : `<span class="chip notes">touched ${ageDays(it)}d ago</span>`}
+        ${OPEN(it.status) && co ? `<span class="chip notes">carried through ${co} meeting${co>1?"s":""}</span>` : ""}
+      </div>
+    </div>
+    <div class="drawerbody">
+      <div class="fields">
+        <div class="field"><label for="f-status">Status</label>
+          <select id="f-status">${Object.keys(STATUSES).map(s => `<option value="${s}" ${s===it.status?"selected":""}>${STATUSES[s]}</option>`).join("")}</select></div>
+        <div class="field"><label for="f-type">Kind</label>
+          <select id="f-type">${["task","decision","question"].map(t => `<option value="${t}" ${t===it.type?"selected":""}>${t[0].toUpperCase()+t.slice(1)}</option>`).join("")}</select></div>
+        <div class="field"><label for="f-owner">Owner</label>
+          <select id="f-owner">${c.team.map(p => `<option ${p===it.owner?"selected":""}>${esc(p)}</option>`).join("")}</select></div>
+        <div class="field"><label for="f-due">Due</label>
+          <input id="f-due" type="date" value="${it.due||""}"></div>
+      </div>
+
+      <div class="composer">
+        <span class="eyebrow">Log an update</span>
+        <textarea id="newnote" rows="3" placeholder="What changed? Write it as of today — the title never changes."></textarea>
+        <div class="actions">
+          <button class="btn primary sm" id="addnote">Add to history</button>
+          <label class="chip notes" for="noteWho">heard from</label>
+          <select id="noteWho" class="whosel">${c.team.map(p =>
+            `<option ${p === "You (Regional)" ? "selected" : ""}>${esc(p)}</option>`).join("")}</select>
+        </div>
+        <span class="chip notes">Dated today${state.meeting && state.meeting.club === it.club ? ", inside this meeting" : ""}. You are the only person who writes here — this records who said it.</span>
+      </div>
+
+      <span class="eyebrow" style="display:block; margin-bottom:12px">History</span>
+      <div class="timeline">${events.map(e => `<div class="tl ${e.sys?"":"mark"}">
+        <div class="when">${fmt(e.date)} &middot; ${daysSince(e.date)}d ago${e.who?` &middot; <span class="who">${esc(e.who)}</span>`:""}</div>
+        <div class="what ${e.sys?"sys":""}">${esc(e.text)}</div>
+      </div>`).join("")}</div>
+    </div>`;
+  d.classList.add("open"); d.setAttribute("aria-hidden","false"); sc.classList.add("open");
+}
+
+/* ============================================================
+   Actions
+   ============================================================ */
+function record(id, patch, note, who){
+  const it = item(id); if (!it) return;
+  const from = it.status;
+  Object.assign(it, patch);
+  if (patch.status === "done" && !it.completed) it.completed = iso(TODAY);
+  if (patch.status && patch.status !== "done") it.completed = null;
+  if (note) it.updates.push({date:iso(TODAY), who:who || "You (Regional)", text:note});
+  if (state.meeting && state.meeting.club === it.club && (note || (patch.status && patch.status !== from))){
+    state.meeting.changes.push({item:id, from, to:patch.status || from, note:note || ""});
+  }
+  save();
+}
+
+function render(){
+  renderRail();
+  if (state.q.trim().length > 1) renderSearch();
+  else if (state.view === "meeting") renderMeeting();
+  else if (state.view === "recap") renderRecap();
+  else if (state.view === "club") renderClub();
+  else renderPortfolio();
+  renderDrawer();
+  document.getElementById("topbar").style.display = state.view === "meeting" ? "none" : "";
+}
+
+function openClub(id){ state.club = id; state.view = "club"; state.q = ""; document.getElementById("q").value = ""; render(); window.scrollTo(0,0); }
+
+function addItemPrompt(clubId, inMeeting){
+  const title = prompt("What is the item?");
+  if (!title || !title.trim()) return;
+  const c = club(clubId);
+  const bucket = prompt("Which bucket?\n\n" + BUCKETS.map((b,i)=>(i+1)+". "+b).join("\n"), "1");
+  const b = BUCKETS[(parseInt(bucket,10)||1)-1] || BUCKETS[0];
+  const owner = prompt("Who owns it?\n\n" + c.team.map((p,i)=>(i+1)+". "+p).join("\n"), "1");
+  const o = c.team[(parseInt(owner,10)||1)-1] || c.team[0];
+  const it = {
+    id:"n"+Date.now().toString(36), club:clubId, bucket:b, parent:null, title:title.trim(),
+    type:"task", owner:o, status:"not_started", created:iso(TODAY), due:null, completed:null,
+    updates:[{date:iso(TODAY), who:"You (Regional)", text:"Added during the " + (inMeeting?"meeting":"plan review") + "."}]
+  };
+  db.items.push(it);
+  if (inMeeting && state.meeting){ state.meeting.created = state.meeting.created || []; state.meeting.created.push(it.id); }
+  save(); render(); toast("Added to " + b);
+}
+
+document.addEventListener("click", e => {
+  const t = e.target;
+  const hit = sel => t.closest(sel);
+
+  if (hit('[data-nav="portfolio"]')){ state.view="portfolio"; state.club=null; state.q=""; document.getElementById("q").value=""; render(); return; }
+  const cbtn = hit("[data-club]"); if (cbtn){ openClub(cbtn.dataset.club); return; }
+  const card = hit("[data-open]"); if (card){ openClub(card.dataset.open); return; }
+
+  const f = hit("[data-filter]"); if (f){ state.filter = f.dataset.filter; render(); return; }
+  const bk = hit("[data-bucket]"); if (bk){
+    state.collapsed = state.collapsed || {};
+    const k = state.club + bk.dataset.bucket;
+    state.collapsed[k] = !state.collapsed[k]; render(); return;
+  }
+
+  if (hit("#closedrawer") || hit("#scrim")){ state.drawer = null; renderDrawer(); return; }
+  const oi = hit("[data-open-item]"); if (oi){ state.drawer = oi.dataset.openItem; renderDrawer(); return; }
+  const row = hit("[data-item]"); if (row && !hit(".statusgroup") && !hit(".notefield")){ state.drawer = row.dataset.item; renderDrawer(); return; }
+
+  if (hit("#addnote")){
+    const v = document.getElementById("newnote").value.trim();
+    if (!v) return;
+    const who = (document.getElementById("noteWho") || {}).value;
+    record(state.drawer, {}, v, who); render(); toast("Logged to history"); return;
+  }
+  if (hit("#addbtn")){ addItemPrompt(state.club, false); return; }
+  if (hit("#meetadd")){ addItemPrompt(state.meeting.club, true); return; }
+
+  if (hit("#startmeet")){
+    state.meeting = {club:state.club, date:iso(TODAY), changes:[], created:[], closed:false};
+    state.view = "meeting"; state.drawer = null; render(); window.scrollTo(0,0); return;
+  }
+  const set = hit("[data-set]"); if (set){
+    const [id, s] = set.dataset.set.split("|");
+    record(id, {status:s}); render(); return;
+  }
+  const sn = hit("[data-savenote]"); if (sn){
+    const input = document.querySelector(`[data-note="${sn.dataset.savenote}"]`);
+    const v = input.value.trim(); if (!v) return;
+    const who = (document.querySelector(`[data-who="${sn.dataset.savenote}"]`) || {}).value;
+    record(sn.dataset.savenote, {}, v, who); render(); toast("Logged"); return;
+  }
+  if (hit("#meetend")){
+    const m = state.meeting;
+    m.closed = true; m.kind = "Club visit";
+    db.meetings.push({id:"m"+Date.now(), club:m.club, date:m.date, kind:m.kind, changes:m.changes, closed:true});
+    save(); state.view = "recap"; render(); window.scrollTo(0,0); return;
+  }
+  if (hit("#backtoclub")){ const cid = state.meeting.club; state.meeting = null; openClub(cid); return; }
+  if (hit("#copyrecap")){
+    const txt = recapText();
+    navigator.clipboard.writeText(txt).then(() => toast("Recap copied — paste it straight into the follow-up email"),
+      () => toast("Copy blocked by the browser"));
+    return;
+  }
+  if (hit("#tmpl")){
+    alert("Standard plan template\n\n" + BUCKETS.map(b => "· " + b).join("\n") +
+      "\n\nEvery club starts from these seven buckets, which is what makes the portfolio view comparable across clubs. In a live version this is where you would edit the template and push it to a new club.");
+    return;
+  }
+  if (hit("#resetbtn")){
+    if (confirm("Reset the demo back to its seeded fictional data?")){
+      db = buildSeed(); save(); state.meeting = null; state.drawer = null; state.view = "portfolio"; state.club = null; render();
+      toast("Demo data reset");
+    }
+    return;
+  }
+  if (hit("#themebtn")){
+    const root = document.documentElement;
+    const cur = root.getAttribute("data-theme");
+    const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("gpb.theme", next); } catch(err){}
+    return;
+  }
+});
+
+document.addEventListener("change", e => {
+  if (!state.drawer) return;
+  const id = state.drawer;
+  if (e.target.id === "f-status"){ record(id, {status:e.target.value}); render(); }
+  if (e.target.id === "f-type"){ record(id, {type:e.target.value}); render(); }
+  if (e.target.id === "f-owner"){ record(id, {owner:e.target.value}); render(); }
+  if (e.target.id === "f-due"){ record(id, {due:e.target.value || null}); render(); }
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && state.drawer){ state.drawer = null; renderDrawer(); }
+  if (e.key === "Enter" && e.target.dataset && e.target.dataset.note){
+    const v = e.target.value.trim(); if (!v) return;
+    const who = (document.querySelector(`[data-who="${e.target.dataset.note}"]`) || {}).value;
+    record(e.target.dataset.note, {}, v, who); render(); toast("Logged");
+  }
+  if (e.key === "Enter" && e.target.classList && e.target.classList.contains("row")){
+    state.drawer = e.target.dataset.item; renderDrawer();
+  }
+});
+
+document.getElementById("q").addEventListener("input", e => { state.q = e.target.value; render(); });
+
+try { const th = localStorage.getItem("gpb.theme"); if (th) document.documentElement.setAttribute("data-theme", th); } catch(e){}
+
+render();
+</script>
