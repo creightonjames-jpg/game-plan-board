@@ -1,20 +1,20 @@
-# Game Plan Board
+# Balcones Game Plan
 
 A prototype for tracking club game plans across a regional portfolio — the thing a
 OneNote page-per-meeting can't do.
 
 ## Two builds in this repo
 
-| File | Data | Purpose |
-|---|---|---|
-| `index.html` | **Fictional** — six invented clubs | The demo. Shows the multi-club portfolio rollup. |
-| `bcc-2026.html` | **Real** — BCC's 2026 membership game plan | The working import of an actual club plan. |
+| File | Live | Data | Purpose |
+|---|---|---|---|
+| `index.html` | [the board](https://creightonjames-jpg.github.io/game-plan-board/) | **Real** — Balcones Country Club's 2026 membership game plan | The working tool. |
+| `demo.html` | [demo](https://creightonjames-jpg.github.io/game-plan-board/demo.html) | **Fictional** — six invented clubs | Shows the multi-club portfolio rollup. |
 
-`index.html` contains no real club, member or employee information.
+`demo.html` contains no real club, member or employee information.
 
-`bcc-2026.html` is built from a real Word document (`2026 Game Plan.docx`, 152 items)
-and contains real staff first names and real club strategy. It carries **no member
-data and no financial figures**. It is published here as a worked example of the import.
+`index.html` is built from a real Word document (`2026 Game Plan.docx`, 152 items) and
+contains real staff first names and real club strategy. It carries **no member data and
+no financial figures**. It is published here as a worked example of the import.
 
 ## The problem
 
