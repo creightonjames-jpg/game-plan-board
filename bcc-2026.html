@@ -1,0 +1,1322 @@
+<title>BCC 2026 Game Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;450;500;600;700&display=swap">
+
+<style>
+:root{
+  --paper:#F2F4F4; --surface:#FFFFFF; --surface-2:#E9EDEE; --surface-3:#DEE4E5;
+  --line:#D5DCDD; --line-soft:#E4E9EA;
+  --ink:#101A1C; --ink-2:#4A5A5C; --ink-3:#7C8B8D;
+  --accent:#14606F; --accent-hover:#0E4A56; --accent-soft:#DEEDEF; --accent-line:#9CC4CB;
+  --ok:#2F7A4F; --ok-soft:#DFF0E5;
+  --warn:#9A7318; --warn-soft:#F6EBD2;
+  --crit:#A93B2A; --crit-soft:#F7E2DE;
+  --on-accent:#FFFFFF; --on-solid:#FFFFFF;
+  --bar-bg:#101A1C; --bar-fg:#F2F4F4;
+  --shadow:0 1px 2px rgba(16,26,28,.05), 0 8px 24px -12px rgba(16,26,28,.18);
+  --shadow-lg:0 24px 60px -20px rgba(16,26,28,.35);
+  --sans:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --display:"Fraunces", "Iowan Old Style", Georgia, serif;
+  --r:8px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1517; --surface:#151E20; --surface-2:#1D2729; --surface-3:#263234;
+    --line:#2C3A3D; --line-soft:#232F31;
+    --ink:#E7EDED; --ink-2:#9BAAAC; --ink-3:#6C7C7E;
+    --accent:#4FB6C9; --accent-hover:#78CBDA; --accent-soft:#123239; --accent-line:#2A5A66;
+    --ok:#63C08A; --ok-soft:#132B20;
+    --warn:#D7A63F; --warn-soft:#2E2617;
+    --crit:#E58771; --crit-soft:#33201B;
+    --on-accent:#08191D; --on-solid:#0E1517;
+    --bar-bg:#1D2729; --bar-fg:#E7EDED;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+    --shadow-lg:0 24px 60px -20px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1517; --surface:#151E20; --surface-2:#1D2729; --surface-3:#263234;
+  --line:#2C3A3D; --line-soft:#232F31;
+  --ink:#E7EDED; --ink-2:#9BAAAC; --ink-3:#6C7C7E;
+  --accent:#4FB6C9; --accent-hover:#78CBDA; --accent-soft:#123239; --accent-line:#2A5A66;
+  --ok:#63C08A; --ok-soft:#132B20;
+  --warn:#D7A63F; --warn-soft:#2E2617;
+  --crit:#E58771; --crit-soft:#33201B;
+  --on-accent:#08191D; --on-solid:#0E1517;
+  --bar-bg:#1D2729; --bar-fg:#E7EDED;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  --shadow-lg:0 24px 60px -20px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+  font-size:14px; line-height:1.5; -webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit; color:inherit}
+button{cursor:pointer; background:none; border:none; padding:0}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:3px}
+h1,h2,h3,h4{margin:0; font-weight:600; text-wrap:balance}
+p{margin:0}
+ul{margin:0; padding:0; list-style:none}
+.mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3); font-weight:500}
+
+.app{display:grid; grid-template-columns:264px minmax(0,1fr); min-height:100vh}
+.rail{background:var(--surface); border-right:1px solid var(--line); display:flex;
+  flex-direction:column; gap:2px; padding:20px 14px 24px; position:sticky; top:0;
+  height:100vh; overflow-y:auto}
+.brand{padding:0 8px 18px; border-bottom:1px solid var(--line-soft); margin-bottom:14px}
+.brand h1{font-family:var(--display); font-size:21px; font-weight:600;
+  letter-spacing:-.015em; line-height:1.1}
+.brand .sub{margin-top:5px; font-size:11.5px; color:var(--ink-3)}
+.railhead{display:flex; align-items:center; justify-content:space-between; padding:14px 8px 6px}
+.navitem{display:flex; align-items:center; gap:9px; width:100%; text-align:left;
+  padding:7px 8px; border-radius:var(--r); color:var(--ink-2); font-size:13.5px}
+.navitem:hover{background:var(--surface-2); color:var(--ink)}
+.navitem[aria-current="true"]{background:var(--accent-soft); color:var(--accent); font-weight:600}
+.navitem .dot{width:7px; height:7px; border-radius:50%; flex:none; background:var(--ink-3); opacity:.5}
+.navitem[aria-current="true"] .dot{background:var(--accent); opacity:1}
+.navitem .count{margin-left:auto; font-family:var(--mono); font-size:11px;
+  color:var(--ink-3); font-variant-numeric:tabular-nums}
+.navitem .count.flag{color:var(--crit); font-weight:600}
+.navitem.mo{padding:5px 8px; font-size:12.5px}
+.navitem.mo.past{color:var(--ink-3)}
+.navitem.mo.now{background:var(--surface-2); font-weight:600; color:var(--ink)}
+.railfoot{margin-top:auto; padding:16px 8px 0; border-top:1px solid var(--line-soft);
+  display:flex; flex-direction:column; gap:8px}
+.linkbtn{font-size:11.5px; color:var(--ink-3); text-align:left}
+.linkbtn:hover{color:var(--accent); text-decoration:underline}
+
+main{min-width:0; padding:0 0 80px}
+.topbar{display:flex; align-items:center; gap:12px; padding:16px 32px;
+  border-bottom:1px solid var(--line); background:var(--paper); position:sticky; top:0; z-index:20}
+.search{flex:1; max-width:420px; display:flex; align-items:center; gap:8px;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:6px 10px}
+.search input{border:none; background:none; outline:none; width:100%; font-size:13.5px}
+.search input::placeholder{color:var(--ink-3)}
+.search svg{flex:none; color:var(--ink-3)}
+.topbar .spacer{flex:1}
+.wrap{padding:28px 32px; max-width:1180px}
+.pagehead{display:flex; align-items:flex-end; justify-content:space-between; gap:24px;
+  flex-wrap:wrap; margin-bottom:24px}
+.pagehead h2{font-family:var(--display); font-size:28px; letter-spacing:-.02em; line-height:1.15}
+.pagehead .meta{margin-top:6px; color:var(--ink-2); font-size:13px}
+
+.btn{display:inline-flex; align-items:center; gap:7px; padding:7px 13px;
+  border:1px solid var(--line); border-radius:var(--r); background:var(--surface);
+  font-size:13px; font-weight:500; color:var(--ink); white-space:nowrap}
+.btn:hover{border-color:var(--ink-3)}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:var(--on-accent)}
+.btn.primary:hover{background:var(--accent-hover); border-color:var(--accent-hover)}
+.btn.ghost{border-color:transparent; background:none; color:var(--ink-2)}
+.btn.ghost:hover{background:var(--surface-2); color:var(--ink)}
+.btn.sm{padding:4px 9px; font-size:12px}
+
+.provenance{
+  display:flex; gap:12px; align-items:flex-start; background:var(--surface);
+  border:1px solid var(--line); border-left:3px solid var(--accent);
+  border-radius:var(--r); padding:14px 16px; margin-bottom:24px;
+}
+.provenance .body{font-size:12.5px; color:var(--ink-2); line-height:1.55}
+.provenance b{color:var(--ink); font-weight:600}
+.provenance .eyebrow{display:block; margin-bottom:5px}
+
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  overflow:hidden; margin-bottom:28px}
+.stat{background:var(--surface); padding:14px 16px; border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat .n{font-family:var(--mono); font-size:26px; font-weight:500; letter-spacing:-.02em; line-height:1.1}
+.stat .l{margin-top:4px; font-size:11.5px; color:var(--ink-2)}
+.stat.warn .n{color:var(--warn)} .stat.crit .n{color:var(--crit)} .stat.ok .n{color:var(--ok)}
+
+.section{margin-top:34px}
+.sectionhead{display:flex; align-items:baseline; gap:10px; margin-bottom:12px}
+.sectionhead h3{font-size:14.5px; letter-spacing:-.005em}
+.sectionhead .note{font-size:12px; color:var(--ink-3)}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
+.panel .empty{padding:26px; text-align:center; color:var(--ink-3); font-size:13px}
+
+.trackhead{
+  display:flex; align-items:baseline; gap:10px; padding:11px 16px;
+  background:var(--bar-bg); color:var(--bar-fg);
+}
+.trackhead h3{font-family:var(--display); font-size:15px; letter-spacing:-.01em}
+.trackhead .note{font-size:11.5px; opacity:.7; font-family:var(--mono)}
+
+.bucket{border-bottom:1px solid var(--line); background:var(--surface)}
+.bucket:last-child{border-bottom:none}
+.buckethead{display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+  padding:10px 16px; background:var(--surface-2); border-bottom:1px solid var(--line-soft)}
+.buckethead:hover{background:var(--surface-3)}
+.buckethead h4{font-size:12.5px; font-weight:600; letter-spacing:.01em}
+.buckethead .chev{color:var(--ink-3); transition:transform .15s; flex:none}
+.buckethead[aria-expanded="false"] .chev{transform:rotate(-90deg)}
+.buckethead .tally{margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--ink-3)}
+.buckethead .when{font-family:var(--mono); font-size:10.5px; color:var(--ink-3)}
+.progress{width:64px; height:4px; border-radius:2px; background:var(--surface-3); overflow:hidden; flex:none}
+.progress i{display:block; height:100%; background:var(--ok)}
+
+.row{display:flex; align-items:flex-start; gap:10px; width:100%; text-align:left;
+  padding:9px 16px 9px 0; border-bottom:1px solid var(--line-soft);
+  position:relative; border-left:3px solid transparent}
+.row:last-child{border-bottom:none}
+.row:hover{background:var(--surface-2)}
+.row.sev-warn{border-left-color:var(--warn)}
+.row.sev-crit{border-left-color:var(--crit)}
+.row.is-done .title{color:var(--ink-3)}
+.row.is-dropped .title{color:var(--ink-3); text-decoration:line-through}
+.row .indent{flex:none}
+.marker{flex:none; width:17px; height:17px; margin-top:1px; border-radius:4px;
+  border:1.5px solid var(--ink-3); display:grid; place-items:center;
+  color:var(--surface); background:var(--surface)}
+.marker.unrec{border-style:dashed; border-color:var(--ink-3)}
+.marker:hover{border-color:var(--accent)}
+.marker.done{background:var(--ok); border-color:var(--ok); color:var(--on-solid); border-style:solid}
+.marker.decision{border-radius:0; transform:rotate(45deg); width:14px; height:14px; margin-top:2px}
+.marker.decision.done{background:var(--accent); border-color:var(--accent)}
+.marker.question{border-radius:50%; border-color:var(--warn); color:var(--warn);
+  font-size:11px; font-weight:700; font-family:var(--mono)}
+.marker.question.done{background:var(--warn); color:var(--on-solid)}
+.rowbody{flex:1; min-width:0}
+.row .title{font-size:13.5px; line-height:1.45}
+.rowmeta{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:4px}
+.chip{display:inline-flex; align-items:center; gap:4px; font-size:11px;
+  color:var(--ink-2); font-family:var(--mono)}
+.chip.due.over{color:var(--crit); font-weight:600}
+.chip.stall{color:var(--warn); font-weight:600}
+.chip.notes{color:var(--ink-3)}
+.chip.flagged{color:var(--warn); font-weight:600}
+.chip.conflict{color:var(--crit); font-weight:600}
+.pill{flex:none; font-size:10.5px; font-family:var(--mono); letter-spacing:.03em;
+  text-transform:uppercase; padding:2px 7px; border-radius:20px; white-space:nowrap;
+  border:1px solid transparent; margin-top:2px}
+.pill.unrecorded{background:transparent; color:var(--ink-3); border:1px dashed var(--line)}
+.pill.not_started{background:var(--surface-2); color:var(--ink-3); border-color:var(--line)}
+.pill.in_progress{background:var(--accent-soft); color:var(--accent); border-color:var(--accent-line)}
+.pill.done{background:var(--ok-soft); color:var(--ok)}
+.pill.parked{background:var(--warn-soft); color:var(--warn)}
+.pill.dropped{background:var(--surface-2); color:var(--ink-3); border-color:var(--line)}
+.lastnote{margin-top:5px; font-size:12.5px; color:var(--ink-2); line-height:1.45;
+  border-left:2px solid var(--line); padding-left:9px}
+.lastnote b{font-family:var(--mono); font-size:11px; font-weight:500; color:var(--ink-3)}
+.srcnote{margin-top:5px; font-size:12px; color:var(--warn); line-height:1.45;
+  border-left:2px solid var(--warn); padding-left:9px}
+
+.filters{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; align-items:center}
+.fchip{padding:4px 11px; border-radius:20px; border:1px solid var(--line);
+  background:var(--surface); font-size:12px; color:var(--ink-2)}
+.fchip:hover{border-color:var(--ink-3)}
+.fchip[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+.fchip .n{font-family:var(--mono); font-size:11px; opacity:.65; margin-left:4px}
+
+.att{width:100%; border-collapse:collapse}
+.att th{text-align:left; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-3); font-weight:500; padding:9px 14px;
+  border-bottom:1px solid var(--line); background:var(--surface-2)}
+.att td{padding:10px 14px; border-bottom:1px solid var(--line-soft); vertical-align:top; font-size:13px}
+.att tr:last-child td{border-bottom:none}
+.att tbody tr{cursor:pointer}
+.att tbody tr:hover{background:var(--surface-2)}
+.att .club{font-size:12px; color:var(--ink-2); white-space:nowrap}
+.att .num{font-family:var(--mono); font-size:12px; white-space:nowrap}
+.att .num.crit{color:var(--crit); font-weight:600}
+.att .num.warn{color:var(--warn); font-weight:600}
+.tablewrap{overflow-x:auto}
+
+/* calendar */
+.calgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:14px}
+.mcard{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  display:flex; flex-direction:column; overflow:hidden; text-align:left}
+.mcard.past{opacity:.72}
+.mcard.now{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent)}
+.mcardhead{display:flex; align-items:baseline; gap:8px; padding:11px 14px;
+  border-bottom:1px solid var(--line-soft); background:var(--surface-2)}
+.mcardhead h4{font-family:var(--display); font-size:16px; letter-spacing:-.01em}
+.mcardhead .tag{margin-left:auto; font-family:var(--mono); font-size:10px;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3)}
+.mcard.now .mcardhead .tag{color:var(--accent); font-weight:600}
+.mitems{padding:4px 0}
+.mitem{display:flex; gap:8px; align-items:flex-start; padding:6px 14px; width:100%; text-align:left}
+.mitem:hover{background:var(--surface-2)}
+.mitem .d{font-family:var(--mono); font-size:10.5px; color:var(--ink-3); flex:none;
+  width:34px; padding-top:2px; font-variant-numeric:tabular-nums}
+.mitem .d.over{color:var(--crit); font-weight:600}
+.mitem .t{font-size:12.5px; line-height:1.4; flex:1; min-width:0}
+.mitem .qm{color:var(--warn); font-weight:700; font-family:var(--mono); font-size:11px; flex:none}
+.mitem .fl{color:var(--warn); flex:none; font-size:11px}
+
+.scrim{position:fixed; inset:0; background:rgba(16,26,28,.4); z-index:40;
+  opacity:0; pointer-events:none; transition:opacity .18s}
+.scrim.open{opacity:1; pointer-events:auto}
+.drawer{position:fixed; top:0; right:0; height:100vh; width:min(480px,100vw);
+  background:var(--surface); border-left:1px solid var(--line); z-index:50;
+  transform:translateX(102%); transition:transform .22s cubic-bezier(.4,0,.2,1);
+  display:flex; flex-direction:column; box-shadow:var(--shadow-lg)}
+.drawer.open{transform:none}
+.drawerhead{padding:18px 20px 14px; border-bottom:1px solid var(--line)}
+.drawerhead .top{display:flex; justify-content:space-between; align-items:flex-start;
+  gap:12px; margin-bottom:10px}
+.drawerhead h3{font-size:16px; line-height:1.35; letter-spacing:-.005em}
+.drawerbody{flex:1; overflow-y:auto; padding:18px 20px 28px}
+.fields{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:22px}
+.field{display:flex; flex-direction:column; gap:5px}
+.field label{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-3)}
+.field select,.field input{border:1px solid var(--line); background:var(--surface);
+  border-radius:6px; padding:6px 8px; font-size:13px; outline:none; width:100%}
+.field select:focus,.field input:focus,textarea:focus{border-color:var(--accent)}
+textarea{border:1px solid var(--line); background:var(--surface); border-radius:6px;
+  padding:9px 10px; font-size:13.5px; outline:none; width:100%; resize:vertical;
+  font-family:var(--sans); line-height:1.5}
+.composer{display:flex; flex-direction:column; gap:8px; margin-bottom:24px}
+.composer .actions{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.sourcebox{background:var(--surface-2); border-radius:6px; padding:10px 12px;
+  font-size:12.5px; color:var(--ink-2); line-height:1.5; margin-bottom:20px}
+.sourcebox .eyebrow{display:block; margin-bottom:5px}
+.sourcebox code{font-family:var(--mono); font-size:11.5px; color:var(--ink)}
+
+.timeline{position:relative; padding-left:20px}
+.timeline::before{content:""; position:absolute; left:4.5px; top:5px; bottom:5px;
+  width:1px; background:var(--line)}
+.tl{position:relative; padding-bottom:18px}
+.tl::before{content:""; position:absolute; left:-20px; top:5px; width:9px; height:9px;
+  border-radius:50%; background:var(--surface); border:2px solid var(--line-soft);
+  box-shadow:0 0 0 3px var(--surface)}
+.tl.mark::before{background:var(--accent); border-color:var(--accent)}
+.tl .when{font-family:var(--mono); font-size:11px; color:var(--ink-3)}
+.tl .who{font-size:11.5px; color:var(--ink-2); font-weight:600}
+.tl .what{font-size:13.5px; margin-top:3px; line-height:1.5}
+.tl .what.sys{color:var(--ink-2); font-style:italic}
+
+.meetbar{background:var(--bar-bg); color:var(--bar-fg); padding:12px 32px;
+  display:flex; align-items:center; gap:16px; position:sticky; top:0; z-index:25;
+  box-shadow:inset 0 -2px 0 var(--accent)}
+.meetbar .live{display:inline-flex; align-items:center; gap:7px; font-family:var(--mono);
+  font-size:11px; letter-spacing:.08em; text-transform:uppercase}
+.meetbar .live i{width:7px; height:7px; border-radius:50%; background:var(--crit); display:block}
+@media (prefers-reduced-motion:no-preference){.meetbar .live i{animation:pulse 2s ease-in-out infinite}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.meetbar .who{font-family:var(--display); font-size:16px; font-weight:600}
+.meetbar .tally{margin-left:auto; font-family:var(--mono); font-size:12px; opacity:.7}
+.meetbar .btn{background:transparent; border-color:color-mix(in srgb, var(--bar-fg) 32%, transparent); color:var(--bar-fg)}
+.meetbar .btn:hover{background:color-mix(in srgb, var(--bar-fg) 12%, transparent); border-color:var(--bar-fg)}
+.meetbar .btn.primary{background:var(--accent); color:var(--on-accent); border-color:var(--accent)}
+.meetbar .btn.primary:hover{background:var(--accent-hover); border-color:var(--accent-hover)}
+
+.mrow{display:flex; gap:12px; padding:12px 16px; border-bottom:1px solid var(--line-soft);
+  border-left:3px solid transparent; align-items:flex-start}
+.mrow:last-child{border-bottom:none}
+.mrow.sev-warn{border-left-color:var(--warn)} .mrow.sev-crit{border-left-color:var(--crit)}
+.mrow.touched{background:var(--accent-soft)}
+.mrow .mbody{flex:1; min-width:0}
+.mrow .mtitle{font-size:14px; line-height:1.4}
+.statusgroup{display:flex; gap:0; border:1px solid var(--line); border-radius:6px;
+  overflow:hidden; flex:none}
+.statusgroup button{padding:4px 8px; font-size:11px; font-family:var(--mono);
+  color:var(--ink-2); border-right:1px solid var(--line); background:var(--surface)}
+.statusgroup button:last-child{border-right:none}
+.statusgroup button:hover{background:var(--surface-2)}
+.statusgroup button[aria-pressed="true"]{background:var(--ink); color:var(--paper)}
+.notefield{margin-top:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.notefield input{flex:1; min-width:180px; border:1px solid var(--line);
+  background:var(--surface); border-radius:6px; padding:6px 9px; font-size:13px; outline:none}
+.notefield input:focus{border-color:var(--accent)}
+.whosel{border:1px solid var(--line); background:var(--surface); border-radius:6px;
+  padding:5px 7px; font-size:11.5px; font-family:var(--mono); color:var(--ink-2);
+  outline:none; max-width:190px}
+.whosel:focus{border-color:var(--accent)}
+
+.recap{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:36px 40px; max-width:760px}
+.recap h2{font-family:var(--display); font-size:26px; letter-spacing:-.02em; margin-bottom:4px}
+.recap .rmeta{font-family:var(--mono); font-size:12px; color:var(--ink-3);
+  margin-bottom:26px; padding-bottom:18px; border-bottom:2px solid var(--ink)}
+.recap section{margin-bottom:26px}
+.recap section h3{font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3); margin-bottom:9px; font-weight:500}
+.recap li{padding:7px 0 7px 18px; border-bottom:1px solid var(--line-soft);
+  position:relative; font-size:13.5px; line-height:1.5}
+.recap li:last-child{border-bottom:none}
+.recap li::before{content:""; position:absolute; left:2px; top:14px; width:5px; height:5px;
+  border-radius:50%; background:var(--accent-line)}
+.recap li .sub{display:block; font-size:12px; color:var(--ink-2); margin-top:2px}
+.recap li .own{font-family:var(--mono); font-size:11.5px; color:var(--ink-3)}
+.recap .none{font-size:13px; color:var(--ink-3); font-style:italic}
+
+.sresult{padding:11px 16px; border-bottom:1px solid var(--line-soft); width:100%;
+  text-align:left; display:block}
+.sresult:last-child{border-bottom:none}
+.sresult:hover{background:var(--surface-2)}
+.sresult .t{font-size:13.5px}
+.sresult .c{font-size:11.5px; color:var(--ink-3); font-family:var(--mono); margin-top:2px}
+mark{background:var(--warn-soft); color:inherit; border-radius:2px; padding:0 1px}
+
+.toast{position:fixed; bottom:24px; left:50%; transform:translate(-50%,80px);
+  background:var(--ink); color:var(--paper); padding:10px 18px; border-radius:20px;
+  font-size:13px; z-index:80; transition:transform .22s; box-shadow:var(--shadow-lg)}
+.toast.show{transform:translate(-50%,0)}
+
+@media (max-width:920px){
+  .app{grid-template-columns:1fr}
+  .rail{position:static; height:auto; border-right:none; border-bottom:1px solid var(--line)}
+  .wrap,.topbar,.meetbar{padding-left:18px; padding-right:18px}
+  .recap{padding:24px 20px}
+  .fields{grid-template-columns:1fr}
+}
+@media print{
+  .rail,.topbar,.pagehead .btn,.meetbar{display:none}
+  body{background:#fff}
+  .recap{border:none; padding:0}
+}
+</style>
+
+<div class="app">
+  <nav class="rail">
+    <div class="brand">
+      <h1>BCC 2026<br>Game Plan</h1>
+      <div class="sub">Membership &middot; imported from Word</div>
+    </div>
+    <button class="navitem" data-nav="overview"><span class="dot"></span>Overview</button>
+    <button class="navitem" data-nav="plan"><span class="dot"></span>Program plan<span class="count" id="c-plan"></span></button>
+    <button class="navitem" data-nav="calendar"><span class="dot"></span>2026 calendar<span class="count" id="c-cal"></span></button>
+    <div class="railhead"><span class="eyebrow">Jump to month</span></div>
+    <div id="monthlist"></div>
+    <div class="railfoot">
+      <button class="linkbtn" id="resetbtn">Reset to the imported plan</button>
+      <div class="eyebrow" style="line-height:1.5">Source: 2026 Game Plan.docx<br>Lisa Henrichsen &middot; rev 55</div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="topbar" id="topbar">
+      <div class="search">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+        <input id="q" type="search" placeholder="Search every item, person and note&hellip;" autocomplete="off">
+      </div>
+      <div class="spacer"></div>
+      <button class="btn ghost sm" id="themebtn">Theme</button>
+    </div>
+    <div id="view"></div>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"></aside>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+/* ============================================================
+   BCC 2026 Game Plan — imported from "2026 Game Plan.docx"
+   (Lisa Henrichsen, rev 55, last modified 2026-02-12).
+
+   Every item below comes from the document. The document
+   carries NO status information, so every item imports as
+   "Not recorded" — that is the honest state, not a placeholder.
+   Dates are only set where the document states one.
+   Yellow highlighting in the source is preserved as "flagged".
+   ============================================================ */
+
+const DAY = 864e5;
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+const iso = d => new Date(d).toISOString().slice(0,10);
+const daysBetween = (a,b) => Math.round((new Date(b) - new Date(a))/DAY);
+const daysSince = d => daysBetween(d, iso(TODAY));
+
+const PLAN_CREATED = "2025-12-18";
+const MONTHS = ["January","February","March","April","May","June",
+                "July","August","September","October","November","December"];
+const PROGRAM = ["New Members","Ambassador Council","Invitation","Sponsor Recognition","Other"];
+
+const TEAM = ["Unassigned","James","Emily","Lindsey","Todd","Alejandro","Zahra Dixon",
+              "Patrick","Francis","Charlie","William","Carol","BOG","Ambassador Council",
+              "GM","You (Regional)"];
+
+/* b bucket · k key (has children) · p parent key · t title · ty type
+   o owner · d due date · f flagged yellow in source · x source conflict note */
+const SEED = [
+/* ===================== PROGRAM TRACK ===================== */
+{b:"New Members",k:"nm1",t:"Welcome call and email from James/Emily",o:"James"},
+{b:"New Members",p:"nm1",t:"Invite to brunch / POG / event — James calls and personally welcomes them and invites them to an event within the first few days of joining",o:"James"},
+{b:"New Members",p:"nm1",t:"Review new members weekly at staff meeting and discuss for a full 30 days. First staff meeting of each month reviews the previous month."},
+{b:"New Members",p:"nm1",t:"Invite new members to the new member mixer for MA by email and phone 2 weeks prior to the event. Personally invite Ambassadors to NMM for more representation. At NMM have the invitation and leaderboards displayed.",o:"Lindsey"},
+{b:"New Members",p:"nm1",t:"Host New Member Luncheon/Dinner in Q2 and Q4"},
+
+{b:"New Members",k:"nm2",t:"30-60-90 day calls and track usage",o:"Lindsey"},
+{b:"New Members",p:"nm2",t:"30 day — Lindsey and James call",o:"Lindsey"},
+{b:"New Members",p:"nm2",t:"60 day — Lindsey sends a handwritten card and a blank invitation",o:"Lindsey"},
+{b:"New Members",p:"nm2",t:"90 day — Emily emails staff: who has not gotten involved with the club, who has not attended any events? Have Alejandro and Todd reach out.",o:"Emily"},
+{b:"New Members",p:"nm2",t:"1st Tuesday and 1st Thursday — review the prior month's new members"},
+{b:"New Members",p:"nm2",t:"2nd Tuesday — discuss attrition"},
+{b:"New Members",p:"nm2",t:"3rd Tuesday — discuss 90 day"},
+{b:"New Members",p:"nm2",t:"4th Tuesday — review red flags"},
+
+{b:"New Members",k:"nm3",t:"Welcome swag"},
+{b:"New Members",p:"nm3",t:"Tennis — a tennis towel that can be given when they get their key",o:"Alejandro"},
+{b:"New Members",p:"nm3",t:"Golf — Todd makes bag tags: “Proud member of BCC”",o:"Todd"},
+
+{b:"New Members",k:"nm4",t:"Golf orientation book for new members, sent with an introduction from Todd",o:"Todd"},
+{b:"New Members",p:"nm4",t:"Staff inviting to leagues / groups",o:"Todd"},
+{b:"New Members",p:"nm4",k:"nm4b",t:"Encourage golf guests with passes — Todd calls the 1st of each month",o:"Todd"},
+{b:"New Members",p:"nm4b",t:"Call and introduce self and invite them to pick up passes"},
+{b:"New Members",p:"nm4b",t:"Get William to help call",o:"William"},
+
+{b:"New Members",k:"nm5",t:"Tennis welcome from Alejandro",o:"Alejandro"},
+{b:"New Members",p:"nm5",t:"Give a towel to each new member"},
+{b:"New Members",p:"nm5",t:"New member orientation — Alejandro submitted his process",o:"Alejandro"},
+{b:"New Members",p:"nm5",t:"Leagues and event boards in the hall — pro shop poster, invitation poster, thank-you to tennis sponsor poster, events at the club, and Dues $ at Work for tennis"},
+
+{b:"New Members",k:"nm6",t:"Member appreciation events"},
+{b:"New Members",p:"nm6",k:"nm6a",t:"New Member Mixers — send invite 2-3x prior to event, James calls and personally invites, Lindsey sends email invite 2 weeks prior including Ambassadors and Council",o:"Lindsey"},
+{b:"New Members",p:"nm6a",t:"Help introduce them to other new members — WIFM, drink ticket, etc. members / ambassadors"},
+{b:"New Members",p:"nm6a",t:"Get AC and BOG to commit to attending — send invite to attend",o:"BOG"},
+{b:"New Members",p:"nm6a",t:"Invite elite sponsors to the mixer"},
+{b:"New Members",p:"nm6",k:"nm6b",t:"New member dinners"},
+{b:"New Members",p:"nm6b",t:"2 a year",d:"2026-04-07",f:1},
+{b:"New Members",p:"nm6b",t:"Have Ambassador Council, Boards and associations introduce themselves"},
+{b:"New Members",p:"nm6",k:"nm6c",t:"Guest list"},
+{b:"New Members",p:"nm6c",t:"Contact member host via phone"},
+{b:"New Members",p:"nm6c",t:"ACT research — has the guest been here before? How many times?",ty:"question"},
+{b:"New Members",p:"nm6c",t:"Have an invitation prepared on behalf of the host member"},
+
+{b:"Ambassador Council",t:"JUST START — meet with Zahra to establish",o:"Zahra Dixon",d:"2025-12-19"},
+{b:"Ambassador Council",t:"Meet 4x per year",o:"Ambassador Council"},
+{b:"Ambassador Council",t:"New homeowner welcome — Zahra Dixon: basket, postcard?",ty:"question",o:"Zahra Dixon"},
+{b:"Ambassador Council",t:"Invite Zahra and Ambassadors to CB and New Member Mixers",o:"Lindsey"},
+
+{b:"Invitation",t:"Keep it in the forefront and remind members about it"},
+{b:"Invitation",t:"Video in February, email in March, additional email/video in April"},
+{b:"Invitation",t:"Fall education?",ty:"question"},
+
+{b:"Sponsor Recognition",k:"sr1",t:"More education on Elite Benefits"},
+{b:"Sponsor Recognition",p:"sr1",t:"Video before member appreciation listing Elite sponsors and telling them they get free drinks or something? VIP tables?",ty:"question"},
+{b:"Sponsor Recognition",k:"sr2",t:"Partners' Champ Leaderboard"},
+{b:"Sponsor Recognition",p:"sr2",t:"Recognition"},
+{b:"Sponsor Recognition",p:"sr2",t:"THE INVITATIONAL"},
+{b:"Sponsor Recognition",t:"Sponsor Brunch (additional one in August)",d:"2026-02-01",f:1},
+{b:"Sponsor Recognition",t:"BOG sends thank-you notes to sponsors",o:"BOG"},
+{b:"Sponsor Recognition",t:"GM sends thank-you notes to sponsors",o:"GM"},
+
+{b:"Other",t:"Facebook ads — need more every day / week / month presence on Facebook and post our events"},
+{b:"Other",k:"o2",t:"Encourage golf guests — passes — Todd — 1st of each month",o:"Todd"},
+{b:"Other",p:"o2",t:"Call and introduce and tell them to come pick up"},
+{b:"Other",p:"o2",t:"Getting Charlie to help too",o:"Charlie"},
+{b:"Other",k:"o3",t:"New member offer"},
+{b:"Other",p:"o3",t:"Keep loyalty for now to get back to waitlist"},
+{b:"Other",p:"o3",t:"End the tennis offer",ty:"decision"},
+
+/* ===================== 2026 CALENDAR ===================== */
+{b:"January",t:"Member Appreciation",d:"2026-01-08"},
+{b:"January",t:"Send Sponsor Brunch invites",d:"2026-01-21"},
+{b:"January",t:"Send invites for February MA",d:"2026-01-31"},
+{b:"January",t:"Make sure packets are updated"},
+{b:"January",t:"Review offer based on arbitration",ty:"decision"},
+{b:"January",t:"Send invites for Sponsor Brunch"},
+{b:"January",t:"ARE WE HAVING A SHOWCASE? Decide yes or no",ty:"question"},
+{b:"January",t:"Discuss tennis increase and offer",ty:"decision"},
+{b:"January",t:"Ask ALL ambassadors if info is correct for the slide show",o:"Zahra Dixon"},
+{b:"January",t:"Scrub email list for CB and New Member Profile"},
+
+{b:"February",t:"Send State of the Club out in February from Patrick",o:"Patrick"},
+{b:"February",t:"Sponsor Brunch",d:"2026-02-01"},
+{b:"February",t:"Send tennis IF increase through ACT — one to existing members, one to prospects"},
+{b:"February",t:"Send invites for KICK OFF Ambassador meeting",d:"2026-02-10"},
+{b:"February",t:"Member Appreciation",d:"2026-02-19"},
+{b:"February",t:"Video about adult-only events in March — Patrick",o:"Patrick",f:1},
+{b:"February",t:"Club Pride yard signs"},
+{b:"February",t:"Review golf offer for spring",ty:"decision"},
+{b:"February",t:"Video of invitation"},
+{b:"February",t:"Review Partners checklist from Carol",o:"Carol"},
+{b:"February",t:"Facebook — video about the invitation"},
+{b:"February",t:"Take leaderboard and invitation; educate on Partners"},
+{b:"February",t:"KICK OFF Ambassador meeting",d:"2026-02-25",x:"Source conflict: February lists the kickoff on 2/25, March lists “Ambassador KICK OFF mtg. 3/4/26”. Same meeting, two dates."},
+
+{b:"March",t:"Create The Partners video to send out with the leaderboard"},
+{b:"March",t:"Send Member Appreciation reminder",d:"2026-03-03"},
+{b:"March",t:"Ambassador KICK OFF mtg. prior to POG",d:"2026-03-04",x:"Source conflict: also scheduled 2/25 in the February list."},
+{b:"March",t:"GOLF REINSTATE OFFER push — send email blast / upgrade",f:1},
+{b:"March",t:"Send invite for New Member Dinner in April",d:"2026-03-17"},
+{b:"March",t:"Member Appreciation",d:"2026-03-20"},
+{b:"March",t:"Send Member Appreciation invite for April",d:"2026-03-31"},
+{b:"March",t:"Pop Up after Spring Break — date?",ty:"question"},
+{b:"March",t:"The INVITE educational email (Save the Date at the bottom for THE Invitational)"},
+{b:"March",t:"Reinstate / upgrade offer"},
+{b:"March",t:"Francis email blast?",ty:"question",o:"Francis",f:1},
+
+{b:"April",t:"New Member Dinner",d:"2026-04-07"},
+{b:"April",t:"Masters Guest Day? — coincide with sundowners",d:"2026-04-09",ty:"question"},
+{b:"April",t:"Member Appreciation",d:"2026-04-16"},
+{b:"April",t:"Send May Member Appreciation invite",d:"2026-04-21"},
+{b:"April",t:"Golf ACT push"},
+{b:"April",t:"Partners Invitation video"},
+
+{b:"May",t:"Member Appreciation",d:"2026-05-05"},
+{b:"May",t:"Get with Alejandro and Francis on guests for camps",o:"Alejandro"},
+{b:"May",t:"Send Save the Date for the Invitational — QR code to sign up?",ty:"question"},
+{b:"May",t:"PUSH for Partners video: “Who's coming with me?”"},
+{b:"May",t:"Send invite for June Member Appreciation on 3/31",x:"Source says 3/31, which falls in March. Likely meant 5/31 — needs confirming."},
+{b:"May",t:"Promote ACT email and phone calls for NM guest day on 6/20"},
+{b:"May",t:"NM luncheon date",ty:"question",f:1},
+
+{b:"June",t:"Send Member Appreciation invite",d:"2026-06-03"},
+{b:"June",t:"Member Appreciation",d:"2026-06-11"},
+{b:"June",t:"Have leaderboard displayed in the golf shop and foyer"},
+{b:"June",t:"NM Guest Day for new members from 1/1/26 to 6/1/26 — THEME?",ty:"question",f:1},
+{b:"June",t:"Send invites for July MA",d:"2026-06-30"},
+{b:"June",t:"Pop Up?",ty:"question",f:1},
+{b:"June",t:"Ambassador Council mtg. — discuss new members and at risk",o:"Ambassador Council"},
+
+{b:"July",t:"Send Partners reminder email"},
+{b:"July",t:"Member Appreciation",d:"2026-07-16"},
+{b:"July",t:"THE Partners Invitational Drawing",d:"2026-07-25"},
+{b:"July",t:"Send invites for August MA",d:"2026-07-26"},
+{b:"July",t:"ACT push"},
+
+{b:"August",t:"Member Appreciation",d:"2026-08-09"},
+{b:"August",t:"Tenure dinner",d:"2026-08-10",f:1},
+{b:"August",t:"Plan Fall Guest Day — September or October?",ty:"question"},
+{b:"August",t:"Ambassador Council mtg.",o:"Ambassador Council"},
+{b:"August",t:"Upgrade offer"},
+{b:"August",t:"Partners thank-you cards for team dinner"},
+{b:"August",t:"State of membership"},
+{b:"August",t:"Promote top sponsors — 3 or more. HOW?",ty:"question"},
+
+{b:"September",t:"Send invites for MA",d:"2026-09-10"},
+{b:"September",t:"Member Appreciation",d:"2026-09-24"},
+{b:"September",t:"Continue upgrade follow up"},
+{b:"September",t:"Send invites for October MA",d:"2026-09-27"},
+{b:"September",t:"Video / email about who's going to Partners"},
+{b:"September",t:"State of Membership",x:"Source reads “State of Membership our” — truncated in the document."},
+{b:"September",t:"Guest day for Jr Execs?",ty:"question",f:1},
+
+{b:"October",t:"Off-site calendar planning"},
+{b:"October",t:"Member Appreciation",d:"2026-10-11"},
+{b:"October",t:"Send invites for November MA",d:"2026-10-30"},
+{b:"October",t:"ACT push"},
+{b:"October",t:"THE Invitational"},
+{b:"October",t:"Halloween Fest?",ty:"question"},
+
+{b:"November",t:"Member Appreciation",d:"2026-11-12"},
+{b:"November",t:"Membership State of Club — Replacement Needs",f:1},
+{b:"November",t:"Send invites for December MA",d:"2026-11-20",f:1},
+{b:"November",t:"Ambassador Council Meeting",o:"Ambassador Council"},
+{b:"November",t:"Pop Up"},
+{b:"November",t:"Leaderboard roll out for 2027"},
+{b:"November",t:"NMG COMPLETED by Thanksgiving!!"},
+
+{b:"December",t:"Send Partners email with leaderboard through eblast"},
+{b:"December",t:"Member Appreciation",d:"2026-12-05"},
+{b:"December",t:"Send invites for January MA",d:"2026-12-27"},
+{b:"December",t:"Game Plan 2027"},
+{b:"December",t:"Update collateral"},
+{b:"December",t:"Meet with Zahra for Ambassador Council 2027",o:"Zahra Dixon"}
+];
+
+/* The document's own revision trail — the only dated history that exists */
+const DOC_HISTORY = [
+  {date:"2025-12-18", who:"Lisa Henrichsen", text:"2026 Game Plan created."},
+  {date:"2025-12-19", who:"Lisa Henrichsen", text:"Plan printed — matches the “Meet with Zahra to establish 12/19/25” line."},
+  {date:"2026-02-12", who:"Lindsey Jenkins", text:"Last edit to the document (revision 55). Nothing has been recorded in it since."}
+];
+
+const STATUSES = {unrecorded:"Not recorded", not_started:"Not started", in_progress:"In progress",
+                  done:"Done", parked:"Parked", dropped:"Dropped"};
+const OPEN = s => s === "unrecorded" || s === "not_started" || s === "in_progress";
+const TRACKED = s => s === "not_started" || s === "in_progress";
+const STALL_DAYS = 30;
+const isMonth = b => MONTHS.indexOf(b) !== -1;
+
+function buildSeed(){
+  const keyed = {}, items = [];
+  SEED.forEach((s,i) => {
+    const id = "i" + String(i).padStart(3,"0");
+    if (s.k) keyed[s.k] = id;
+    items.push({
+      id, bucket:s.b, track: isMonth(s.b) ? "calendar" : "program",
+      _pkey:s.p || null, parent:null,
+      title:s.t, type:s.ty || "task", owner:s.o || "Unassigned",
+      status:"unrecorded", created:PLAN_CREATED, due:s.d || null, completed:null,
+      flagged:!!s.f, conflict:s.x || null, updates:[]
+    });
+  });
+  items.forEach(it => { if (it._pkey) it.parent = keyed[it._pkey] || null; delete it._pkey; });
+  return {items, meetings:[], v:2};
+}
+
+const KEY = "bcc2026.v2";
+let db;
+try {
+  const raw = localStorage.getItem(KEY);
+  db = raw ? JSON.parse(raw) : buildSeed();
+  if (!db || !db.items || db.v !== 2) db = buildSeed();
+} catch(e){ db = buildSeed(); }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(db)); } catch(e){} }
+
+const state = {view:"overview", filter:"all", month:null, q:"", drawer:null, meeting:null, collapsed:{}};
+
+const item = id => db.items.find(i => i.id === id);
+const lastTouch = it => {
+  const u = it.updates.length ? it.updates[it.updates.length-1].date : it.created;
+  return it.completed && it.completed > u ? it.completed : u;
+};
+const ageDays = it => daysSince(lastTouch(it));
+const isStalled = it => TRACKED(it.status) && ageDays(it) >= STALL_DAYS;
+const isOverdue = it => OPEN(it.status) && it.due && daysSince(it.due) > 0;
+const severity = it => isOverdue(it) ? "crit" : isStalled(it) ? "warn" : null;
+const monthIndex = () => TODAY.getMonth();
+const monthItems = m => db.items.filter(i => i.bucket === m);
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = d => new Date(d+"T12:00:00").toLocaleDateString(undefined,{month:"short", day:"numeric"});
+const fmtDay = d => new Date(d+"T12:00:00").toLocaleDateString(undefined,{month:"numeric", day:"numeric"});
+const fmtLong = d => new Date(d+"T12:00:00").toLocaleDateString(undefined,{weekday:"long", month:"long", day:"numeric", year:"numeric"});
+function relDue(d){
+  const n = daysSince(d);
+  if (n === 0) return "due today";
+  return n > 0 ? n + "d overdue" : "due " + fmt(d);
+}
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2400);
+}
+
+const view = document.getElementById("view");
+
+function renderRail(){
+  ["overview","plan","calendar"].forEach(v =>
+    document.querySelector(`[data-nav="${v}"]`).setAttribute("aria-current", state.view === v ? "true":"false"));
+  const prog = db.items.filter(i => i.track === "program");
+  const cal = db.items.filter(i => i.track === "calendar");
+  document.getElementById("c-plan").textContent = prog.length;
+  document.getElementById("c-cal").textContent = cal.length;
+  const now = monthIndex();
+  document.getElementById("monthlist").innerHTML = MONTHS.map((m,idx) => {
+    const list = monthItems(m);
+    const over = list.filter(isOverdue).length;
+    const cls = idx < now ? "past" : idx === now ? "now" : "";
+    return `<button class="navitem mo ${cls}" data-month="${m}">
+      <span class="dot"></span>${m}
+      <span class="count ${over?"flag":""}">${over ? over + "!" : list.length}</span>
+    </button>`;
+  }).join("");
+}
+
+function provenance(){
+  const conflicts = db.items.filter(i => i.conflict).length;
+  return `<div class="provenance">
+    <div class="body">
+      <span class="eyebrow">Imported, not invented</span>
+      All ${db.items.length} items come from <b>2026 Game Plan.docx</b> (Lisa Henrichsen, revision 55,
+      last edited by Lindsey Jenkins on 12 Feb 2026). The document records <b>no status of any kind</b>,
+      so everything imported as <b>Not recorded</b> — that is the true state of the plan, not a placeholder.
+      Dates appear only where the document states one. Yellow highlighting in the source is kept as
+      <b>flagged</b>, and the ${conflicts} places where the document contradicts itself are marked
+      as <b>source conflicts</b>.
+    </div>
+  </div>`;
+}
+
+/* ---------------- overview ---------------- */
+function renderOverview(){
+  const all = db.items;
+  const unrec = all.filter(i => i.status === "unrecorded");
+  const overdue = all.filter(isOverdue);
+  const flagged = all.filter(i => i.flagged && OPEN(i.status));
+  const conflicts = all.filter(i => i.conflict);
+  const questions = all.filter(i => i.type === "question" && OPEN(i.status));
+  const done = all.filter(i => i.status === "done");
+  const thisMonth = monthItems(MONTHS[monthIndex()]);
+  const rest = MONTHS.slice(monthIndex()+1).flatMap(monthItems);
+
+  const attention = overdue.slice().sort((a,b) => daysSince(b.due) - daysSince(a.due)).slice(0,14);
+
+  view.innerHTML = `<div class="wrap">
+    <div class="pagehead">
+      <div>
+        <span class="eyebrow">Membership &middot; Game Plan 2026</span>
+        <h2>The plan as the document actually left it</h2>
+        <p class="meta">${all.length} items &middot; ${daysSince("2026-02-12")} days since anyone edited the source &middot; today is ${fmtLong(iso(TODAY))}</p>
+      </div>
+      <button class="btn primary" id="startmeet">Start a review</button>
+    </div>
+
+    ${provenance()}
+
+    <div class="stats">
+      <div class="stat"><div class="n">${all.length}</div><div class="l">Items in the plan</div></div>
+      <div class="stat crit"><div class="n">${unrec.length}</div><div class="l">With no recorded status</div></div>
+      <div class="stat crit"><div class="n">${overdue.length}</div><div class="l">Past a date the plan set</div></div>
+      <div class="stat warn"><div class="n">${questions.length}</div><div class="l">Still open questions</div></div>
+      <div class="stat warn"><div class="n">${flagged.length}</div><div class="l">Highlighted in the source</div></div>
+      <div class="stat ok"><div class="n">${done.length}</div><div class="l">Closed since import</div></div>
+    </div>
+
+    <div class="section">
+      <div class="sectionhead"><h3>Where the year stands</h3>
+        <span class="note">${thisMonth.length} items sit in ${MONTHS[monthIndex()]}, ${rest.length} in the months after it</span></div>
+      <div class="panel tablewrap">
+        <table class="att">
+          <thead><tr><th>Month</th><th>Items</th><th>Dated</th><th>Overdue</th><th>Questions</th></tr></thead>
+          <tbody>${MONTHS.map((m,idx) => {
+            const l = monthItems(m);
+            const mark = idx === monthIndex() ? " &larr; now" : "";
+            return `<tr data-month="${m}">
+              <td${idx===monthIndex()?' style="font-weight:600"':''}>${m}${mark}</td>
+              <td class="num">${l.length}</td>
+              <td class="num">${l.filter(i=>i.due).length}</td>
+              <td class="num ${l.filter(isOverdue).length?"crit":""}">${l.filter(isOverdue).length}</td>
+              <td class="num ${l.filter(i=>i.type==="question").length?"warn":""}">${l.filter(i=>i.type==="question").length}</td>
+            </tr>`;
+          }).join("")}</tbody>
+        </table>
+      </div>
+    </div>
+
+    ${conflicts.length ? `<div class="section">
+      <div class="sectionhead"><h3>Contradictions inside the document</h3>
+        <span class="note">Found on import — the Word file cannot flag these to you</span></div>
+      <div class="panel">${conflicts.map(i => `<button class="sresult" data-item="${i.id}">
+        <div class="t">${esc(i.title)}</div>
+        <div class="c">${esc(i.bucket)}${i.due ? " &middot; " + fmt(i.due) : ""}</div>
+        <div class="srcnote">${esc(i.conflict)}</div>
+      </button>`).join("")}</div>
+    </div>` : ""}
+
+    <div class="section">
+      <div class="sectionhead"><h3>Past its date and never closed out</h3>
+        <span class="note">Oldest first &mdash; every one of these has a date the plan set and no record of what happened</span></div>
+      <div class="panel tablewrap">
+        <table class="att">
+          <thead><tr><th>Item</th><th>Where</th><th>Owner</th><th>Due</th></tr></thead>
+          <tbody>${attention.map(i => `<tr data-item="${i.id}">
+            <td>${esc(i.title)}</td>
+            <td class="club">${esc(i.bucket)}</td>
+            <td class="club">${esc(i.owner)}</td>
+            <td class="num crit">${daysSince(i.due)}d overdue</td>
+          </tr>`).join("")}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sectionhead"><h3>The document's own history</h3>
+        <span class="note">All of it &mdash; this is every dated trace the Word file carries</span></div>
+      <div class="panel">${DOC_HISTORY.map(h => `<div class="sresult" style="cursor:default">
+        <div class="t">${esc(h.text)}</div>
+        <div class="c">${fmtLong(h.date)} &middot; ${esc(h.who)}</div>
+      </div>`).join("")}</div>
+    </div>
+  </div>`;
+}
+
+/* ---------------- shared item row ---------------- */
+function itemRow(it, depth){
+  const sev = severity(it);
+  const kids = db.items.filter(k => k.parent === it.id);
+  const note = it.updates.length ? it.updates[it.updates.length-1] : null;
+  const mark = it.type === "decision"
+    ? `<span class="marker decision ${it.status==="done"?"done":""} ${it.status==="unrecorded"?"unrec":""}"></span>`
+    : it.type === "question"
+      ? `<span class="marker question ${it.status==="done"?"done":""}">?</span>`
+      : `<span class="marker ${it.status==="done"?"done":""} ${it.status==="unrecorded"?"unrec":""}">${it.status==="done"
+        ? '<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 4.8 8.5 9.5 3.6"/></svg>' : ""}</span>`;
+  return `<div class="row ${sev?"sev-"+sev:""} is-${it.status}" data-item="${it.id}" tabindex="0" role="button">
+      <span class="indent" style="width:${16 + depth*22}px"></span>
+      ${mark}
+      <div class="rowbody">
+        <div class="title">${esc(it.title)}</div>
+        <div class="rowmeta">
+          ${it.owner !== "Unassigned" ? `<span class="chip owner">${esc(it.owner)}</span>` : `<span class="chip notes">unassigned</span>`}
+          ${it.due && OPEN(it.status) ? `<span class="chip due ${isOverdue(it)?"over":""}">${relDue(it.due)}</span>` : ""}
+          ${it.flagged ? `<span class="chip flagged">flagged in source</span>` : ""}
+          ${it.conflict ? `<span class="chip conflict">source conflict</span>` : ""}
+          ${isStalled(it) ? `<span class="chip stall">silent ${ageDays(it)}d</span>` : ""}
+          ${it.updates.length ? `<span class="chip notes">${it.updates.length} note${it.updates.length>1?"s":""}</span>` : ""}
+        </div>
+        ${it.conflict ? `<div class="srcnote">${esc(it.conflict)}</div>` : ""}
+        ${note ? `<div class="lastnote"><b>${fmt(note.date)} &middot; ${esc(note.who)}</b><br>${esc(note.text)}</div>` : ""}
+      </div>
+      <span class="pill ${it.status}">${STATUSES[it.status]}</span>
+    </div>` + kids.map(k => itemRow(k, depth+1)).join("");
+}
+
+function filterItems(list){
+  if (state.filter === "unrecorded") return list.filter(i => i.status === "unrecorded");
+  if (state.filter === "overdue") return list.filter(isOverdue);
+  if (state.filter === "questions") return list.filter(i => i.type === "question");
+  if (state.filter === "decisions") return list.filter(i => i.type === "decision");
+  if (state.filter === "flagged") return list.filter(i => i.flagged || i.conflict);
+  if (state.filter === "open") return list.filter(i => OPEN(i.status));
+  return list;
+}
+
+function bucketBlock(b, shown, all, subtitle){
+  const roots = shown.filter(i => i.bucket === b && !i.parent);
+  const orphans = shown.filter(i => i.bucket === b && i.parent && !shown.some(s => s.id === i.parent));
+  const tops = roots.concat(orphans);
+  if (!tops.length) return "";
+  const bAll = all.filter(i => i.bucket === b);
+  const bDone = bAll.filter(i => i.status === "done" || i.status === "dropped").length;
+  const pct = bAll.length ? Math.round(bDone/bAll.length*100) : 0;
+  const collapsed = state.collapsed[b];
+  return `<div class="bucket">
+    <button class="buckethead" data-bucket="${esc(b)}" aria-expanded="${!collapsed}">
+      <svg class="chev" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
+      <h4>${esc(b)}</h4>
+      ${subtitle ? `<span class="when">${subtitle}</span>` : ""}
+      <span class="tally">${bDone}/${bAll.length}</span>
+      <span class="progress"><i style="width:${pct}%"></i></span>
+    </button>
+    ${collapsed ? "" : tops.map(i => itemRow(i,0)).join("")}
+  </div>`;
+}
+
+function filterBar(list){
+  const counts = {
+    all:list.length,
+    unrecorded:list.filter(i => i.status === "unrecorded").length,
+    overdue:list.filter(isOverdue).length,
+    questions:list.filter(i => i.type === "question").length,
+    decisions:list.filter(i => i.type === "decision").length,
+    flagged:list.filter(i => i.flagged || i.conflict).length,
+    open:list.filter(i => OPEN(i.status)).length
+  };
+  const F = [["all","Everything"],["unrecorded","Not recorded"],["overdue","Overdue"],
+             ["questions","Questions"],["decisions","Decisions"],["flagged","Flagged"],["open","Open"]];
+  return `<div class="filters">${F.map(([k,l]) =>
+    `<button class="fchip" data-filter="${k}" aria-pressed="${state.filter===k}">${l}<span class="n">${counts[k]}</span></button>`).join("")}</div>`;
+}
+
+/* ---------------- program plan ---------------- */
+function renderPlan(){
+  const all = db.items.filter(i => i.track === "program");
+  const keep = new Set(filterItems(all).map(i => i.id));
+  all.forEach(i => { if (keep.has(i.id)) { let p = i.parent; while (p){ keep.add(p); p = (item(p)||{}).parent; } } });
+  const shown = all.filter(i => keep.has(i.id));
+
+  view.innerHTML = `<div class="wrap">
+    <div class="pagehead">
+      <div>
+        <span class="eyebrow">Track 1 of 2 &middot; standing programs</span>
+        <h2>Program plan</h2>
+        <p class="meta">The part of the document that isn't tied to a month &mdash; how new members, ambassadors, the invitation and sponsors are supposed to be run all year.</p>
+      </div>
+      <button class="btn" id="addbtn">Add item</button>
+    </div>
+    ${filterBar(all)}
+    <div class="panel">
+      <div class="trackhead"><h3>Standing programs</h3><span class="note">${all.length} items, nested as in the document</span></div>
+      ${PROGRAM.map(b => bucketBlock(b, shown, all, "")).join("") || `<div class="empty">Nothing matches this filter.</div>`}
+    </div>
+  </div>`;
+}
+
+/* ---------------- calendar ---------------- */
+function renderCalendar(){
+  const all = db.items.filter(i => i.track === "calendar");
+  const now = monthIndex();
+  const focus = state.month;
+
+  if (focus){
+    const list = filterItems(monthItems(focus));
+    const idx = MONTHS.indexOf(focus);
+    view.innerHTML = `<div class="wrap">
+      <div class="pagehead">
+        <div>
+          <span class="eyebrow">2026 calendar &middot; ${idx < now ? "already past" : idx === now ? "current month" : "ahead"}</span>
+          <h2>${esc(focus)}</h2>
+          <p class="meta">${monthItems(focus).length} items from the document &middot; ${monthItems(focus).filter(isOverdue).length} past their date</p>
+        </div>
+        <button class="btn" data-nav="calendar">All months</button>
+      </div>
+      ${filterBar(monthItems(focus))}
+      <div class="panel">${list.length ? list.map(i => itemRow(i,0)).join("") : `<div class="empty">Nothing matches this filter.</div>`}</div>
+    </div>`;
+    return;
+  }
+
+  view.innerHTML = `<div class="wrap">
+    <div class="pagehead">
+      <div>
+        <span class="eyebrow">Track 2 of 2 &middot; month by month</span>
+        <h2>2026 calendar</h2>
+        <p class="meta">${all.length} dated and month-anchored items. ${all.filter(isOverdue).length} are past a date the plan set.</p>
+      </div>
+    </div>
+    <div class="calgrid">${MONTHS.map((m,idx) => {
+      const list = monthItems(m).slice().sort((a,b) => (a.due||"9").localeCompare(b.due||"9"));
+      const cls = idx < now ? "past" : idx === now ? "now" : "";
+      const over = list.filter(isOverdue).length;
+      return `<div class="mcard ${cls}">
+        <button class="mcardhead" data-month="${m}">
+          <h4>${m}</h4>
+          <span class="tag">${idx === now ? "this month" : over ? over + " overdue" : list.length + " items"}</span>
+        </button>
+        <div class="mitems">${list.map(i => `<button class="mitem" data-item="${i.id}">
+          <span class="d ${isOverdue(i)?"over":""}">${i.due ? fmtDay(i.due) : "—"}</span>
+          <span class="t">${esc(i.title)}</span>
+          ${i.type === "question" ? `<span class="qm">?</span>` : ""}
+          ${i.flagged ? `<span class="fl">&#9733;</span>` : ""}
+        </button>`).join("")}</div>
+      </div>`;
+    }).join("")}</div>
+  </div>`;
+}
+
+/* ---------------- meeting + recap ---------------- */
+function renderMeeting(){
+  const m = state.meeting;
+  const now = monthIndex();
+  const scope = db.items.filter(i => OPEN(i.status) &&
+    (isOverdue(i) || i.bucket === MONTHS[now] || i.bucket === MONTHS[now+1] || i.flagged || i.conflict));
+  const live = scope.sort((a,b) => {
+    const rank = i => isOverdue(i) ? 0 : i.conflict ? 1 : i.flagged ? 2 : 3;
+    return rank(a) - rank(b) || (a.due||"9").localeCompare(b.due||"9");
+  });
+  const touched = new Set(m.changes.map(ch => ch.item));
+
+  view.innerHTML = `
+  <div class="meetbar">
+    <span class="live"><i></i>Review in progress</span>
+    <span class="who">BCC</span>
+    <span class="tally">${m.changes.length} change${m.changes.length===1?"":"s"} recorded</span>
+    <button class="btn" id="meetadd">Add item</button>
+    <button class="btn primary" id="meetend">End and write the recap</button>
+  </div>
+  <div class="wrap">
+    <div class="pagehead">
+      <div>
+        <span class="eyebrow">${fmtLong(m.date)}</span>
+        <h2>Working the plan</h2>
+        <p class="meta">Scoped to what actually needs a decision today: everything overdue, everything in ${MONTHS[now]}${MONTHS[now+1]?" and "+MONTHS[now+1]:""}, plus anything flagged or contradictory. ${live.length} items.</p>
+      </div>
+    </div>
+    <div class="panel">${live.map(i => {
+      const sev = severity(i);
+      return `<div class="mrow ${sev?"sev-"+sev:""} ${touched.has(i.id)?"touched":""}">
+        <div class="mbody">
+          <div class="mtitle">${esc(i.title)}</div>
+          <div class="rowmeta">
+            <span class="chip notes">${esc(i.bucket)}</span>
+            ${i.owner !== "Unassigned" ? `<span class="chip owner">${esc(i.owner)}</span>` : `<span class="chip notes">unassigned</span>`}
+            ${i.due ? `<span class="chip due ${isOverdue(i)?"over":""}">${relDue(i.due)}</span>` : ""}
+            ${i.flagged ? `<span class="chip flagged">flagged in source</span>` : ""}
+            ${i.conflict ? `<span class="chip conflict">source conflict</span>` : ""}
+          </div>
+          ${i.conflict ? `<div class="srcnote">${esc(i.conflict)}</div>` : ""}
+          <div class="notefield">
+            <input type="text" placeholder="What did you land on?" data-note="${i.id}">
+            <select class="whosel" data-who="${i.id}" aria-label="Who said it">${
+              TEAM.map(p => `<option ${p === (i.owner === "Unassigned" ? "You (Regional)" : i.owner) ? "selected" : ""}>${esc(p)}</option>`).join("")}</select>
+            <button class="btn sm" data-savenote="${i.id}">Log</button>
+            <button class="btn sm ghost" data-open-item="${i.id}">History</button>
+          </div>
+        </div>
+        <div class="statusgroup">
+          ${["not_started","in_progress","done","dropped"].map(s =>
+            `<button data-set="${i.id}|${s}" aria-pressed="${i.status===s}">${
+              {not_started:"open",in_progress:"working",done:"done",dropped:"drop"}[s]}</button>`).join("")}
+        </div>
+      </div>`;
+    }).join("") || `<div class="empty">Nothing needs attention in this window.</div>`}</div>
+  </div>`;
+}
+
+function buildRecap(m){
+  const changes = m.changes, seen = id => item(id);
+  const decisions = changes.filter(ch => ch.note && (seen(ch.item)||{}).type === "decision");
+  const closed = changes.filter(ch => ch.to === "done");
+  const dropped = changes.filter(ch => ch.to === "dropped");
+  const notes = changes.filter(ch => ch.note && !decisions.includes(ch));
+  const created = (m.created||[]).map(seen).filter(Boolean);
+  const stillUnrec = db.items.filter(i => i.status === "unrecorded" && isOverdue(i));
+  const openQs = db.items.filter(i => i.type === "question" && OPEN(i.status));
+  const upcoming = db.items.filter(i => OPEN(i.status) && i.due && daysSince(i.due) <= 0)
+    .sort((a,b) => a.due.localeCompare(b.due)).slice(0,12);
+  return {decisions, closed, dropped, notes, created, stillUnrec, openQs, upcoming};
+}
+
+function renderRecap(){
+  const m = state.meeting, r = buildRecap(m);
+  const li = (t, sub, own) => `<li>${esc(t)}${sub?`<span class="sub">${esc(sub)}</span>`:""}${own?`<span class="sub own">${esc(own)}</span>`:""}</li>`;
+  const sec = (title, rows, empty) => `<section><h3>${title}</h3>${
+    rows.length ? `<ul>${rows.join("")}</ul>` : `<p class="none">${empty}</p>`}</section>`;
+
+  view.innerHTML = `<div class="wrap">
+    <div class="pagehead">
+      <div><span class="eyebrow">Generated from the review</span><h2>Recap</h2>
+      <p class="meta">Every line came from a status change or a note logged during the review. Nothing retyped.</p></div>
+      <div style="display:flex; gap:8px">
+        <button class="btn" id="copyrecap">Copy as text</button>
+        <button class="btn" onclick="window.print()">Print</button>
+        <button class="btn primary" id="backtoplan">Back to the plan</button>
+      </div>
+    </div>
+    <div class="recap" id="recapdoc">
+      <h2>BCC — Membership Game Plan 2026</h2>
+      <div class="rmeta">Plan review &middot; ${fmtLong(m.date)}</div>
+      ${sec("Decisions made", r.decisions.map(ch => li(item(ch.item).title, ch.note)), "No decisions were recorded in this review.")}
+      ${sec("Closed out", r.closed.map(ch => li(item(ch.item).title, ch.note || "", item(ch.item).owner)), "Nothing was closed.")}
+      ${sec("Dropped", r.dropped.map(ch => li(item(ch.item).title, ch.note || "")), "Nothing was dropped.")}
+      ${sec("New commitments", r.created.map(i => li(i.title, i.due ? "Due " + fmt(i.due) : "", i.owner)), "No new items were added.")}
+      ${sec("Updates logged", r.notes.map(ch => li(item(ch.item).title, ch.note, item(ch.item).owner)), "No notes were logged.")}
+      ${sec("Still overdue with no status recorded", r.stillUnrec.map(i => li(i.title, i.bucket + " · due " + fmt(i.due), i.owner)), "Every overdue item now has a status.")}
+      ${sec("Open questions carried forward", r.openQs.map(i => li(i.title, i.bucket, i.owner)), "No open questions.")}
+      ${sec("What is due next", r.upcoming.map(i => li(i.title, relDue(i.due), i.owner)), "Nothing dated ahead.")}
+    </div>
+  </div>`;
+}
+
+function recapText(){
+  const m = state.meeting, r = buildRecap(m), L = [];
+  L.push("BCC — Membership Game Plan 2026");
+  L.push("Plan review · " + fmtLong(m.date)); L.push("");
+  const block = (t, rows) => { if (!rows.length) return; L.push(t.toUpperCase()); rows.forEach(x => L.push("  - " + x)); L.push(""); };
+  block("Decisions made", r.decisions.map(ch => item(ch.item).title + (ch.note ? " — " + ch.note : "")));
+  block("Closed out", r.closed.map(ch => item(ch.item).title + " (" + item(ch.item).owner + ")"));
+  block("Dropped", r.dropped.map(ch => item(ch.item).title));
+  block("New commitments", r.created.map(i => i.title + " — " + i.owner + (i.due ? ", due " + fmt(i.due) : "")));
+  block("Updates logged", r.notes.map(ch => item(ch.item).title + " — " + ch.note));
+  block("Still overdue with no status recorded", r.stillUnrec.map(i => i.title + " — " + i.bucket + ", due " + fmt(i.due)));
+  block("Open questions carried forward", r.openQs.map(i => i.title + " — " + i.bucket));
+  block("What is due next", r.upcoming.map(i => i.title + " — " + relDue(i.due)));
+  return L.join("\n");
+}
+
+/* ---------------- search ---------------- */
+function renderSearch(){
+  const q = state.q.toLowerCase();
+  const hits = db.items.filter(i =>
+    i.title.toLowerCase().includes(q) || i.owner.toLowerCase().includes(q) ||
+    (i.conflict||"").toLowerCase().includes(q) ||
+    i.updates.some(u => u.text.toLowerCase().includes(q)));
+  const hl = t => esc(t).replace(new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&") + ")","ig"), "<mark>$1</mark>");
+  const byB = {};
+  hits.forEach(i => (byB[i.bucket] = byB[i.bucket] || []).push(i));
+  const order = PROGRAM.concat(MONTHS).filter(b => byB[b]);
+
+  view.innerHTML = `<div class="wrap">
+    <div class="pagehead"><div>
+      <span class="eyebrow">Search the whole plan</span>
+      <h2>${hits.length} match${hits.length===1?"":"es"} for &ldquo;${esc(state.q)}&rdquo;</h2>
+    </div></div>
+    ${order.length ? order.map(b => `<div class="section" style="margin-top:20px">
+      <div class="sectionhead"><h3>${esc(b)}</h3><span class="note">${byB[b].length} item${byB[b].length===1?"":"s"}</span></div>
+      <div class="panel">${byB[b].map(i => {
+        const noteHit = i.updates.find(u => u.text.toLowerCase().includes(q));
+        return `<button class="sresult" data-item="${i.id}">
+          <div class="t">${hl(i.title)}</div>
+          <div class="c">${esc(i.owner)} &middot; ${STATUSES[i.status]}${i.due ? " &middot; " + fmt(i.due) : ""}</div>
+          ${noteHit ? `<div class="lastnote" style="margin-top:6px"><b>${fmt(noteHit.date)} &middot; ${esc(noteHit.who)}</b><br>${hl(noteHit.text)}</div>` : ""}
+        </button>`;
+      }).join("")}</div>
+    </div>`).join("") : `<div class="panel"><div class="empty">Nothing matched. Try a person's name, a month, or a phrase from the plan.</div></div>`}
+  </div>`;
+}
+
+/* ---------------- drawer ---------------- */
+function renderDrawer(){
+  const d = document.getElementById("drawer"), sc = document.getElementById("scrim");
+  if (!state.drawer){ d.classList.remove("open"); d.setAttribute("aria-hidden","true"); sc.classList.remove("open"); return; }
+  const it = item(state.drawer); if (!it) return;
+  const events = [
+    {date:it.created, who:"Lisa Henrichsen", text:"Written into the 2026 game plan document", sys:true},
+    ...it.updates.map(u => ({...u, sys:false})),
+    ...(it.completed ? [{date:it.completed, who:"", text:"Marked " + STATUSES[it.status].toLowerCase(), sys:true}] : [])
+  ].sort((a,b) => a.date.localeCompare(b.date));
+
+  d.innerHTML = `
+    <div class="drawerhead">
+      <div class="top">
+        <div>
+          <span class="eyebrow">${esc(it.bucket)}${it.track === "calendar" ? " &middot; 2026 calendar" : " &middot; program"}</span>
+          <h3 style="margin-top:6px">${esc(it.title)}</h3>
+        </div>
+        <button class="btn ghost sm" id="closedrawer" aria-label="Close">Close</button>
+      </div>
+      <div class="rowmeta">
+        <span class="pill ${it.status}">${STATUSES[it.status]}</span>
+        ${it.flagged ? `<span class="chip flagged">flagged in source</span>` : ""}
+        ${it.due ? `<span class="chip due ${isOverdue(it)?"over":""}">${relDue(it.due)}</span>` : ""}
+      </div>
+    </div>
+    <div class="drawerbody">
+      ${it.conflict ? `<div class="sourcebox" style="border-left:3px solid var(--crit)">
+        <span class="eyebrow">Source conflict</span>${esc(it.conflict)}</div>` : ""}
+      <div class="sourcebox">
+        <span class="eyebrow">Where this came from</span>
+        <code>2026 Game Plan.docx</code> &rarr; ${esc(it.bucket)}. Written ${fmtLong(it.created)} by Lisa Henrichsen.
+        ${it.status === "unrecorded" ? "The document never recorded what happened to it." : ""}
+      </div>
+      <div class="fields">
+        <div class="field"><label for="f-status">Status</label>
+          <select id="f-status">${Object.keys(STATUSES).map(s => `<option value="${s}" ${s===it.status?"selected":""}>${STATUSES[s]}</option>`).join("")}</select></div>
+        <div class="field"><label for="f-type">Kind</label>
+          <select id="f-type">${["task","decision","question"].map(t => `<option value="${t}" ${t===it.type?"selected":""}>${t[0].toUpperCase()+t.slice(1)}</option>`).join("")}</select></div>
+        <div class="field"><label for="f-owner">Owner</label>
+          <select id="f-owner">${TEAM.map(p => `<option ${p===it.owner?"selected":""}>${esc(p)}</option>`).join("")}</select></div>
+        <div class="field"><label for="f-due">Due</label>
+          <input id="f-due" type="date" value="${it.due||""}"></div>
+      </div>
+      <div class="composer">
+        <span class="eyebrow">Log an update</span>
+        <textarea id="newnote" rows="3" placeholder="What changed? Write it as of today — the title never changes."></textarea>
+        <div class="actions">
+          <button class="btn primary sm" id="addnote">Add to history</button>
+          <label class="chip notes" for="noteWho">heard from</label>
+          <select id="noteWho" class="whosel">${TEAM.map(p =>
+            `<option ${p === "You (Regional)" ? "selected" : ""}>${esc(p)}</option>`).join("")}</select>
+        </div>
+      </div>
+      <span class="eyebrow" style="display:block; margin-bottom:12px">History</span>
+      <div class="timeline">${events.map(e => `<div class="tl ${e.sys?"":"mark"}">
+        <div class="when">${fmt(e.date)} &middot; ${daysSince(e.date)}d ago${e.who?` &middot; <span class="who">${esc(e.who)}</span>`:""}</div>
+        <div class="what ${e.sys?"sys":""}">${esc(e.text)}</div>
+      </div>`).join("")}</div>
+    </div>`;
+  d.classList.add("open"); d.setAttribute("aria-hidden","false"); sc.classList.add("open");
+}
+
+/* ---------------- actions ---------------- */
+function record(id, patch, note, who){
+  const it = item(id); if (!it) return;
+  const from = it.status;
+  Object.assign(it, patch);
+  if (patch.status === "done" && !it.completed) it.completed = iso(TODAY);
+  if (patch.status && patch.status !== "done") it.completed = null;
+  if (note) it.updates.push({date:iso(TODAY), who:who || "You (Regional)", text:note});
+  if (state.meeting && (note || (patch.status && patch.status !== from)))
+    state.meeting.changes.push({item:id, from, to:patch.status || from, note:note || ""});
+  save();
+}
+
+function render(){
+  renderRail();
+  if (state.q.trim().length > 1) renderSearch();
+  else if (state.view === "meeting") renderMeeting();
+  else if (state.view === "recap") renderRecap();
+  else if (state.view === "calendar") renderCalendar();
+  else if (state.view === "plan") renderPlan();
+  else renderOverview();
+  renderDrawer();
+  document.getElementById("topbar").style.display = state.view === "meeting" ? "none" : "";
+}
+
+function go(v, opts){
+  state.view = v; state.q = ""; document.getElementById("q").value = "";
+  state.month = (opts && opts.month) || null;
+  if (!opts || !opts.keepFilter) state.filter = "all";
+  render(); window.scrollTo(0,0);
+}
+
+function addItemPrompt(inMeeting){
+  const title = prompt("What is the item?");
+  if (!title || !title.trim()) return;
+  const all = PROGRAM.concat(MONTHS);
+  const bucket = prompt("Where does it go?\n\n" + all.map((b,i)=>(i+1)+". "+b).join("\n"), "1");
+  const b = all[(parseInt(bucket,10)||1)-1] || all[0];
+  const owner = prompt("Who owns it?\n\n" + TEAM.map((p,i)=>(i+1)+". "+p).join("\n"), "1");
+  const o = TEAM[(parseInt(owner,10)||1)-1] || TEAM[0];
+  const it = {
+    id:"n"+Date.now().toString(36), bucket:b, track:isMonth(b)?"calendar":"program",
+    parent:null, title:title.trim(), type:"task", owner:o, status:"not_started",
+    created:iso(TODAY), due:null, completed:null, flagged:false, conflict:null,
+    updates:[{date:iso(TODAY), who:"You (Regional)", text:"Added during the " + (inMeeting?"review":"plan edit") + ". Not in the original document."}]
+  };
+  db.items.push(it);
+  if (inMeeting && state.meeting){ state.meeting.created = state.meeting.created || []; state.meeting.created.push(it.id); }
+  save(); render(); toast("Added to " + b);
+}
+
+document.addEventListener("click", e => {
+  const hit = sel => e.target.closest(sel);
+
+  const nav = hit("[data-nav]"); if (nav){ go(nav.dataset.nav); return; }
+  const mo = hit("[data-month]"); if (mo){ go("calendar", {month:mo.dataset.month}); return; }
+  const f = hit("[data-filter]"); if (f){ state.filter = f.dataset.filter; render(); return; }
+  const bk = hit("[data-bucket]"); if (bk){
+    state.collapsed[bk.dataset.bucket] = !state.collapsed[bk.dataset.bucket]; render(); return;
+  }
+
+  if (hit("#closedrawer") || hit("#scrim")){ state.drawer = null; renderDrawer(); return; }
+  const oi = hit("[data-open-item]"); if (oi){ state.drawer = oi.dataset.openItem; renderDrawer(); return; }
+  const row = hit("[data-item]"); if (row && !hit(".statusgroup") && !hit(".notefield")){
+    state.drawer = row.dataset.item; renderDrawer(); return; }
+
+  if (hit("#addnote")){
+    const v = document.getElementById("newnote").value.trim(); if (!v) return;
+    record(state.drawer, {}, v, (document.getElementById("noteWho")||{}).value);
+    render(); toast("Logged to history"); return;
+  }
+  if (hit("#addbtn")){ addItemPrompt(false); return; }
+  if (hit("#meetadd")){ addItemPrompt(true); return; }
+
+  if (hit("#startmeet")){
+    state.meeting = {date:iso(TODAY), changes:[], created:[]};
+    state.view = "meeting"; state.drawer = null; render(); window.scrollTo(0,0); return;
+  }
+  const set = hit("[data-set]"); if (set){
+    const [id, s] = set.dataset.set.split("|"); record(id, {status:s}); render(); return;
+  }
+  const sn = hit("[data-savenote]"); if (sn){
+    const input = document.querySelector(`[data-note="${sn.dataset.savenote}"]`);
+    const v = input.value.trim(); if (!v) return;
+    record(sn.dataset.savenote, {}, v, (document.querySelector(`[data-who="${sn.dataset.savenote}"]`)||{}).value);
+    render(); toast("Logged"); return;
+  }
+  if (hit("#meetend")){ state.view = "recap"; render(); window.scrollTo(0,0); return; }
+  if (hit("#backtoplan")){ state.meeting = null; go("overview"); return; }
+  if (hit("#copyrecap")){
+    navigator.clipboard.writeText(recapText()).then(
+      () => toast("Recap copied — paste it into the follow-up email"),
+      () => toast("Copy blocked by the browser"));
+    return;
+  }
+  if (hit("#resetbtn")){
+    if (confirm("Discard every status and note you have added and go back to the plan exactly as the Word document left it?")){
+      db = buildSeed(); save(); state.meeting = null; state.drawer = null; go("overview");
+      toast("Back to the imported plan");
+    }
+    return;
+  }
+  if (hit("#themebtn")){
+    const root = document.documentElement, cur = root.getAttribute("data-theme");
+    const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("bcc.theme", next); } catch(err){}
+    return;
+  }
+});
+
+document.addEventListener("change", e => {
+  if (!state.drawer) return;
+  const id = state.drawer, t = e.target;
+  if (t.id === "f-status"){ record(id, {status:t.value}); render(); }
+  if (t.id === "f-type"){ record(id, {type:t.value}); render(); }
+  if (t.id === "f-owner"){ record(id, {owner:t.value}); render(); }
+  if (t.id === "f-due"){ record(id, {due:t.value || null}); render(); }
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && state.drawer){ state.drawer = null; renderDrawer(); }
+  if (e.key === "Enter" && e.target.dataset && e.target.dataset.note){
+    const v = e.target.value.trim(); if (!v) return;
+    record(e.target.dataset.note, {}, v, (document.querySelector(`[data-who="${e.target.dataset.note}"]`)||{}).value);
+    render(); toast("Logged");
+  }
+  if (e.key === "Enter" && e.target.classList && e.target.classList.contains("row")){
+    state.drawer = e.target.dataset.item; renderDrawer();
+  }
+});
+
+document.getElementById("q").addEventListener("input", e => { state.q = e.target.value; render(); });
+try { const th = localStorage.getItem("bcc.theme"); if (th) document.documentElement.setAttribute("data-theme", th); } catch(e){}
+
+render();
+</script>
