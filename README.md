@@ -3,8 +3,18 @@
 A prototype for tracking club game plans across a regional portfolio — the thing a
 OneNote page-per-meeting can't do.
 
-**All clubs, people and data in this repo are fictional.** No real club, member or
-employee information appears anywhere in it.
+## Two builds in this repo
+
+| File | Data | Purpose |
+|---|---|---|
+| `index.html` | **Fictional** — six invented clubs | The demo. Shows the multi-club portfolio rollup. |
+| `bcc-2026.html` | **Real** — BCC's 2026 membership game plan | The working import of an actual club plan. |
+
+`index.html` contains no real club, member or employee information.
+
+`bcc-2026.html` is built from a real Word document (`2026 Game Plan.docx`, 152 items)
+and contains real staff first names and real club strategy. It carries **no member
+data and no financial figures**. It is published here as a worked example of the import.
 
 ## The problem
 
@@ -63,3 +73,27 @@ Everything is vanilla JS. The only network request is the Google Fonts styleshee
   decisions and questions with owners inferred is the next thing worth building.
 
 *Reset demo data* in the sidebar restores the seeded fictional portfolio at any time.
+
+## What the real import showed
+
+Running an actual plan through it surfaced structure the fictional demo never had:
+
+**The document has two tracks, not one.** A standing *program* plan (New Members,
+Ambassador Council, Invitation, Sponsor Recognition, Other — nested three levels deep)
+and a separate *month-by-month calendar* for all of 2026. The board models both.
+
+**The document records no status of any kind.** All 152 items import as
+`Not recorded` — which is the true state of the plan, not a placeholder. That is the
+finding, not a gap in the import: 29 items are past a date the plan itself set, and
+nothing anywhere says whether they happened.
+
+**The document contradicts itself in four places**, none of which Word can flag:
+
+- The Ambassador kickoff meeting is scheduled 2/25 in February and 3/4 in March.
+- May's list says "Send invite for June Member Appreciation on 3/31" — a March date.
+- September's "State of Membership our" is truncated mid-word.
+
+These are surfaced on the overview as *Contradictions inside the document*.
+
+Obvious typos were normalised on import (e.g. "Video of Incitation" → "Video of
+invitation"); every substantive line is kept verbatim.
