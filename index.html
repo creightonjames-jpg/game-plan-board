@@ -5,6 +5,7 @@
 
 <style>
 
+
 :root{
   --paper:#F2F4F4; --surface:#FFFFFF; --surface-2:#E9EDEE; --surface-3:#DEE4E5;
   --line:#D5DCDD; --line-soft:#E4E9EA;
@@ -404,6 +405,126 @@ mark{background:var(--warn-soft); color:inherit; border-radius:2px; padding:0 1p
 .meetline{display:flex; justify-content:space-between; font-size:11.5px; color:var(--ink-3);
   font-family:var(--mono); gap:10px}
 .navitem .tag{margin-left:auto; padding:0 4px; font-size:9px}
+
+
+/* ---- portfolio cards ---- */
+.clubgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:14px}
+.clubcard{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:16px 16px 14px; text-align:left; display:flex; flex-direction:column; gap:12px;
+  transition:border-color .12s, transform .12s}
+.clubcard:hover{border-color:var(--accent-line); transform:translateY(-1px)}
+.clubcard.real{border-left:3px solid var(--accent)}
+.clubcard .name{font-family:var(--display); font-size:17.5px; font-weight:600;
+  letter-spacing:-.01em; line-height:1.2}
+.clubcard .where{margin-top:3px; font-size:11.5px; color:var(--ink-3)}
+.clubcard .gm{font-size:12.5px; color:var(--ink-2)}
+.tag{display:inline-block; padding:1.5px 6px; border-radius:4px; font-family:var(--mono);
+  font-size:10px; letter-spacing:.04em; text-transform:uppercase; font-weight:500;
+  border:1px solid var(--line); color:var(--ink-2); background:var(--surface-2)}
+.tag.live{border-color:var(--accent-line); color:var(--accent); background:var(--accent-soft)}
+.tag.demo{border-style:dashed; color:var(--ink-3)}
+.cardstats{display:flex; gap:16px; border-top:1px solid var(--line-soft); padding-top:11px}
+.cardstats > div:not(.spark){display:flex; flex-direction:column; gap:1px}
+.cardstats .v{font-family:var(--mono); font-size:15px; font-weight:500}
+.cardstats .k{font-size:10.5px; color:var(--ink-3)}
+.cardstats .v.warn{color:var(--warn)} .cardstats .v.crit{color:var(--crit)} .cardstats .v.ok{color:var(--ok)}
+.spark{display:flex; flex-direction:row; align-items:flex-end; gap:3px; height:26px;
+  margin-left:auto; flex:none}
+.spark i{width:7px; height:100%; border-radius:2px; display:flex; align-items:flex-end;
+  background:var(--surface-3); overflow:hidden}
+.spark i b{display:block; width:100%; background:var(--accent-line); border-radius:2px; min-height:2px}
+.spark i:last-child b{background:var(--accent)}
+.meetline{display:flex; justify-content:space-between; font-size:11.5px; color:var(--ink-3);
+  font-family:var(--mono); gap:10px}
+.navitem .tag{margin-left:auto; padding:0 4px; font-size:9px}
+
+/* ---- club sub-nav ---- */
+.tabs{display:flex; gap:2px; border-bottom:1px solid var(--line); margin-bottom:22px; flex-wrap:wrap}
+.tabs button{padding:8px 14px; font-size:13px; color:var(--ink-2); border-bottom:2px solid transparent;
+  margin-bottom:-1px; display:flex; align-items:center; gap:7px}
+.tabs button:hover{color:var(--ink); background:var(--surface-2)}
+.tabs button[aria-current="true"]{color:var(--accent); border-bottom-color:var(--accent); font-weight:600}
+.tabs .n{font-family:var(--mono); font-size:11px; opacity:.7}
+
+/* ---- bucket funnel ---- */
+.funnel{width:100%; border-collapse:collapse}
+.funnel th{text-align:left; font-family:var(--mono); font-size:10.5px; letter-spacing:.07em;
+  text-transform:uppercase; color:var(--ink-3); font-weight:500; padding:9px 12px;
+  border-bottom:1px solid var(--line); background:var(--surface-2); white-space:nowrap}
+.funnel th.r, .funnel td.r{text-align:right}
+.funnel td{padding:10px 12px; border-bottom:1px solid var(--line-soft); font-size:13px; vertical-align:top}
+.funnel tbody tr{cursor:pointer}
+.funnel tbody tr:hover{background:var(--surface-2)}
+.funnel tr.totals td{border-top:2px solid var(--ink); border-bottom:none; font-weight:600;
+  background:var(--surface-2)}
+.funnel .num{font-family:var(--mono); font-variant-numeric:tabular-nums; white-space:nowrap}
+.funnel .bname{font-weight:500}
+.funnel .bnote{display:block; font-size:11.5px; color:var(--ink-3); margin-top:3px; font-weight:400}
+.rate{display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-variant-numeric:tabular-nums}
+.rate i{width:6px; height:6px; border-radius:50%; display:block; flex:none}
+.rate.strong i{background:var(--ok)} .rate.strong{color:var(--ok)}
+.rate.mod i{background:var(--warn)} .rate.mod{color:var(--warn)}
+.rate.low i{background:var(--crit)} .rate.low{color:var(--crit)}
+.mix{display:flex; height:8px; border-radius:4px; overflow:hidden; background:var(--surface-3); margin:2px 0 0}
+.mix i{display:block; height:100%}
+.mixkey{display:flex; flex-wrap:wrap; gap:10px 16px; margin-top:10px}
+.mixkey span{display:inline-flex; align-items:center; gap:6px; font-size:11.5px; color:var(--ink-2)}
+.mixkey i{width:9px; height:9px; border-radius:2px; display:block}
+.gapcard{display:flex; gap:12px; align-items:flex-start; padding:12px 14px;
+  border-bottom:1px solid var(--line-soft)}
+.gapcard:last-child{border-bottom:none}
+.gapcard .g{font-family:var(--mono); font-size:11px; padding:2px 7px; border-radius:20px;
+  background:var(--crit-soft); color:var(--crit); flex:none; font-weight:600}
+.gapcard .g.soft{background:var(--warn-soft); color:var(--warn)}
+.gapcard .gb{flex:1; min-width:0}
+.gapcard .gt{font-size:13.5px}
+.gapcard .gs{font-size:12px; color:var(--ink-2); margin-top:3px; line-height:1.5}
+.goalbar{display:flex; align-items:center; gap:12px; padding:14px 16px; background:var(--surface-2);
+  border-bottom:1px solid var(--line); flex-wrap:wrap}
+.goalbar .lab{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-3)}
+.goalbar .big{font-family:var(--mono); font-size:20px; font-weight:500}
+.goalbar input{width:82px; border:1px solid var(--line); background:var(--surface);
+  border-radius:6px; padding:4px 8px; font-family:var(--mono); font-size:14px; outline:none}
+.goalbar input:focus{border-color:var(--accent)}
+
+/* ---- notes ---- */
+.notebox{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:14px 16px; margin-bottom:18px; display:flex; flex-direction:column; gap:10px}
+.notebox .row2{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.note{display:flex; gap:12px; padding:14px 16px; border-bottom:1px solid var(--line-soft)}
+.note:last-child{border-bottom:none}
+.note.pin{background:var(--warn-soft)}
+.note .meta{flex:none; width:104px}
+.note .meta .d{font-family:var(--mono); font-size:11.5px; color:var(--ink-2); font-weight:500}
+.note .meta .w{font-size:11px; color:var(--ink-3); margin-top:2px}
+.note .body{flex:1; min-width:0; font-size:13.5px; line-height:1.55; white-space:pre-wrap}
+.note .acts{flex:none; display:flex; gap:6px; align-items:flex-start}
+.iconbtn{font-family:var(--mono); font-size:11px; color:var(--ink-3); padding:2px 7px;
+  border:1px solid transparent; border-radius:5px}
+.iconbtn:hover{border-color:var(--line); color:var(--ink)}
+.iconbtn.on{color:var(--warn); font-weight:600}
+
+/* ---- summaries ---- */
+.sumgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px}
+.sumcard{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:14px 15px; text-align:left; display:flex; flex-direction:column; gap:7px}
+.sumcard:hover{border-color:var(--accent-line)}
+.sumcard .k{font-family:var(--mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase}
+.sumcard .k.month{color:var(--accent)} .sumcard .k.visit{color:var(--warn)}
+.sumcard .t{font-family:var(--display); font-size:16px; font-weight:600; line-height:1.25}
+.sumcard .x{font-size:11.5px; color:var(--ink-3); font-family:var(--mono)}
+.sumcard .p{font-size:12.5px; color:var(--ink-2); line-height:1.5;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+.editor{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 24px; max-width:820px}
+.editor .ehead{display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:16px;
+  padding-bottom:16px; border-bottom:1px solid var(--line)}
+.editor input.title{flex:1; min-width:220px; border:none; background:none; outline:none;
+  font-family:var(--display); font-size:22px; font-weight:600; letter-spacing:-.01em; color:var(--ink)}
+.editor textarea{min-height:420px; font-size:14px; line-height:1.65}
+.editor .foot{display:flex; gap:8px; align-items:center; margin-top:14px; flex-wrap:wrap}
+.editor .saved{font-size:11.5px; color:var(--ink-3); font-family:var(--mono); margin-left:auto}
 </style>
 
 <div class="app">
@@ -421,12 +542,11 @@ mark{background:var(--warn-soft); color:inherit; border-radius:2px; padding:0 1p
       <div class="eyebrow" style="line-height:1.5">Balcones is a real plan.<br>The other six are invented.</div>
     </div>
   </nav>
-
   <main>
     <div class="topbar" id="topbar">
       <div class="search">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
-        <input id="q" type="search" placeholder="Search every club, item and note&hellip;" autocomplete="off">
+        <input id="q" type="search" placeholder="Search plans, notes and summaries&hellip;" autocomplete="off">
       </div>
       <div class="spacer"></div>
       <button class="btn ghost sm" id="themebtn">Theme</button>
@@ -434,7 +554,6 @@ mark{background:var(--warn-soft); color:inherit; border-radius:2px; padding:0 1p
     <div id="view"></div>
   </main>
 </div>
-
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-hidden="true"></aside>
 <div class="toast" id="toast"></div>
@@ -453,22 +572,17 @@ const daysSince = d => daysBetween(d, iso(TODAY));
 const MONTHS = ["January","February","March","April","May","June",
                 "July","August","September","October","November","December"];
 const isMonth = b => MONTHS.indexOf(b) !== -1;
-
 const BAL_BUCKETS = ["New Members","Ambassador Council","Invitation","Sponsor Recognition","Other"];
 const STD_BUCKETS = ["Membership Sales","Lead Generation","Retention & Engagement",
   "Board & Governance","Events & Programming","Operations","Capital & Facilities"];
-
 const BAL_TEAM = ["Unassigned","James","Emily","Lindsey","Todd","Alejandro","Zahra Dixon",
   "Patrick","Francis","Charlie","William","Carol","BOG","Ambassador Council","GM","You (Regional)"];
-
 const PLAN_CREATED = "2025-12-18";
 const DOC_HISTORY = [
   {date:"2025-12-18", who:"Lisa Henrichsen", text:"2026 Game Plan created."},
   {date:"2025-12-19", who:"Lisa Henrichsen", text:"Plan printed — matches the “Meet with Zahra to establish 12/19/25” line."},
   {date:"2026-02-12", who:"Lindsey Jenkins", text:"Last edit to the document (revision 55). Nothing has been recorded in it since."}
 ];
-
-/* Balcones Country Club — imported verbatim from 2026 Game Plan.docx */
 const SEED_BAL = [
 /* ===================== PROGRAM TRACK ===================== */
 {b:"New Members",k:"nm1",t:"Welcome call and email from James/Emily",o:"James"},
@@ -646,8 +760,6 @@ const SEED_BAL = [
 {b:"December",t:"Update collateral"},
 {b:"December",t:"Meet with Zahra for Ambassador Council 2027",o:"Zahra Dixon"}
 ];
-
-/* Six invented clubs, for showing the portfolio rollup */
 const DEMO_CLUBS = [
   {id:"cr", name:"Cedar Ridge Country Club", short:"Cedar Ridge", kind:"Private", loc:"Austin, TX",
    gm:"Marcus Webb", last:12, next:9,
@@ -852,17 +964,78 @@ const SEED_DEMO = [
  u:[[31,"Tess Nakamura (GM)","Deferred to spring. Patching the worst of it before the freeze."]]}
 ];
 
-const BALCONES = {
-  id:"bal", name:"Balcones Country Club", short:"Balcones", kind:"Private", loc:"Austin, TX",
-  gm:"James", real:true, calendar:true, buckets:BAL_BUCKETS, team:BAL_TEAM,
-  plan:"2026 Membership Game Plan",
-  source:"2026 Game Plan.docx · Lisa Henrichsen · rev 55",
-  last:null, next:null
+/* ============================================================
+   Lead buckets — how the business is actually measured.
+   Balcones numbers are real, from BucketAnalysis_AllClubs.xlsx
+   (Jan 1 2025 — present). Closing rate, % of adds and leads
+   needed are computed with the workbook's own formulas:
+     closeRate   = adds / leads
+     pctOfAdds   = adds / total adds
+     leadsNeeded = CEILING(goal * bucketLeads / totalLeads)
+   The six demo clubs carry invented numbers.
+   ============================================================ */
+const FUNNELS = {
+  bal: {goal:400, real:true, period:"Jan 1, 2025 — present",
+    source:"BucketAnalysis_AllClubs.xlsx", rows:[
+    {k:"ms",  n:"Member Sponsors (incl. Hosted Guests)", leads:221, adds:146, note:"Hosted Guests rolled into this bucket per club tracking"},
+    {k:"nm",  n:"New Members",                leads:185, adds:140},
+    {k:"sh",  n:"Showcase / Events",          leads:0,   adds:0,  note:"Not currently used at this club"},
+    {k:"nh",  n:"New Homeowners / Realtors",  leads:56,  adds:28},
+    {k:"ri",  n:"Reinstates",                 leads:39,  adds:30, note:"Strong closing rate"},
+    {k:"wi",  n:"Walk-Ins",                   leads:30,  adds:2,  note:"High leads, low close — review follow-up process"},
+    {k:"jr",  n:"Jr Programs (Golf + Tennis)",leads:17,  adds:7},
+    {k:"ca",  n:"Catering / Events",          leads:8,   adds:4},
+    {k:"web", n:"Web Inquiries / Other",      leads:123, adds:20, note:"Low close rate — follow-up or qualification issue"}
+  ]},
+  cr: {goal:120, rows:[
+    {k:"ms",n:"Member Sponsors",leads:96,adds:44},{k:"nm",n:"New Members",leads:40,adds:18},
+    {k:"nh",n:"New Homeowners / Realtors",leads:62,adds:14},{k:"ri",n:"Reinstates",leads:12,adds:7},
+    {k:"wi",n:"Walk-Ins",leads:18,adds:1,note:"Nobody owns walk-in follow-up"},
+    {k:"web",n:"Web Inquiries / Other",leads:74,adds:9},{k:"jr",n:"Jr Programs",leads:9,adds:3},
+    {k:"sh",n:"Showcase / Events",leads:22,adds:5}
+  ]},
+  hb: {goal:300, rows:[
+    {k:"web",n:"Web Inquiries / Other",leads:210,adds:38,note:"Third-party channel dominates"},
+    {k:"ms",n:"Member Sponsors",leads:64,adds:29},{k:"wi",n:"Walk-Ins",leads:96,adds:22},
+    {k:"ca",n:"Catering / Events",leads:41,adds:19},{k:"jr",n:"Jr Programs",leads:12,adds:4},
+    {k:"nm",n:"New Members",leads:18,adds:6}
+  ]},
+  wh: {goal:200, rows:[
+    {k:"ms",n:"Member Sponsors",leads:140,adds:61},{k:"nm",n:"New Members",leads:34,adds:19},
+    {k:"nh",n:"New Homeowners / Realtors",leads:48,adds:12},{k:"ri",n:"Reinstates",leads:21,adds:14},
+    {k:"wi",n:"Walk-Ins",leads:26,adds:2},{k:"web",n:"Web Inquiries / Other",leads:88,adds:11},
+    {k:"sh",n:"Showcase / Events",leads:0,adds:0,note:"Paused during the assessment vote"}
+  ]},
+  pt: {goal:180, rows:[
+    {k:"wi",n:"Walk-Ins",leads:132,adds:34},{k:"web",n:"Web Inquiries / Other",leads:104,adds:16},
+    {k:"ca",n:"Catering / Events",leads:52,adds:21},{k:"ms",n:"Member Sponsors",leads:38,adds:17},
+    {k:"jr",n:"Jr Programs",leads:24,adds:9},{k:"nh",n:"New Homeowners / Realtors",leads:31,adds:6}
+  ]},
+  tw: {goal:150, rows:[
+    {k:"ms",n:"Member Sponsors",leads:118,adds:57},{k:"nm",n:"New Members",leads:29,adds:16},
+    {k:"ri",n:"Reinstates",leads:18,adds:11},{k:"nh",n:"New Homeowners / Realtors",leads:22,adds:5},
+    {k:"jr",n:"Jr Programs (Racquets)",leads:41,adds:18,note:"Racquets is the growth engine here"},
+    {k:"wi",n:"Walk-Ins",leads:14,adds:1},{k:"web",n:"Web Inquiries / Other",leads:61,adds:7}
+  ]},
+  sc: {goal:260, rows:[
+    {k:"web",n:"Web Inquiries / Other",leads:188,adds:41,note:"GolfNow-driven"},
+    {k:"wi",n:"Walk-Ins",leads:120,adds:31},{k:"jr",n:"Jr Programs",leads:46,adds:19},
+    {k:"ca",n:"Catering / Events",leads:33,adds:8},{k:"ms",n:"Member Sponsors",leads:27,adds:12}
+  ]}
 };
-const CLUBS = [BALCONES].concat(DEMO_CLUBS.map(c => Object.assign({}, c, {
-  real:false, calendar:false, buckets:STD_BUCKETS,
-  team:(c.team||[]).concat(c.team && c.team.indexOf("Unassigned") === -1 ? ["Unassigned"] : [])
-})));
+
+/* Which game-plan items serve which bucket. Curated, first match wins,
+   and editable per item in the drawer. Anything unmatched stays
+   unassigned on purpose — uncovered buckets are the finding. */
+const TAG_RULES = [
+  [/^(Welcome call|Invite to brunch|Review new members weekly|Invite new members to the new member mixer|Host New Member|30-60-90|30 day|60 day|90 day|1st Tuesday|2nd Tuesday|3rd Tuesday|4th Tuesday|Welcome swag|Tennis — a tennis towel|Golf — Todd makes bag tags|Golf orientation book|Staff inviting|Encourage golf guests|Call and introduce self|Get William|Tennis welcome|Give a towel|New member orientation|Leagues and event boards|Member appreciation events|New Member Mixers|Help introduce them|Get AC and BOG|Invite elite sponsors|New member dinners|2 a year|Have Ambassador Council, Boards|Guest list|Contact member host|ACT research|Have an invitation prepared|Send invite for New Member Dinner|New Member Dinner|NM Guest Day|NM luncheon|NMG COMPLETED|Promote ACT email)/, "nm"],
+  [/(Partners|Invitational|[Ll]eaderboard|[Ii]nvitation|Ambassador|Elite Benefits|Sponsor Brunch|thank-you notes to sponsors|^Recognition|slide show)/, "ms"],
+  [/(REINSTATE|Reinstate|[Uu]pgrade)/, "ri"],
+  [/([Hh]omeowner)/, "nh"],
+  [/(SHOWCASE)/, "sh"],
+  [/(Facebook)/, "web"],
+  [/(tennis IF increase|tennis increase)/, "jr"]
+];
 
 const STATUSES = {unrecorded:"Not recorded", not_started:"Not started", in_progress:"In progress",
                   done:"Done", parked:"Parked", dropped:"Dropped"};
@@ -870,61 +1043,90 @@ const OPEN = s => s === "unrecorded" || s === "not_started" || s === "in_progres
 const TRACKED = s => s === "not_started" || s === "in_progress";
 const STALL_DAYS = 30;
 
+const DEMO_MEETINGS = [
+  {c:"cr",d:12,kind:"Club visit"},{c:"cr",d:47,kind:"Club visit"},{c:"cr",d:61,kind:"Club visit"},
+  {c:"hb",d:5,kind:"Call"},{c:"hb",d:20,kind:"Call"},{c:"hb",d:47,kind:"Club visit"},
+  {c:"wh",d:26,kind:"Club visit"},{c:"wh",d:47,kind:"Call"},
+  {c:"pt",d:19,kind:"Club visit"},{c:"pt",d:38,kind:"Call"},
+  {c:"tw",d:41,kind:"Call"},{c:"tw",d:62,kind:"Club visit"},
+  {c:"sc",d:9,kind:"Call"},{c:"sc",d:38,kind:"Club visit"}
+];
+
+/* A few seeded notes and one seeded summary, so the sections aren't empty */
+const SEED_NOTES = [
+  {c:"bal",d:3,w:"You (Regional)",t:"Walked the racquets courts with Alejandro. Court time is the real constraint on the tennis fee increase — he thinks a 5th court pays for itself inside two seasons. Not a game plan item yet, parking it here.",tag:"jr"},
+  {c:"bal",d:9,w:"Lindsey",t:"Lindsey mentioned the guest tablet data is piling up and nobody works it weekly. Same gap the 2026 plan flagged in the New Members section and never closed.",tag:"nm"},
+  {c:"bal",d:16,w:"You (Regional)",t:"Sat in on a front desk shift. Two walk-ins came through in an hour and neither got a follow-up card or an email capture. This is why the walk-in bucket closes at 7%.",tag:"wi",pin:1},
+  {c:"bal",d:31,w:"James",t:"James is worried the January arbitration outcome changes the offer math for the whole year. Wants to revisit before the board packet goes out.",tag:null},
+  {c:"cr",d:6,w:"You (Regional)",t:"Marcus is stretched thin covering the membership director vacancy. Worth revisiting the Q4 bucket targets — they assume a person who isn't there.",tag:null},
+  {c:"tw",d:12,w:"You (Regional)",t:"Racquets growth at Thornwood is outrunning the plan. 41 leads, 18 adds, and no game plan item pointed at it at all.",tag:"jr",pin:1}
+];
+const SEED_SUMMARIES = [
+  {c:"bal", kind:"visit", d:16, title:"Site visit — Balcones",
+   body:"WHO I SAW\nJames, Lindsey, Alejandro, Todd (briefly, between lessons).\n\nWHAT I CAME FOR\nThe 2026 game plan has not been touched in the document since February. Wanted to see how much of it is actually running.\n\nWHAT I FOUND\nMost of the New Members machinery is running — the 30/60/90 calls happen, the mixers happen, the swag exists. It is the measurement that has stopped, not the work. Nobody could tell me which items were done without going person to person.\n\nThe walk-in and web buckets are the soft spot. 153 leads between them since Jan 2025, 22 adds. I watched two walk-ins get no capture at all.\n\nWHAT WE AGREED\n- Lindsey pulls the guest tablet list every Monday, not \"when there's time\".\n- Front desk gets a one-page walk-in script before the next visit.\n- Tennis fee rollout comms owed back to the board by 10/1.\n\nWHAT I OWE THEM\nThe referral incentive structure draft, and a read on whether a 5th court pencils."}
+];
+
+function tagFor(title){
+  for (const [re,k] of TAG_RULES) if (re.test(title)) return k;
+  return null;
+}
+
 function buildSeed(){
   const keyed = {}, items = [];
   SEED_BAL.forEach((s,i) => {
     const id = "bal-" + String(i).padStart(3,"0");
     if (s.k) keyed["bal:" + s.k] = id;
-    items.push({
-      id, club:"bal", bucket:s.b, track: isMonth(s.b) ? "calendar" : "program",
-      _pkey: s.p ? "bal:" + s.p : null, parent:null,
-      title:s.t, type:s.ty || "task", owner:s.o || "Unassigned",
-      status:"unrecorded", created:PLAN_CREATED, due:s.d || null, completed:null,
-      flagged:!!s.f, conflict:s.x || null, imported:true, updates:[]
-    });
+    items.push({id, club:"bal", bucket:s.b, track: isMonth(s.b) ? "calendar" : "program",
+      _pkey: s.p ? "bal:" + s.p : null, parent:null, title:s.t, type:s.ty || "task",
+      owner:s.o || "Unassigned", status:"unrecorded", created:PLAN_CREATED, due:s.d || null,
+      completed:null, flagged:!!s.f, conflict:s.x || null, imported:true,
+      lead:tagFor(s.t), updates:[]});
   });
   SEED_DEMO.forEach((s,i) => {
     const id = s.c + "-" + String(i).padStart(3,"0");
     if (s.k) keyed[s.c + ":" + s.k] = id;
-    items.push({
-      id, club:s.c, bucket:s.b, track:"program",
-      _pkey: s.p ? s.c + ":" + s.p : null, parent:null,
-      title:s.t, type:s.ty || "task", owner:s.o, status:s.s,
-      created:ago(s.cr), due: s.du === undefined ? null : (s.du >= 0 ? ahead(s.du) : ago(-s.du)),
+    items.push({id, club:s.c, bucket:s.b, track:"program",
+      _pkey: s.p ? s.c + ":" + s.p : null, parent:null, title:s.t, type:s.ty || "task",
+      owner:s.o, status:s.s, created:ago(s.cr),
+      due: s.du === undefined ? null : (s.du >= 0 ? ahead(s.du) : ago(-s.du)),
       completed: s.dn === undefined ? null : ago(s.dn),
-      flagged:false, conflict:null, imported:false,
-      updates:(s.u || []).map(u => ({date:ago(u[0]), who:u[1], text:u[2]}))
-    });
+      flagged:false, conflict:null, imported:false, lead:null,
+      updates:(s.u || []).map(u => ({date:ago(u[0]), who:u[1], text:u[2]}))});
   });
   items.forEach(it => { if (it._pkey) it.parent = keyed[it._pkey] || null; delete it._pkey; });
   const meetings = DEMO_MEETINGS.map((m,i) => ({id:"m"+i, club:m.c, date:ago(m.d), kind:m.kind, changes:[], closed:true}));
-  return {items, meetings, v:3};
+  const notes = SEED_NOTES.map((n,i) => ({id:"n"+i, club:n.c, date:ago(n.d), who:n.w,
+    text:n.t, tag:n.tag || null, pinned:!!n.pin}));
+  const summaries = SEED_SUMMARIES.map((s,i) => ({id:"s"+i, club:s.c, kind:s.kind,
+    date:ago(s.d), title:s.title, body:s.body, created:ago(s.d), updated:ago(s.d)}));
+  const goals = {}; Object.keys(FUNNELS).forEach(k => goals[k] = FUNNELS[k].goal);
+  return {items, meetings, notes, summaries, goals, v:4};
 }
 
-const DEMO_MEETINGS = [
-  {c:"cr", d:12, kind:"Club visit"}, {c:"cr", d:47, kind:"Club visit"}, {c:"cr", d:61, kind:"Club visit"},
-  {c:"hb", d:5, kind:"Call"}, {c:"hb", d:20, kind:"Call"}, {c:"hb", d:47, kind:"Club visit"},
-  {c:"wh", d:26, kind:"Club visit"}, {c:"wh", d:47, kind:"Call"},
-  {c:"pt", d:19, kind:"Club visit"}, {c:"pt", d:38, kind:"Call"},
-  {c:"tw", d:41, kind:"Call"}, {c:"tw", d:62, kind:"Club visit"},
-  {c:"sc", d:9, kind:"Call"}, {c:"sc", d:38, kind:"Club visit"}
-];
-
-const KEY = "clubplans.v3";
+const KEY = "clubplans.v4";
 let db;
 try {
   const raw = localStorage.getItem(KEY);
   db = raw ? JSON.parse(raw) : buildSeed();
-  if (!db || !db.items || db.v !== 3) db = buildSeed();
+  if (!db || !db.items || db.v !== 4) db = buildSeed();
 } catch(e){ db = buildSeed(); }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(db)); } catch(e){} }
 
-const state = {view:"portfolio", club:null, filter:"all", month:null, q:"",
-               drawer:null, meeting:null, collapsed:{}};
+const state = {view:"portfolio", club:null, tab:"plan", filter:"all", month:null, q:"",
+               drawer:null, meeting:null, editing:null, collapsed:{}};
+
+const BALCONES = {id:"bal", name:"Balcones Country Club", short:"Balcones", kind:"Private",
+  loc:"Austin, TX", gm:"James", real:true, calendar:true, buckets:BAL_BUCKETS, team:BAL_TEAM,
+  plan:"2026 Membership Game Plan", source:"2026 Game Plan.docx · Lisa Henrichsen · rev 55"};
+const CLUBS = [BALCONES].concat(DEMO_CLUBS.map(c => Object.assign({}, c, {
+  real:false, calendar:false, buckets:STD_BUCKETS})));
 
 const club = id => CLUBS.find(c => c.id === id);
 const item = id => db.items.find(i => i.id === id);
 const clubItems = id => db.items.filter(i => i.club === id);
+const clubNotes = id => db.notes.filter(n => n.club === id)
+  .sort((a,b) => (b.pinned?1:0)-(a.pinned?1:0) || b.date.localeCompare(a.date));
+const clubSums = id => db.summaries.filter(s => s.club === id).sort((a,b) => b.date.localeCompare(a.date));
 const monthItems = (cid,m) => db.items.filter(i => i.club === cid && i.bucket === m);
 const lastTouch = it => {
   const u = it.updates.length ? it.updates[it.updates.length-1].date : it.created;
@@ -938,43 +1140,65 @@ const carryOver = it => db.meetings.filter(m => m.club === it.club && m.closed &
 const meetingsFor = id => db.meetings.filter(m => m.club === id && m.closed).sort((a,b) => b.date.localeCompare(a.date));
 const monthIndex = () => TODAY.getMonth();
 
+/* ---- funnel math, the workbook's formulas ---- */
+function funnel(cid){
+  const f = FUNNELS[cid]; if (!f) return null;
+  const goal = (db.goals && db.goals[cid]) || f.goal;
+  const totalLeads = f.rows.reduce((a,r) => a + r.leads, 0);
+  const totalAdds  = f.rows.reduce((a,r) => a + r.adds, 0);
+  const rows = f.rows.map(r => ({
+    ...r,
+    closeRate: r.leads ? r.adds / r.leads : null,
+    pctOfAdds: totalAdds ? r.adds / totalAdds : 0,
+    leadsNeeded: totalLeads ? Math.ceil(goal * r.leads / totalLeads) : 0,
+    items: clubItems(cid).filter(i => i.lead === r.k)
+  }));
+  return {rows, totalLeads, totalAdds, goal, real:!!f.real,
+    period:f.period || "Rolling 12 months (demo data)", source:f.source || null,
+    overall: totalLeads ? totalAdds / totalLeads : 0};
+}
+const rateClass = r => r === null ? "" : r >= .5 ? "strong" : r >= .25 ? "mod" : "low";
+const pct = v => v === null || v === undefined ? "—" : Math.round(v*100) + "%";
+const pct1 = v => (v*100).toFixed(1) + "%";
+const BCOLORS = ["#14606F","#9A7318","#2F7A4F","#A93B2A","#4F6D8C","#7A5C8E","#8C6A3F","#3F8C86","#8C3F6A"];
+
+function gaps(cid){
+  const f = funnel(cid); if (!f) return [];
+  return f.rows.filter(r => r.leads > 0)
+    .map(r => ({...r, n:r.n, activity:r.items.length}))
+    .filter(r => r.activity === 0 || (r.closeRate !== null && r.closeRate < .25))
+    .sort((a,b) => b.leads - a.leads);
+}
+
 function clubStats(id){
   const l = clubItems(id);
-  return {
-    total:l.length,
-    open:l.filter(i => OPEN(i.status)).length,
+  return {total:l.length, open:l.filter(i => OPEN(i.status)).length,
     unrecorded:l.filter(i => i.status === "unrecorded").length,
-    stalled:l.filter(isStalled).length,
-    overdue:l.filter(isOverdue).length,
+    stalled:l.filter(isStalled).length, overdue:l.filter(isOverdue).length,
     closed30:l.filter(i => i.completed && daysSince(i.completed) <= 30).length,
     questions:l.filter(i => i.type === "question" && OPEN(i.status)).length,
-    done:l.filter(i => i.status === "done").length
-  };
+    unassigned:l.filter(i => !i.lead).length};
 }
 function momentum(id){
   const l = clubItems(id).filter(i => i.completed);
   return [4,3,2,1,0].map(b => l.filter(i => {
-    const d = daysSince(i.completed);
-    return d >= b*30 && d < (b+1)*30;
-  }).length);
+    const d = daysSince(i.completed); return d >= b*30 && d < (b+1)*30; }).length);
 }
 
-const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const fmt = d => new Date(d+"T12:00:00").toLocaleDateString(undefined,{month:"short", day:"numeric"});
 const fmtDay = d => new Date(d+"T12:00:00").toLocaleDateString(undefined,{month:"numeric", day:"numeric"});
 const fmtLong = d => new Date(d+"T12:00:00").toLocaleDateString(undefined,{weekday:"long", month:"long", day:"numeric", year:"numeric"});
-function relDue(d){
-  const n = daysSince(d);
-  if (n === 0) return "due today";
-  return n > 0 ? n + "d overdue" : "due " + fmt(d);
-}
+const fmtMed = d => new Date(d+"T12:00:00").toLocaleDateString(undefined,{month:"short", day:"numeric", year:"numeric"});
+function relDue(d){ const n = daysSince(d); return n === 0 ? "due today" : n > 0 ? n+"d overdue" : "due "+fmt(d); }
 function toast(msg){
   const t = document.getElementById("toast");
   t.textContent = msg; t.classList.add("show");
   clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2400);
 }
-const teamOf = cid => (club(cid).team || []).concat(["You (Regional)"])
-  .filter((v,i,a) => a.indexOf(v) === i);
+const teamOf = cid => (club(cid).team || []).concat(["You (Regional)"]).filter((v,i,a) => a.indexOf(v) === i);
+const bucketName = (cid,k) => { const f = FUNNELS[cid]; if (!f || !k) return null;
+  const r = f.rows.find(x => x.k === k); return r ? r.n : null; };
 
 const view = document.getElementById("view");
 
@@ -982,67 +1206,57 @@ function renderRail(){
   document.querySelector('[data-nav="portfolio"]')
     .setAttribute("aria-current", state.view === "portfolio" ? "true" : "false");
   document.getElementById("clublist").innerHTML = CLUBS.map(c => {
-    const s = clubStats(c.id);
-    const flag = s.overdue + s.stalled;
-    const on = state.club === c.id && state.view !== "portfolio";
-    return `<button class="navitem" data-club="${c.id}" aria-current="${on}">
+    const s = clubStats(c.id), flag = s.overdue + s.stalled;
+    return `<button class="navitem" data-club="${c.id}" aria-current="${state.club===c.id && state.view!=="portfolio"}">
       <span class="dot"></span>${esc(c.short)}
       ${c.real ? `<span class="tag live">real</span>` : ""}
-      <span class="count ${flag ? "flag":""}">${flag ? flag + "!" : s.open}</span>
-    </button>`;
+      <span class="count ${flag?"flag":""}">${flag ? flag+"!" : s.open}</span></button>`;
   }).join("");
-
   const c = state.club ? club(state.club) : null;
-  document.getElementById("monthnav").innerHTML = (c && c.calendar && state.view !== "portfolio")
+  document.getElementById("monthnav").innerHTML =
+    (c && c.calendar && state.view === "club" && state.tab === "calendar")
     ? `<div class="railhead"><span class="eyebrow">${esc(c.short)} &middot; months</span></div>` +
       MONTHS.map((m,idx) => {
         const l = monthItems(c.id,m), over = l.filter(isOverdue).length;
-        const cls = idx < monthIndex() ? "past" : idx === monthIndex() ? "now" : "";
-        return `<button class="navitem mo ${cls}" data-month="${m}">
+        return `<button class="navitem mo ${idx<monthIndex()?"past":idx===monthIndex()?"now":""}" data-month="${m}">
           <span class="dot"></span>${m}
-          <span class="count ${over?"flag":""}">${over ? over+"!" : l.length}</span></button>`;
-      }).join("")
-    : "";
+          <span class="count ${over?"flag":""}">${over?over+"!":l.length}</span></button>`;
+      }).join("") : "";
 }
 
 function provenance(){
-  const conflicts = clubItems("bal").filter(i => i.conflict).length;
-  const n = clubItems("bal").length;
+  const n = clubItems("bal").length, conflicts = clubItems("bal").filter(i => i.conflict).length;
   return `<div class="provenance"><div class="body">
     <span class="eyebrow">Imported, not invented</span>
     All ${n} Balcones items come from <b>2026 Game Plan.docx</b> (Lisa Henrichsen, revision 55,
     last edited by Lindsey Jenkins on 12 Feb 2026). The document records <b>no status of any kind</b>,
-    so everything imported as <b>Not recorded</b> — that is the true state of the plan, not a
-    placeholder. Dates appear only where the document states one. Yellow highlighting is kept as
-    <b>flagged</b>, and the ${conflicts} places where the document contradicts itself are marked as
-    <b>source conflicts</b>.
+    so everything imported as <b>Not recorded</b>. Dates appear only where the document states one.
+    Yellow highlighting is kept as <b>flagged</b>, and the ${conflicts} places where the document
+    contradicts itself are marked as <b>source conflicts</b>.
   </div></div>`;
 }
 
 /* ---------------- portfolio ---------------- */
 function renderPortfolio(){
   const all = db.items;
-  const open = all.filter(i => OPEN(i.status));
-  const unrec = all.filter(i => i.status === "unrecorded");
-  const overdue = all.filter(isOverdue);
-  const stalled = all.filter(isStalled);
+  const open = all.filter(i => OPEN(i.status)), unrec = all.filter(i => i.status === "unrecorded");
+  const overdue = all.filter(isOverdue), stalled = all.filter(isStalled);
   const questions = all.filter(i => i.type === "question" && OPEN(i.status));
-  const closed30 = all.filter(i => i.completed && daysSince(i.completed) <= 30);
-
   const attention = overdue.concat(stalled.filter(i => !isOverdue(i)))
     .sort((a,b) => {
-      const ao = isOverdue(a) ? daysSince(a.due) : -1, bo = isOverdue(b) ? daysSince(b.due) : -1;
-      return bo - ao || ageDays(b) - ageDays(a);
-    }).slice(0,14);
+      const ao = isOverdue(a)?daysSince(a.due):-1, bo = isOverdue(b)?daysSince(b.due):-1;
+      return bo-ao || ageDays(b)-ageDays(a); }).slice(0,12);
+  const ranked = CLUBS.map(c => ({c, f:funnel(c.id)})).filter(x => x.f)
+    .sort((a,b) => b.f.overall - a.f.overall);
+  const allGaps = CLUBS.flatMap(c => gaps(c.id).map(g => ({...g, club:c})))
+    .sort((a,b) => b.leads - a.leads).slice(0,8);
 
   view.innerHTML = `<div class="wrap">
-    <div class="pagehead">
-      <div>
-        <span class="eyebrow">Portfolio</span>
-        <h2>Seven clubs, one game plan each</h2>
-        <p class="meta">${all.length} tracked items &middot; Balcones is a real imported plan, the other six are invented demo data</p>
-      </div>
-    </div>
+    <div class="pagehead"><div>
+      <span class="eyebrow">Portfolio</span>
+      <h2>Seven clubs, one game plan each</h2>
+      <p class="meta">${all.length} tracked items &middot; Balcones is a real imported plan, the other six are invented demo data</p>
+    </div></div>
 
     <div class="stats">
       <div class="stat"><div class="n">${open.length}</div><div class="l">Open commitments</div></div>
@@ -1050,48 +1264,84 @@ function renderPortfolio(){
       <div class="stat crit"><div class="n">${unrec.length}</div><div class="l">No status recorded</div></div>
       <div class="stat warn"><div class="n">${stalled.length}</div><div class="l">Silent 30+ days</div></div>
       <div class="stat warn"><div class="n">${questions.length}</div><div class="l">Open questions</div></div>
-      <div class="stat ok"><div class="n">${closed30.length}</div><div class="l">Closed in 30 days</div></div>
+      <div class="stat ok"><div class="n">${db.notes.length + db.summaries.length}</div><div class="l">Notes &amp; summaries</div></div>
     </div>
 
-    <div class="clubgrid">${CLUBS.map(c => {
-      const s = clubStats(c.id), m = momentum(c.id), peak = Math.max(1, ...m);
-      return `<button class="clubcard ${c.real?"real":""}" data-open="${c.id}">
-        <div>
-          <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-start">
-            <div>
-              <div class="name">${esc(c.short)}</div>
-              <div class="where">${esc(c.loc)}</div>
+    <div class="section" style="margin-top:0">
+      <div class="sectionhead"><h3>Where the adds actually come from</h3>
+        <span class="note">Ranked by overall closing rate &mdash; leads to adds, not task counts</span></div>
+      <div class="panel tablewrap">
+        <table class="funnel">
+          <thead><tr><th>Club</th><th class="r">Leads</th><th class="r">Adds</th><th class="r">Close</th>
+            <th class="r">Goal</th><th>Biggest bucket</th><th>Mix</th></tr></thead>
+          <tbody>${ranked.map(({c,f}) => {
+            const top = f.rows.slice().sort((a,b) => b.adds - a.adds)[0];
+            return `<tr data-club="${c.id}" data-tab="buckets">
+              <td>${esc(c.short)} ${c.real?`<span class="tag live">real</span>`:""}</td>
+              <td class="r num">${f.totalLeads}</td>
+              <td class="r num">${f.totalAdds}</td>
+              <td class="r"><span class="rate ${rateClass(f.overall)}"><i></i>${pct(f.overall)}</span></td>
+              <td class="r num">${f.goal}</td>
+              <td>${esc(top.n)} <span class="num" style="color:var(--ink-3)">${pct1(top.pctOfAdds)}</span></td>
+              <td style="min-width:120px"><span class="mix">${f.rows.map((r,i) =>
+                r.pctOfAdds ? `<i style="width:${r.pctOfAdds*100}%; background:${BCOLORS[i%BCOLORS.length]}"></i>` : "").join("")}</span></td>
+            </tr>`;}).join("")}</tbody>
+        </table>
+      </div>
+    </div>
+
+    ${allGaps.length ? `<div class="section">
+      <div class="sectionhead"><h3>Buckets the game plans aren't covering</h3>
+        <span class="note">Real lead volume, no activity pointed at it or closing under 25%</span></div>
+      <div class="panel">${allGaps.map(g => `<div class="gapcard">
+        <span class="g ${g.activity ? "soft":""}">${g.activity ? pct(g.closeRate) : "0 items"}</span>
+        <div class="gb">
+          <div class="gt">${esc(g.n)} &middot; ${esc(g.club.short)}</div>
+          <div class="gs">${g.leads} leads produced ${g.adds} add${g.adds===1?"":"s"}${
+            g.activity === 0
+              ? `. Nothing in the game plan is aimed at this bucket.`
+              : `, and only ${g.activity} game-plan item${g.activity===1?"":"s"} point${g.activity===1?"s":""} at it.`}</div>
+        </div>
+      </div>`).join("")}</div>
+    </div>` : ""}
+
+    <div class="section">
+      <div class="sectionhead"><h3>Clubs</h3></div>
+      <div class="clubgrid">${CLUBS.map(c => {
+        const s = clubStats(c.id), m = momentum(c.id), peak = Math.max(1,...m), f = funnel(c.id);
+        return `<button class="clubcard ${c.real?"real":""}" data-open="${c.id}">
+          <div>
+            <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-start">
+              <div><div class="name">${esc(c.short)}</div><div class="where">${esc(c.loc)}</div></div>
+              <span class="tag ${c.real?"live":"demo"}">${c.real?"real plan":"demo"}</span>
             </div>
-            <span class="tag ${c.real?"live":"demo"}">${c.real?"real plan":"demo"}</span>
+            <div class="gm" style="margin-top:8px">${esc(c.gm)}${c.plan?" &middot; "+esc(c.plan):""}</div>
           </div>
-          <div class="gm" style="margin-top:8px">${esc(c.gm)}${c.plan ? " &middot; " + esc(c.plan) : ""}</div>
-        </div>
-        <div class="cardstats">
-          <div><span class="v">${s.open}</span><span class="k">open</span></div>
-          <div><span class="v ${s.overdue?"crit":""}">${s.overdue}</span><span class="k">overdue</span></div>
-          <div><span class="v ${s.unrecorded?"crit":s.stalled?"warn":""}">${s.unrecorded || s.stalled}</span><span class="k">${s.unrecorded?"unrecorded":"stalled"}</span></div>
-          <div><span class="v ok">${s.closed30}</span><span class="k">closed 30d</span></div>
-          <div class="spark" title="Items closed per month over the last five months: ${m.join(", ")}">${
-            m.map(n => `<i><b style="height:${n ? Math.max(4, Math.round(n/peak*26)) : 2}px"></b></i>`).join("")}</div>
-        </div>
-        <div class="meetline">
-          <span>${c.real ? "source last edited " + daysSince("2026-02-12") + "d ago" : "last met " + c.last + "d ago"}</span>
-          <span>${c.real ? clubItems(c.id).length + " items" : "next in " + c.next + "d"}</span>
-        </div>
-      </button>`;
-    }).join("")}</div>
+          <div class="cardstats">
+            <div><span class="v">${s.open}</span><span class="k">open</span></div>
+            <div><span class="v ${s.overdue?"crit":""}">${s.overdue}</span><span class="k">overdue</span></div>
+            <div><span class="v ${f?rateClass(f.overall)==="low"?"crit":rateClass(f.overall)==="mod"?"warn":"ok":""}">${f?pct(f.overall):"—"}</span><span class="k">close rate</span></div>
+            <div><span class="v">${clubNotes(c.id).length}</span><span class="k">notes</span></div>
+            <div class="spark" title="Items closed per month over the last five months: ${m.join(", ")}">${
+              m.map(n => `<i><b style="height:${n?Math.max(4,Math.round(n/peak*26)):2}px"></b></i>`).join("")}</div>
+          </div>
+          <div class="meetline">
+            <span>${c.real ? "source edited "+daysSince("2026-02-12")+"d ago" : "last met "+c.last+"d ago"}</span>
+            <span>${f ? f.totalAdds+" / "+f.goal+" adds" : ""}</span>
+          </div>
+        </button>`;}).join("")}</div>
+    </div>
 
     <div class="section">
       <div class="sectionhead"><h3>Needs attention</h3>
-        <span class="note">Overdue first, then anything tracked and untouched for ${STALL_DAYS}+ days</span></div>
+        <span class="note">Overdue first, then tracked items untouched for ${STALL_DAYS}+ days</span></div>
       <div class="panel tablewrap">
         <table class="att">
           <thead><tr><th>Item</th><th>Club</th><th>Owner</th><th>Why</th></tr></thead>
           <tbody>${attention.map(i => `<tr data-item="${i.id}">
-            <td>${esc(i.title)}</td>
-            <td class="club">${esc(club(i.club).short)}</td>
+            <td>${esc(i.title)}</td><td class="club">${esc(club(i.club).short)}</td>
             <td class="club">${esc(String(i.owner).replace(/ \(.*\)/,""))}</td>
-            <td class="num ${isOverdue(i)?"crit":"warn"}">${isOverdue(i) ? daysSince(i.due)+"d overdue" : "silent "+ageDays(i)+"d"}</td>
+            <td class="num ${isOverdue(i)?"crit":"warn"}">${isOverdue(i)?daysSince(i.due)+"d overdue":"silent "+ageDays(i)+"d"}</td>
           </tr>`).join("")}</tbody>
         </table>
       </div>
@@ -1101,11 +1351,10 @@ function renderPortfolio(){
 
 /* ---------------- item row ---------------- */
 function itemRow(it, depth){
-  const sev = severity(it);
-  const kids = db.items.filter(k => k.parent === it.id);
+  const sev = severity(it), kids = db.items.filter(k => k.parent === it.id);
   const note = it.updates.length ? it.updates[it.updates.length-1] : null;
-  const co = carryOver(it);
-  const unrec = it.status === "unrecorded" ? "unrec" : "";
+  const co = carryOver(it), unrec = it.status === "unrecorded" ? "unrec" : "";
+  const bn = bucketName(it.club, it.lead);
   const mark = it.type === "decision"
     ? `<span class="marker decision ${it.status==="done"?"done":""} ${unrec}"></span>`
     : it.type === "question"
@@ -1113,12 +1362,12 @@ function itemRow(it, depth){
       : `<span class="marker ${it.status==="done"?"done":""} ${unrec}">${it.status==="done"
         ? '<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 4.8 8.5 9.5 3.6"/></svg>' : ""}</span>`;
   return `<div class="row ${sev?"sev-"+sev:""} is-${it.status}" data-item="${it.id}" tabindex="0" role="button">
-      <span class="indent" style="width:${16 + depth*22}px"></span>
-      ${mark}
+      <span class="indent" style="width:${16+depth*22}px"></span>${mark}
       <div class="rowbody">
         <div class="title">${esc(it.title)}</div>
         <div class="rowmeta">
           ${it.owner && it.owner !== "Unassigned" ? `<span class="chip owner">${esc(it.owner)}</span>` : `<span class="chip notes">unassigned</span>`}
+          ${bn ? `<span class="chip" style="color:var(--accent)">${esc(bn.split(" (")[0])}</span>` : ""}
           ${it.due && OPEN(it.status) ? `<span class="chip due ${isOverdue(it)?"over":""}">${relDue(it.due)}</span>` : ""}
           ${it.flagged ? `<span class="chip flagged">flagged in source</span>` : ""}
           ${it.conflict ? `<span class="chip conflict">source conflict</span>` : ""}
@@ -1141,168 +1390,329 @@ function filterItems(list){
   if (f === "questions") return list.filter(i => i.type === "question");
   if (f === "decisions") return list.filter(i => i.type === "decision");
   if (f === "flagged") return list.filter(i => i.flagged || i.conflict);
+  if (f === "unassigned") return list.filter(i => !i.lead);
   if (f === "open") return list.filter(i => OPEN(i.status));
   if (f === "mine") return list.filter(i => String(i.owner).startsWith("You"));
   return list;
 }
-
 function filterBar(list, keys){
-  const c = {
-    all:list.length,
-    open:list.filter(i => OPEN(i.status)).length,
-    unrecorded:list.filter(i => i.status === "unrecorded").length,
+  const c = {all:list.length, open:list.filter(i => OPEN(i.status)).length,
+    unrecorded:list.filter(i => i.status==="unrecorded").length,
     overdue:list.filter(isOverdue).length,
-    attention:list.filter(i => isStalled(i) || isOverdue(i)).length,
-    questions:list.filter(i => i.type === "question").length,
-    decisions:list.filter(i => i.type === "decision").length,
-    flagged:list.filter(i => i.flagged || i.conflict).length,
-    mine:list.filter(i => String(i.owner).startsWith("You")).length
-  };
+    attention:list.filter(i => isStalled(i)||isOverdue(i)).length,
+    questions:list.filter(i => i.type==="question").length,
+    decisions:list.filter(i => i.type==="decision").length,
+    flagged:list.filter(i => i.flagged||i.conflict).length,
+    unassigned:list.filter(i => !i.lead).length,
+    mine:list.filter(i => String(i.owner).startsWith("You")).length};
   const L = {all:"Everything", open:"Open", unrecorded:"Not recorded", overdue:"Overdue",
-             attention:"Needs attention", questions:"Questions", decisions:"Decisions",
-             flagged:"Flagged", mine:"Mine"};
+    attention:"Needs attention", questions:"Questions", decisions:"Decisions",
+    flagged:"Flagged", unassigned:"No bucket", mine:"Mine"};
   return `<div class="filters">${keys.map(k =>
     `<button class="fchip" data-filter="${k}" aria-pressed="${state.filter===k}">${L[k]}<span class="n">${c[k]}</span></button>`).join("")}</div>`;
 }
-
 function bucketBlock(b, shown, all, subtitle){
   const roots = shown.filter(i => i.bucket === b && !i.parent);
   const orphans = shown.filter(i => i.bucket === b && i.parent && !shown.some(s => s.id === i.parent));
   const tops = roots.concat(orphans);
   if (!tops.length) return "";
   const bAll = all.filter(i => i.bucket === b);
-  const bDone = bAll.filter(i => i.status === "done" || i.status === "dropped").length;
-  const pct = bAll.length ? Math.round(bDone/bAll.length*100) : 0;
-  const collapsed = state.collapsed[state.club + b];
+  const bDone = bAll.filter(i => i.status==="done"||i.status==="dropped").length;
+  const collapsed = state.collapsed[state.club+b];
   return `<div class="bucket">
     <button class="buckethead" data-bucket="${esc(b)}" aria-expanded="${!collapsed}">
       <svg class="chev" width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
-      <h4>${esc(b)}</h4>
-      ${subtitle ? `<span class="when">${subtitle}</span>` : ""}
+      <h4>${esc(b)}</h4>${subtitle?`<span class="when">${subtitle}</span>`:""}
       <span class="tally">${bDone}/${bAll.length}</span>
-      <span class="progress"><i style="width:${pct}%"></i></span>
+      <span class="progress"><i style="width:${bAll.length?Math.round(bDone/bAll.length*100):0}%"></i></span>
     </button>
-    ${collapsed ? "" : tops.map(i => itemRow(i,0)).join("")}
+    ${collapsed?"":tops.map(i => itemRow(i,0)).join("")}</div>`;
+}
+
+function clubTabs(c){
+  const s = clubStats(c.id);
+  const T = [["plan","Plan",clubItems(c.id).filter(i=>i.track==="program").length],
+             c.calendar?["calendar","Calendar",clubItems(c.id).filter(i=>i.track==="calendar").length]:null,
+             ["buckets","Buckets",FUNNELS[c.id]?FUNNELS[c.id].rows.length:0],
+             ["notes","Notes",clubNotes(c.id).length],
+             ["summaries","Summaries",clubSums(c.id).length]].filter(Boolean);
+  return `<div class="tabs">${T.map(([k,l,n]) =>
+    `<button data-tab="${k}" aria-current="${state.tab===k}">${l}<span class="n">${n}</span></button>`).join("")}</div>`;
+}
+
+function clubHead(c){
+  const s = clubStats(c.id), past = meetingsFor(c.id);
+  return `<div class="pagehead">
+    <div>
+      <span class="eyebrow">${esc(c.kind)} &middot; ${esc(c.loc)} &middot; ${esc(c.gm)}${c.real?" &middot; real imported plan":" &middot; demo data"}</span>
+      <h2>${esc(c.name)}</h2>
+      <p class="meta">${c.real
+        ? `${clubItems(c.id).length} items &middot; ${s.unrecorded} with no recorded status &middot; ${s.overdue} past a date the plan set`
+        : `${s.open} open &middot; ${s.overdue} overdue &middot; ${s.stalled} stalled &middot; last met ${past.length?fmt(past[0].date):"—"}`}</p>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap">
+      <button class="btn" id="addbtn">Add item</button>
+      <button class="btn primary" id="startmeet">Start a review</button>
+    </div>
   </div>`;
 }
 
-/* ---------------- club board ---------------- */
+/* ---------------- club: plan ---------------- */
 function renderClub(){
-  const c = club(state.club), s = clubStats(c.id), all = clubItems(c.id);
+  const c = club(state.club), all = clubItems(c.id);
   const keep = new Set(filterItems(all).map(i => i.id));
   all.forEach(i => { if (keep.has(i.id)) { let p = i.parent; while (p){ keep.add(p); p = (item(p)||{}).parent; } } });
-  const shown = all.filter(i => keep.has(i.id));
-  const prog = shown.filter(i => i.track === "program");
-  const cal = shown.filter(i => i.track === "calendar");
-  const past = meetingsFor(c.id);
-  const keys = c.real ? ["all","unrecorded","overdue","questions","decisions","flagged"]
-                      : ["open","attention","questions","decisions","mine","all"];
-
-  view.innerHTML = `<div class="wrap">
-    <div class="pagehead">
-      <div>
-        <span class="eyebrow">${esc(c.kind)} &middot; ${esc(c.loc)} &middot; ${esc(c.gm)}${c.real ? " &middot; real imported plan" : " &middot; demo data"}</span>
-        <h2>${esc(c.name)}</h2>
-        <p class="meta">${c.real
-          ? `${all.length} items &middot; ${s.unrecorded} with no recorded status &middot; ${s.overdue} past a date the plan set &middot; source last edited ${daysSince("2026-02-12")} days ago`
-          : `${s.open} open &middot; ${s.overdue} overdue &middot; ${s.stalled} stalled &middot; last met ${past.length?fmt(past[0].date):"—"} &middot; next in ${c.next} days`}</p>
-      </div>
-      <div style="display:flex; gap:8px">
-        <button class="btn" id="addbtn">Add item</button>
-        <button class="btn primary" id="startmeet">Start a review</button>
-      </div>
-    </div>
-
+  const shown = all.filter(i => keep.has(i.id) && i.track === "program");
+  const keys = c.real ? ["all","unrecorded","overdue","questions","flagged","unassigned"]
+                      : ["open","attention","questions","decisions","unassigned","all"];
+  view.innerHTML = `<div class="wrap">${clubHead(c)}${clubTabs(c)}
     ${c.real ? provenance() : ""}
-    ${filterBar(all, keys)}
-
+    ${filterBar(all.filter(i=>i.track==="program"), keys)}
     <div class="panel">
-      ${prog.length ? `<div class="trackhead"><h3>${c.real ? "Standing programs" : "Game plan"}</h3>
-        <span class="note">${all.filter(i=>i.track==="program").length} items</span></div>` : ""}
-      ${c.buckets.map(b => bucketBlock(b, prog, all, "")).join("")}
-      ${c.calendar && cal.length ? `<div class="trackhead"><h3>2026 calendar</h3>
-        <span class="note">${all.filter(i=>i.track==="calendar").length} month-anchored items</span></div>
-        ${MONTHS.map(m => bucketBlock(m, cal, all, m === MONTHS[monthIndex()] ? "this month" : "")).join("")}` : ""}
-      ${!prog.length && !cal.length ? `<div class="empty">Nothing matches this filter.</div>` : ""}
+      <div class="trackhead"><h3>${c.real?"Standing programs":"Game plan"}</h3>
+        <span class="note">${all.filter(i=>i.track==="program").length} items</span></div>
+      ${c.buckets.map(b => bucketBlock(b, shown, all, "")).join("") || `<div class="empty">Nothing matches this filter.</div>`}
     </div>
-
     ${c.real ? `<div class="section">
       <div class="sectionhead"><h3>The document's own history</h3>
         <span class="note">Every dated trace the Word file carries</span></div>
       <div class="panel">${DOC_HISTORY.map(h => `<div class="sresult" style="cursor:default">
-        <div class="t">${esc(h.text)}</div>
-        <div class="c">${fmtLong(h.date)} &middot; ${esc(h.who)}</div></div>`).join("")}</div>
-    </div>` : `<div class="section">
-      <div class="sectionhead"><h3>Meeting history</h3>
-        <span class="note">Every checkpoint over the same living plan</span></div>
-      <div class="panel">${past.map(m => `<div class="sresult" style="cursor:default">
-        <div class="t">${esc(m.kind)} &mdash; ${fmtLong(m.date)}</div>
-        <div class="c">${daysSince(m.date)} days ago</div></div>`).join("") || `<div class="empty">No meetings logged.</div>`}</div>
-    </div>`}
+        <div class="t">${esc(h.text)}</div><div class="c">${fmtLong(h.date)} &middot; ${esc(h.who)}</div></div>`).join("")}</div>
+    </div>` : ""}
   </div>`;
 }
 
-/* ---------------- calendar (Balcones) ---------------- */
+/* ---------------- club: calendar ---------------- */
 function renderCalendar(){
   const c = club(state.club), now = monthIndex(), focus = state.month;
   if (focus){
     const list = filterItems(monthItems(c.id,focus));
-    const idx = MONTHS.indexOf(focus);
-    view.innerHTML = `<div class="wrap">
-      <div class="pagehead">
-        <div>
-          <span class="eyebrow">${esc(c.short)} &middot; ${idx<now?"already past":idx===now?"current month":"ahead"}</span>
-          <h2>${esc(focus)}</h2>
-          <p class="meta">${monthItems(c.id,focus).length} items from the document &middot; ${monthItems(c.id,focus).filter(isOverdue).length} past their date</p>
-        </div>
-        <button class="btn" data-club="${c.id}">Back to the plan</button>
-      </div>
+    view.innerHTML = `<div class="wrap">${clubHead(c)}${clubTabs(c)}
+      <div class="pagehead" style="margin-bottom:14px"><div>
+        <span class="eyebrow">${MONTHS.indexOf(focus)<now?"already past":MONTHS.indexOf(focus)===now?"current month":"ahead"}</span>
+        <h2 style="font-size:22px">${esc(focus)}</h2></div>
+        <button class="btn" data-month="">All months</button></div>
       ${filterBar(monthItems(c.id,focus), ["all","unrecorded","overdue","questions","flagged"])}
-      <div class="panel">${list.length ? list.map(i => itemRow(i,0)).join("") : `<div class="empty">Nothing matches this filter.</div>`}</div>
+      <div class="panel">${list.length?list.map(i => itemRow(i,0)).join(""):`<div class="empty">Nothing matches this filter.</div>`}</div>
     </div>`;
     return;
   }
-  view.innerHTML = `<div class="wrap">
-    <div class="pagehead"><div>
-      <span class="eyebrow">${esc(c.short)} &middot; month by month</span>
-      <h2>2026 calendar</h2>
-      <p class="meta">${clubItems(c.id).filter(i=>i.track==="calendar").length} month-anchored items. ${clubItems(c.id).filter(isOverdue).length} are past a date the plan set.</p>
-    </div></div>
+  view.innerHTML = `<div class="wrap">${clubHead(c)}${clubTabs(c)}
     <div class="calgrid">${MONTHS.map((m,idx) => {
       const list = monthItems(c.id,m).slice().sort((a,b) => (a.due||"9").localeCompare(b.due||"9"));
-      const cls = idx < now ? "past" : idx === now ? "now" : "";
       const over = list.filter(isOverdue).length;
-      return `<div class="mcard ${cls}">
-        <button class="mcardhead" data-month="${m}">
-          <h4>${m}</h4>
-          <span class="tag">${idx===now?"this month":over?over+" overdue":list.length+" items"}</span>
-        </button>
+      return `<div class="mcard ${idx<now?"past":idx===now?"now":""}">
+        <button class="mcardhead" data-month="${m}"><h4>${m}</h4>
+          <span class="tag">${idx===now?"this month":over?over+" overdue":list.length+" items"}</span></button>
         <div class="mitems">${list.map(i => `<button class="mitem" data-item="${i.id}">
-          <span class="d ${isOverdue(i)?"over":""}">${i.due ? fmtDay(i.due) : "—"}</span>
+          <span class="d ${isOverdue(i)?"over":""}">${i.due?fmtDay(i.due):"—"}</span>
           <span class="t">${esc(i.title)}</span>
           ${i.type==="question"?`<span class="qm">?</span>`:""}
-          ${i.flagged?`<span class="fl">&#9733;</span>`:""}
-        </button>`).join("")}</div>
-      </div>`;
-    }).join("")}</div>
+          ${i.flagged?`<span class="fl">&#9733;</span>`:""}</button>`).join("")}</div>
+      </div>`;}).join("")}</div>
   </div>`;
 }
 
-/* ---------------- meeting ---------------- */
+/* ---------------- club: buckets ---------------- */
+function renderBuckets(){
+  const c = club(state.club), f = funnel(c.id);
+  if (!f){ view.innerHTML = `<div class="wrap">${clubHead(c)}${clubTabs(c)}
+    <div class="panel"><div class="empty">No lead-bucket data for this club yet.</div></div></div>`; return; }
+  const g = gaps(c.id), unassigned = clubItems(c.id).filter(i => !i.lead).length;
+
+  view.innerHTML = `<div class="wrap">${clubHead(c)}${clubTabs(c)}
+    <div class="provenance"><div class="body">
+      <span class="eyebrow">${f.real ? "Real numbers" : "Demo numbers"}</span>
+      ${f.real
+        ? `Leads and adds come from <b>${esc(f.source)}</b>, ${esc(f.period)}. Closing rate, share of adds
+           and leads-needed are calculated with the workbook's own formulas — nothing here is re-keyed.`
+        : `Invented figures for this demo club, using the same funnel model as the real one.`}
+      <b>Leads needed</b> = goal &times; bucket leads &divide; total leads, rounded up — change the goal and it recalculates.
+    </div></div>
+
+    <div class="panel" style="margin-bottom:22px">
+      <div class="goalbar">
+        <span class="lab">Add goal</span>
+        <input type="number" id="goalinput" value="${f.goal}" min="1" step="5">
+        <span style="border-left:1px solid var(--line); height:26px"></span>
+        <div><span class="lab">Adds to date</span><div class="big">${f.totalAdds}</div></div>
+        <div><span class="lab">Leads</span><div class="big">${f.totalLeads}</div></div>
+        <div><span class="lab">Overall close</span>
+          <div class="big"><span class="rate ${rateClass(f.overall)}"><i></i>${pct(f.overall)}</span></div></div>
+        <div style="margin-left:auto; text-align:right">
+          <span class="lab">Against goal</span>
+          <div class="big ${f.totalAdds>=f.goal?"":""}" style="color:${f.totalAdds>=f.goal?"var(--ok)":"var(--warn)"}">${Math.round(f.totalAdds/f.goal*100)}%</div></div>
+      </div>
+      <div style="padding:14px 16px">
+        <span class="mix">${f.rows.map((r,i) => r.pctOfAdds
+          ? `<i style="width:${r.pctOfAdds*100}%; background:${BCOLORS[i%BCOLORS.length]}" title="${esc(r.n)} ${pct1(r.pctOfAdds)}"></i>` : "").join("")}</span>
+        <div class="mixkey">${f.rows.filter(r => r.pctOfAdds > 0).map((r,i) => {
+          const idx = f.rows.indexOf(r);
+          return `<span><i style="background:${BCOLORS[idx%BCOLORS.length]}"></i>${esc(r.n.split(" (")[0])} ${pct1(r.pctOfAdds)}</span>`;}).join("")}</div>
+      </div>
+      <div class="tablewrap"><table class="funnel">
+        <thead><tr><th>Bucket</th><th class="r">Leads</th><th class="r">Adds</th><th class="r">Close</th>
+          <th class="r">% of adds</th><th class="r">Leads needed</th><th class="r">Plan items</th></tr></thead>
+        <tbody>${f.rows.map(r => `<tr data-bucketrow="${r.k}">
+          <td><span class="bname">${esc(r.n)}</span>${r.note?`<span class="bnote">${esc(r.note)}</span>`:""}</td>
+          <td class="r num">${r.leads}</td><td class="r num">${r.adds}</td>
+          <td class="r">${r.closeRate===null?`<span class="num" style="color:var(--ink-3)">—</span>`:`<span class="rate ${rateClass(r.closeRate)}"><i></i>${pct(r.closeRate)}</span>`}</td>
+          <td class="r num">${pct1(r.pctOfAdds)}</td>
+          <td class="r num">${r.leads?r.leadsNeeded:"—"}</td>
+          <td class="r num ${r.leads>0&&r.items.length===0?"":""}" style="${r.leads>0&&r.items.length===0?"color:var(--crit); font-weight:600":""}">${r.items.length}</td>
+        </tr>`).join("")}
+        <tr class="totals"><td>Totals</td><td class="r num">${f.totalLeads}</td><td class="r num">${f.totalAdds}</td>
+          <td class="r"><span class="rate ${rateClass(f.overall)}"><i></i>${pct(f.overall)}</span></td>
+          <td class="r num">100.0%</td><td class="r num">—</td>
+          <td class="r num">${f.rows.reduce((a,r)=>a+r.items.length,0)}</td></tr>
+        </tbody></table></div>
+    </div>
+
+    ${g.length ? `<div class="section" style="margin-top:0">
+      <div class="sectionhead"><h3>Gaps</h3>
+        <span class="note">Buckets with real volume that nothing is aimed at, or that close under 25%</span></div>
+      <div class="panel">${g.map(x => `<div class="gapcard">
+        <span class="g ${x.activity?"soft":""}">${x.activity?pct(x.closeRate):"0 items"}</span>
+        <div class="gb"><div class="gt">${esc(x.n)}</div>
+          <div class="gs">${x.leads} leads produced ${x.adds} add${x.adds===1?"":"s"}${
+            x.activity===0?`. Nothing in this club's game plan is pointed at it.`
+                          :`, with ${x.activity} game-plan item${x.activity===1?"":"s"} aimed at it.`}
+            ${x.leadsNeeded?` To carry its share of the ${f.goal}-add goal it needs ${x.leadsNeeded} leads.`:""}</div></div>
+      </div>`).join("")}</div>
+    </div>` : ""}
+
+    ${unassigned ? `<div class="section">
+      <div class="sectionhead"><h3>Not tied to a bucket</h3>
+        <span class="note">${unassigned} of ${clubItems(c.id).length} items &mdash; open one and set its bucket</span></div>
+      <div class="panel"><div class="gapcard"><span class="g soft">${unassigned}</span>
+        <div class="gb"><div class="gt">Items with no lead bucket</div>
+        <div class="gs">Bucket tags were assigned by matching the item's wording, so anything ambiguous was
+        deliberately left blank rather than guessed. Set them as you work through the plan.</div></div></div></div>
+    </div>` : ""}
+  </div>`;
+}
+
+/* ---------------- club: notes ---------------- */
+function renderNotes(){
+  const c = club(state.club), notes = clubNotes(c.id), f = FUNNELS[c.id];
+  const team = teamOf(c.id);
+  view.innerHTML = `<div class="wrap">${clubHead(c)}${clubTabs(c)}
+    <div class="notebox">
+      <span class="eyebrow">Note to self</span>
+      <textarea id="newnotetext" rows="3" placeholder="Anything that isn't a task — what you saw, what someone said, an idea you don't want to lose."></textarea>
+      <div class="row2">
+        <button class="btn primary sm" id="addnote2">Add note</button>
+        <label class="chip notes" for="noteWho2">from</label>
+        <select id="noteWho2" class="whosel">${team.map(p => `<option ${p==="You (Regional)"?"selected":""}>${esc(p)}</option>`).join("")}</select>
+        <label class="chip notes" for="noteTag">about</label>
+        <select id="noteTag" class="whosel">
+          <option value="">nothing in particular</option>
+          ${f ? f.rows.map(r => `<option value="${r.k}">${esc(r.n.split(" (")[0])}</option>`).join("") : ""}
+        </select>
+      </div>
+    </div>
+    <div class="panel">${notes.length ? notes.map(n => `<div class="note ${n.pinned?"pin":""}">
+      <div class="meta"><div class="d">${fmtMed(n.date)}</div><div class="w">${esc(n.who)}</div>
+        ${n.tag && bucketName(c.id,n.tag) ? `<div class="w" style="color:var(--accent); margin-top:4px">${esc(bucketName(c.id,n.tag).split(" (")[0])}</div>` : ""}</div>
+      <div class="body">${esc(n.text)}</div>
+      <div class="acts">
+        <button class="iconbtn ${n.pinned?"on":""}" data-pin="${n.id}" title="Pin">${n.pinned?"pinned":"pin"}</button>
+        <button class="iconbtn" data-delnote="${n.id}" title="Delete">delete</button>
+      </div></div>`).join("") : `<div class="empty">No notes yet. This is the place for everything that isn't a task.</div>`}</div>
+  </div>`;
+}
+
+/* ---------------- club: summaries ---------------- */
+function seedSummary(cid, kind){
+  const c = club(cid), f = funnel(cid), all = clubItems(cid);
+  const mName = MONTHS[monthIndex()];
+  const since = kind === "month" ? 30 : 90;
+  const closed = all.filter(i => i.completed && daysSince(i.completed) <= since);
+  const overdue = all.filter(isOverdue);
+  const qs = all.filter(i => i.type === "question" && OPEN(i.status));
+  const L = [];
+  L.push(kind === "month" ? `THE NUMBERS — ${mName}` : "THE NUMBERS");
+  if (f){
+    L.push(`${f.totalAdds} adds against a goal of ${f.goal} (${Math.round(f.totalAdds/f.goal*100)}%), ${f.totalLeads} leads, ${pct(f.overall)} overall close.`);
+    const top = f.rows.slice().sort((a,b) => b.adds-a.adds)[0];
+    const worst = f.rows.filter(r => r.leads >= 10 && r.closeRate !== null).sort((a,b) => a.closeRate-b.closeRate)[0];
+    L.push(`Biggest bucket: ${top.n} at ${pct1(top.pctOfAdds)} of adds.`);
+    if (worst) L.push(`Weakest: ${worst.n} at ${pct(worst.closeRate)} on ${worst.leads} leads.`);
+  }
+  L.push("");
+  L.push("WHAT CLOSED");
+  if (closed.length) closed.slice(0,10).forEach(i => L.push(`- ${i.title} (${i.owner})`));
+  else L.push("- Nothing was recorded as closed in this window.");
+  L.push("");
+  L.push("WHAT SLIPPED");
+  if (overdue.length) overdue.slice(0,8).forEach(i => L.push(`- ${i.title} — ${daysSince(i.due)}d overdue (${i.owner})`));
+  else L.push("- Nothing is past its date.");
+  L.push("");
+  L.push("OPEN QUESTIONS");
+  if (qs.length) qs.slice(0,8).forEach(i => L.push(`- ${i.title}`));
+  else L.push("- None outstanding.");
+  L.push("");
+  L.push(kind === "month" ? "WHAT I'M WATCHING NEXT MONTH" : "WHAT WE AGREED");
+  L.push("");
+  L.push(kind === "month" ? "" : "WHAT I OWE THEM");
+  L.push("");
+  return L.join("\n");
+}
+
+function renderSummaries(){
+  const c = club(state.club), sums = clubSums(c.id);
+  if (state.editing){
+    const s = db.summaries.find(x => x.id === state.editing);
+    if (s){
+      view.innerHTML = `<div class="wrap">${clubHead(c)}${clubTabs(c)}
+        <div class="editor">
+          <div class="ehead">
+            <input class="title" id="sumtitle" value="${esc(s.title)}" placeholder="Title">
+            <select class="whosel" id="sumkind">
+              <option value="month" ${s.kind==="month"?"selected":""}>Monthly summary</option>
+              <option value="visit" ${s.kind==="visit"?"selected":""}>Site visit summary</option>
+            </select>
+            <input class="whosel" type="date" id="sumdate" value="${s.date}">
+          </div>
+          <textarea id="sumbody" placeholder="Write the summary here.">${esc(s.body)}</textarea>
+          <div class="foot">
+            <button class="btn primary" id="sumsave">Save</button>
+            <button class="btn" id="sumseed">Pull in the numbers</button>
+            <button class="btn" id="sumcopy">Copy as text</button>
+            <button class="btn" onclick="window.print()">Print</button>
+            <button class="btn ghost" id="sumdel">Delete</button>
+            <span class="saved">last saved ${fmtMed(s.updated)}</span>
+          </div>
+        </div></div>`;
+      return;
+    }
+    state.editing = null;
+  }
+  view.innerHTML = `<div class="wrap">${clubHead(c)}${clubTabs(c)}
+    <div class="filters">
+      <button class="btn primary sm" data-newsum="month">New monthly summary</button>
+      <button class="btn sm" data-newsum="visit">New site visit summary</button>
+    </div>
+    ${sums.length ? `<div class="sumgrid">${sums.map(s => `<button class="sumcard" data-sum="${s.id}">
+      <span class="k ${s.kind}">${s.kind==="month"?"Monthly":"Site visit"}</span>
+      <span class="t">${esc(s.title)}</span>
+      <span class="x">${fmtMed(s.date)}</span>
+      <span class="p">${esc(s.body.replace(/\n+/g," ").slice(0,180))}</span>
+    </button>`).join("")}</div>`
+    : `<div class="panel"><div class="empty">No summaries yet. Start a monthly or site visit write-up — it pulls the numbers in for you.</div></div>`}
+  </div>`;
+}
+
+/* ---------------- meeting + recap ---------------- */
 function renderMeeting(){
-  const m = state.meeting, c = club(m.club), now = monthIndex();
-  const all = clubItems(m.club);
+  const m = state.meeting, c = club(m.club), now = monthIndex(), all = clubItems(m.club);
   const scope = c.calendar
-    ? all.filter(i => OPEN(i.status) && (isOverdue(i) || i.bucket === MONTHS[now] ||
-        i.bucket === MONTHS[now+1] || i.flagged || i.conflict))
+    ? all.filter(i => OPEN(i.status) && (isOverdue(i) || i.bucket===MONTHS[now] || i.bucket===MONTHS[now+1] || i.flagged || i.conflict))
     : all.filter(i => OPEN(i.status));
   const live = scope.sort((a,b) => {
-    const rank = i => isOverdue(i) ? 0 : i.conflict ? 1 : isStalled(i) ? 2 : i.flagged ? 3 : 4;
-    return rank(a) - rank(b) || (a.due||"9").localeCompare(b.due||"9");
-  });
-  const touched = new Set(m.changes.map(ch => ch.item));
-  const team = teamOf(m.club);
-
+    const rank = i => isOverdue(i)?0:i.conflict?1:isStalled(i)?2:i.flagged?3:4;
+    return rank(a)-rank(b) || (a.due||"9").localeCompare(b.due||"9"); });
+  const touched = new Set(m.changes.map(ch => ch.item)), team = teamOf(m.club);
   view.innerHTML = `
   <div class="meetbar">
     <span class="live"><i></i>Review in progress</span>
@@ -1312,79 +1722,59 @@ function renderMeeting(){
     <button class="btn primary" id="meetend">End and write the recap</button>
   </div>
   <div class="wrap">
-    <div class="pagehead"><div>
-      <span class="eyebrow">${fmtLong(m.date)}</span>
+    <div class="pagehead"><div><span class="eyebrow">${fmtLong(m.date)}</span>
       <h2>Working the plan</h2>
-      <p class="meta">${c.calendar
-        ? `Scoped to what needs a decision today: everything overdue, everything in ${MONTHS[now]}${MONTHS[now+1]?" and "+MONTHS[now+1]:""}, plus anything flagged or contradictory.`
-        : "Open items, ordered by what is hurting."} ${live.length} items.</p>
+      <p class="meta">${c.calendar?`Scoped to everything overdue, everything in ${MONTHS[now]}${MONTHS[now+1]?" and "+MONTHS[now+1]:""}, plus anything flagged or contradictory.`:"Open items, ordered by what is hurting."} ${live.length} items.</p>
     </div></div>
-    <div class="panel">${live.map(i => {
-      const sev = severity(i);
-      return `<div class="mrow ${sev?"sev-"+sev:""} ${touched.has(i.id)?"touched":""}">
-        <div class="mbody">
-          <div class="mtitle">${esc(i.title)}</div>
-          <div class="rowmeta">
-            <span class="chip notes">${esc(i.bucket)}</span>
-            ${i.owner && i.owner !== "Unassigned" ? `<span class="chip owner">${esc(i.owner)}</span>` : `<span class="chip notes">unassigned</span>`}
-            ${i.due ? `<span class="chip due ${isOverdue(i)?"over":""}">${relDue(i.due)}</span>` : ""}
-            ${i.flagged ? `<span class="chip flagged">flagged in source</span>` : ""}
-            ${i.conflict ? `<span class="chip conflict">source conflict</span>` : ""}
-            ${isStalled(i) ? `<span class="chip stall">silent ${ageDays(i)}d</span>` : ""}
-          </div>
-          ${i.conflict ? `<div class="srcnote">${esc(i.conflict)}</div>` : ""}
-          <div class="notefield">
-            <input type="text" placeholder="What did you land on?" data-note="${i.id}">
-            <select class="whosel" data-who="${i.id}" aria-label="Who said it">${
-              team.map(p => `<option ${p === (i.owner && i.owner !== "Unassigned" ? i.owner : "You (Regional)") ? "selected" : ""}>${esc(p)}</option>`).join("")}</select>
-            <button class="btn sm" data-savenote="${i.id}">Log</button>
-            <button class="btn sm ghost" data-open-item="${i.id}">History</button>
-          </div>
-        </div>
-        <div class="statusgroup">
-          ${["not_started","in_progress","done","dropped"].map(s =>
-            `<button data-set="${i.id}|${s}" aria-pressed="${i.status===s}">${
-              {not_started:"open",in_progress:"working",done:"done",dropped:"drop"}[s]}</button>`).join("")}
-        </div>
-      </div>`;
-    }).join("") || `<div class="empty">Nothing needs attention in this window.</div>`}</div>
+    <div class="panel">${live.map(i => `<div class="mrow ${severity(i)?"sev-"+severity(i):""} ${touched.has(i.id)?"touched":""}">
+      <div class="mbody"><div class="mtitle">${esc(i.title)}</div>
+        <div class="rowmeta"><span class="chip notes">${esc(i.bucket)}</span>
+          ${i.owner&&i.owner!=="Unassigned"?`<span class="chip owner">${esc(i.owner)}</span>`:`<span class="chip notes">unassigned</span>`}
+          ${i.due?`<span class="chip due ${isOverdue(i)?"over":""}">${relDue(i.due)}</span>`:""}
+          ${i.flagged?`<span class="chip flagged">flagged in source</span>`:""}
+          ${i.conflict?`<span class="chip conflict">source conflict</span>`:""}</div>
+        ${i.conflict?`<div class="srcnote">${esc(i.conflict)}</div>`:""}
+        <div class="notefield">
+          <input type="text" placeholder="What did you land on?" data-note="${i.id}">
+          <select class="whosel" data-who="${i.id}" aria-label="Who said it">${
+            team.map(p => `<option ${p===(i.owner&&i.owner!=="Unassigned"?i.owner:"You (Regional)")?"selected":""}>${esc(p)}</option>`).join("")}</select>
+          <button class="btn sm" data-savenote="${i.id}">Log</button>
+          <button class="btn sm ghost" data-open-item="${i.id}">History</button>
+        </div></div>
+      <div class="statusgroup">${["not_started","in_progress","done","dropped"].map(s =>
+        `<button data-set="${i.id}|${s}" aria-pressed="${i.status===s}">${
+          {not_started:"open",in_progress:"working",done:"done",dropped:"drop"}[s]}</button>`).join("")}</div>
+    </div>`).join("") || `<div class="empty">Nothing needs attention in this window.</div>`}</div>
   </div>`;
 }
 
 function buildRecap(m){
   const ch = m.changes, seen = id => item(id);
   const decisions = ch.filter(x => x.note && (seen(x.item)||{}).type === "decision");
-  const closed = ch.filter(x => x.to === "done");
-  const dropped = ch.filter(x => x.to === "dropped");
+  const closed = ch.filter(x => x.to === "done"), dropped = ch.filter(x => x.to === "dropped");
   const notes = ch.filter(x => x.note && decisions.indexOf(x) === -1);
   const created = (m.created||[]).map(seen).filter(Boolean);
   const all = clubItems(m.club);
-  const stillUnrec = all.filter(i => i.status === "unrecorded" && isOverdue(i));
-  const stillStalled = all.filter(i => isStalled(i) && !ch.some(x => x.item === i.id));
-  const openQs = all.filter(i => i.type === "question" && OPEN(i.status));
-  const upcoming = all.filter(i => OPEN(i.status) && i.due && daysSince(i.due) <= 0)
-    .sort((a,b) => a.due.localeCompare(b.due)).slice(0,12);
-  return {decisions, closed, dropped, notes, created, stillUnrec, stillStalled, openQs, upcoming};
+  return {decisions, closed, dropped, notes, created,
+    stillUnrec: all.filter(i => i.status==="unrecorded" && isOverdue(i)),
+    stillStalled: all.filter(i => isStalled(i) && !ch.some(x => x.item===i.id)),
+    openQs: all.filter(i => i.type==="question" && OPEN(i.status)),
+    upcoming: all.filter(i => OPEN(i.status) && i.due && daysSince(i.due) <= 0)
+      .sort((a,b) => a.due.localeCompare(b.due)).slice(0,12)};
 }
-
 function renderRecap(){
   const m = state.meeting, c = club(m.club), r = buildRecap(m);
   const li = (t,sub,own) => `<li>${esc(t)}${sub?`<span class="sub">${esc(sub)}</span>`:""}${own?`<span class="sub own">${esc(own)}</span>`:""}</li>`;
-  const sec = (title,rows,empty) => `<section><h3>${title}</h3>${
-    rows.length ? `<ul>${rows.join("")}</ul>` : `<p class="none">${empty}</p>`}</section>`;
+  const sec = (t,rows,e) => `<section><h3>${t}</h3>${rows.length?`<ul>${rows.join("")}</ul>`:`<p class="none">${e}</p>`}</section>`;
   view.innerHTML = `<div class="wrap">
-    <div class="pagehead">
-      <div><span class="eyebrow">Generated from the review</span><h2>Recap</h2>
-      <p class="meta">Every line came from a status change or a note logged during the review. Nothing retyped.</p></div>
+    <div class="pagehead"><div><span class="eyebrow">Generated from the review</span><h2>Recap</h2>
+      <p class="meta">Every line came from a status change or a note logged during the review.</p></div>
       <div style="display:flex; gap:8px">
         <button class="btn" id="copyrecap">Copy as text</button>
-        <button class="btn" onclick="window.print()">Print</button>
-        <button class="btn primary" data-club="${c.id}">Back to the plan</button>
-      </div>
-    </div>
-    <div class="recap" id="recapdoc">
-      <h2>${esc(c.name)}</h2>
-      <div class="rmeta">${c.plan ? esc(c.plan) + " &middot; " : ""}plan review &middot; ${fmtLong(m.date)}</div>
+        <button class="btn" id="recap2sum">Save as a summary</button>
+        <button class="btn primary" data-club="${c.id}">Back to the plan</button></div></div>
+    <div class="recap" id="recapdoc"><h2>${esc(c.name)}</h2>
+      <div class="rmeta">${c.plan?esc(c.plan)+" &middot; ":""}plan review &middot; ${fmtLong(m.date)}</div>
       ${sec("Decisions made", r.decisions.map(x => li(item(x.item).title, x.note)), "No decisions were recorded.")}
       ${sec("Closed out", r.closed.map(x => li(item(x.item).title, x.note||"", item(x.item).owner)), "Nothing was closed.")}
       ${sec("Dropped", r.dropped.map(x => li(item(x.item).title, x.note||"")), "Nothing was dropped.")}
@@ -1395,54 +1785,57 @@ function renderRecap(){
         : sec("Still open and still silent", r.stillStalled.map(i => li(i.title, "No update in "+ageDays(i)+" days", i.owner)), "Everything open was touched.")}
       ${sec("Open questions carried forward", r.openQs.map(i => li(i.title, i.bucket, i.owner)), "No open questions.")}
       ${sec("What is due next", r.upcoming.map(i => li(i.title, relDue(i.due), i.owner)), "Nothing dated ahead.")}
-    </div>
-  </div>`;
+    </div></div>`;
 }
-
 function recapText(){
   const m = state.meeting, c = club(m.club), r = buildRecap(m), L = [];
-  L.push(c.name + (c.plan ? " — " + c.plan : ""));
-  L.push("Plan review · " + fmtLong(m.date)); L.push("");
-  const block = (t,rows) => { if (!rows.length) return; L.push(t.toUpperCase()); rows.forEach(x => L.push("  - " + x)); L.push(""); };
-  block("Decisions made", r.decisions.map(x => item(x.item).title + (x.note ? " — " + x.note : "")));
-  block("Closed out", r.closed.map(x => item(x.item).title + " (" + item(x.item).owner + ")"));
-  block("Dropped", r.dropped.map(x => item(x.item).title));
-  block("New commitments", r.created.map(i => i.title + " — " + i.owner + (i.due ? ", due " + fmt(i.due) : "")));
-  block("Updates logged", r.notes.map(x => item(x.item).title + " — " + x.note));
-  block(c.real ? "Still overdue with no status recorded" : "Still open and still silent",
-    (c.real ? r.stillUnrec : r.stillStalled).map(i => i.title + " — " + i.bucket));
-  block("Open questions carried forward", r.openQs.map(i => i.title + " — " + i.bucket));
-  block("What is due next", r.upcoming.map(i => i.title + " — " + relDue(i.due)));
+  L.push(c.name + (c.plan?" — "+c.plan:"")); L.push("Plan review · " + fmtLong(m.date)); L.push("");
+  const b = (t,rows) => { if (!rows.length) return; L.push(t.toUpperCase()); rows.forEach(x => L.push("  - "+x)); L.push(""); };
+  b("Decisions made", r.decisions.map(x => item(x.item).title + (x.note?" — "+x.note:"")));
+  b("Closed out", r.closed.map(x => item(x.item).title + " (" + item(x.item).owner + ")"));
+  b("Dropped", r.dropped.map(x => item(x.item).title));
+  b("New commitments", r.created.map(i => i.title + " — " + i.owner + (i.due?", due "+fmt(i.due):"")));
+  b("Updates logged", r.notes.map(x => item(x.item).title + " — " + x.note));
+  b(c.real?"Still overdue with no status recorded":"Still open and still silent",
+    (c.real?r.stillUnrec:r.stillStalled).map(i => i.title + " — " + i.bucket));
+  b("Open questions carried forward", r.openQs.map(i => i.title + " — " + i.bucket));
+  b("What is due next", r.upcoming.map(i => i.title + " — " + relDue(i.due)));
   return L.join("\n");
 }
 
 /* ---------------- search ---------------- */
 function renderSearch(){
   const q = state.q.toLowerCase();
-  const hits = db.items.filter(i =>
-    i.title.toLowerCase().includes(q) || String(i.owner).toLowerCase().includes(q) ||
-    (i.conflict||"").toLowerCase().includes(q) ||
+  const hits = db.items.filter(i => i.title.toLowerCase().includes(q) ||
+    String(i.owner).toLowerCase().includes(q) || (i.conflict||"").toLowerCase().includes(q) ||
     i.updates.some(u => u.text.toLowerCase().includes(q)));
+  const nHits = db.notes.filter(n => n.text.toLowerCase().includes(q) || n.who.toLowerCase().includes(q));
+  const sHits = db.summaries.filter(s => s.body.toLowerCase().includes(q) || s.title.toLowerCase().includes(q));
   const hl = t => esc(t).replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","ig"), "<mark>$1</mark>");
-  const byClub = {};
-  hits.forEach(i => (byClub[i.club] = byClub[i.club] || []).push(i));
+  const byClub = {}; hits.forEach(i => (byClub[i.club] = byClub[i.club]||[]).push(i));
   view.innerHTML = `<div class="wrap">
-    <div class="pagehead"><div>
-      <span class="eyebrow">Search every club, item and note</span>
-      <h2>${hits.length} match${hits.length===1?"":"es"} for &ldquo;${esc(state.q)}&rdquo;</h2>
-    </div></div>
-    ${CLUBS.filter(c => byClub[c.id]).map(c => `<div class="section" style="margin-top:20px">
-      <div class="sectionhead"><h3>${esc(c.short)}</h3>
-        <span class="note">${byClub[c.id].length} item${byClub[c.id].length===1?"":"s"}${c.real?" · real plan":""}</span></div>
+    <div class="pagehead"><div><span class="eyebrow">Search plans, notes and summaries</span>
+      <h2>${hits.length+nHits.length+sHits.length} match${hits.length+nHits.length+sHits.length===1?"":"es"} for &ldquo;${esc(state.q)}&rdquo;</h2></div></div>
+    ${nHits.length ? `<div class="section" style="margin-top:0">
+      <div class="sectionhead"><h3>Notes</h3><span class="note">${nHits.length}</span></div>
+      <div class="panel">${nHits.map(n => `<button class="sresult" data-gonote="${n.club}">
+        <div class="t">${hl(n.text.slice(0,200))}</div>
+        <div class="c">${esc(club(n.club).short)} &middot; ${fmtMed(n.date)} &middot; ${esc(n.who)}</div></button>`).join("")}</div></div>` : ""}
+    ${sHits.length ? `<div class="section">
+      <div class="sectionhead"><h3>Summaries</h3><span class="note">${sHits.length}</span></div>
+      <div class="panel">${sHits.map(s => `<button class="sresult" data-gosum="${s.id}">
+        <div class="t">${hl(s.title)}</div>
+        <div class="c">${esc(club(s.club).short)} &middot; ${s.kind==="month"?"Monthly":"Site visit"} &middot; ${fmtMed(s.date)}</div></button>`).join("")}</div></div>` : ""}
+    ${CLUBS.filter(c => byClub[c.id]).map(c => `<div class="section">
+      <div class="sectionhead"><h3>${esc(c.short)}</h3><span class="note">${byClub[c.id].length} item${byClub[c.id].length===1?"":"s"}${c.real?" · real plan":""}</span></div>
       <div class="panel">${byClub[c.id].map(i => {
         const nh = i.updates.find(u => u.text.toLowerCase().includes(q));
         return `<button class="sresult" data-item="${i.id}">
           <div class="t">${hl(i.title)}</div>
           <div class="c">${esc(i.bucket)} &middot; ${esc(i.owner)} &middot; ${STATUSES[i.status]}</div>
-          ${nh ? `<div class="lastnote" style="margin-top:6px"><b>${fmt(nh.date)} &middot; ${esc(nh.who)}</b><br>${hl(nh.text)}</div>` : ""}
-        </button>`;
-      }).join("")}</div>
-    </div>`).join("") || `<div class="panel"><div class="empty">Nothing matched. Try a person's name, a club, a month, or a phrase from a note.</div></div>`}
+          ${nh?`<div class="lastnote" style="margin-top:6px"><b>${fmt(nh.date)} &middot; ${esc(nh.who)}</b><br>${hl(nh.text)}</div>`:""}
+        </button>`;}).join("")}</div></div>`).join("")}
+    ${!hits.length && !nHits.length && !sHits.length ? `<div class="panel"><div class="empty">Nothing matched.</div></div>` : ""}
   </div>`;
 }
 
@@ -1451,36 +1844,25 @@ function renderDrawer(){
   const d = document.getElementById("drawer"), sc = document.getElementById("scrim");
   if (!state.drawer){ d.classList.remove("open"); d.setAttribute("aria-hidden","true"); sc.classList.remove("open"); return; }
   const it = item(state.drawer); if (!it) return;
-  const c = club(it.club), team = teamOf(it.club);
-  const events = [
-    {date:it.created, who:it.imported?"Lisa Henrichsen":"", text:it.imported?"Written into the 2026 game plan document":"Added to the game plan", sys:true},
+  const c = club(it.club), team = teamOf(it.club), f = FUNNELS[it.club];
+  const events = [{date:it.created, who:it.imported?"Lisa Henrichsen":"", text:it.imported?"Written into the 2026 game plan document":"Added to the game plan", sys:true},
     ...it.updates.map(u => ({...u, sys:false})),
-    ...(it.completed ? [{date:it.completed, who:"", text:"Marked "+STATUSES[it.status].toLowerCase(), sys:true}] : [])
+    ...(it.completed?[{date:it.completed, who:"", text:"Marked "+STATUSES[it.status].toLowerCase(), sys:true}]:[])
   ].sort((a,b) => a.date.localeCompare(b.date));
-
   d.innerHTML = `
-    <div class="drawerhead">
-      <div class="top">
-        <div>
-          <span class="eyebrow">${esc(c.short)} &middot; ${esc(it.bucket)}</span>
-          <h3 style="margin-top:6px">${esc(it.title)}</h3>
-        </div>
-        <button class="btn ghost sm" id="closedrawer" aria-label="Close">Close</button>
-      </div>
-      <div class="rowmeta">
-        <span class="pill ${it.status}">${STATUSES[it.status]}</span>
-        ${it.flagged ? `<span class="chip flagged">flagged in source</span>` : ""}
-        ${it.due ? `<span class="chip due ${isOverdue(it)?"over":""}">${relDue(it.due)}</span>` : ""}
-        ${isStalled(it) ? `<span class="chip stall">silent ${ageDays(it)}d</span>` : ""}
-      </div>
-    </div>
+    <div class="drawerhead"><div class="top">
+      <div><span class="eyebrow">${esc(c.short)} &middot; ${esc(it.bucket)}${it.track==="calendar"?" &middot; calendar":""}</span>
+        <h3 style="margin-top:6px">${esc(it.title)}</h3></div>
+      <button class="btn ghost sm" id="closedrawer">Close</button></div>
+      <div class="rowmeta"><span class="pill ${it.status}">${STATUSES[it.status]}</span>
+        ${it.flagged?`<span class="chip flagged">flagged in source</span>`:""}
+        ${it.due?`<span class="chip due ${isOverdue(it)?"over":""}">${relDue(it.due)}</span>`:""}</div></div>
     <div class="drawerbody">
-      ${it.conflict ? `<div class="sourcebox" style="border-left:3px solid var(--crit)">
-        <span class="eyebrow">Source conflict</span>${esc(it.conflict)}</div>` : ""}
-      ${it.imported ? `<div class="sourcebox">
-        <span class="eyebrow">Where this came from</span>
+      ${it.conflict?`<div class="sourcebox" style="border-left:3px solid var(--crit)">
+        <span class="eyebrow">Source conflict</span>${esc(it.conflict)}</div>`:""}
+      ${it.imported?`<div class="sourcebox"><span class="eyebrow">Where this came from</span>
         <code>2026 Game Plan.docx</code> &rarr; ${esc(it.bucket)}. Written ${fmtLong(it.created)} by Lisa Henrichsen.
-        ${it.status === "unrecorded" ? "The document never recorded what happened to it." : ""}</div>` : ""}
+        ${it.status==="unrecorded"?"The document never recorded what happened to it.":""}</div>`:""}
       <div class="fields">
         <div class="field"><label for="f-status">Status</label>
           <select id="f-status">${Object.keys(STATUSES).map(s => `<option value="${s}" ${s===it.status?"selected":""}>${STATUSES[s]}</option>`).join("")}</select></div>
@@ -1490,22 +1872,19 @@ function renderDrawer(){
           <select id="f-owner">${team.map(p => `<option ${p===it.owner?"selected":""}>${esc(p)}</option>`).join("")}</select></div>
         <div class="field"><label for="f-due">Due</label>
           <input id="f-due" type="date" value="${it.due||""}"></div>
+        <div class="field" style="grid-column:1/-1"><label for="f-lead">Lead bucket this serves</label>
+          <select id="f-lead"><option value="">Not tied to a bucket</option>
+            ${f?f.rows.map(r => `<option value="${r.k}" ${r.k===it.lead?"selected":""}>${esc(r.n)}</option>`).join(""):""}</select></div>
       </div>
-      <div class="composer">
-        <span class="eyebrow">Log an update</span>
+      <div class="composer"><span class="eyebrow">Log an update</span>
         <textarea id="newnote" rows="3" placeholder="What changed? Write it as of today — the title never changes."></textarea>
-        <div class="actions">
-          <button class="btn primary sm" id="addnote">Add to history</button>
+        <div class="actions"><button class="btn primary sm" id="addnote">Add to history</button>
           <label class="chip notes" for="noteWho">heard from</label>
-          <select id="noteWho" class="whosel">${team.map(p =>
-            `<option ${p==="You (Regional)"?"selected":""}>${esc(p)}</option>`).join("")}</select>
-        </div>
-      </div>
+          <select id="noteWho" class="whosel">${team.map(p => `<option ${p==="You (Regional)"?"selected":""}>${esc(p)}</option>`).join("")}</select></div></div>
       <span class="eyebrow" style="display:block; margin-bottom:12px">History</span>
       <div class="timeline">${events.map(e => `<div class="tl ${e.sys?"":"mark"}">
         <div class="when">${fmt(e.date)} &middot; ${daysSince(e.date)}d ago${e.who?` &middot; <span class="who">${esc(e.who)}</span>`:""}</div>
-        <div class="what ${e.sys?"sys":""}">${esc(e.text)}</div>
-      </div>`).join("")}</div>
+        <div class="what ${e.sys?"sys":""}">${esc(e.text)}</div></div>`).join("")}</div>
     </div>`;
   d.classList.add("open"); d.setAttribute("aria-hidden","false"); sc.classList.add("open");
 }
@@ -1517,147 +1896,182 @@ function record(id, patch, note, who){
   Object.assign(it, patch);
   if (patch.status === "done" && !it.completed) it.completed = iso(TODAY);
   if (patch.status && patch.status !== "done") it.completed = null;
-  if (note) it.updates.push({date:iso(TODAY), who:who || "You (Regional)", text:note});
+  if (note) it.updates.push({date:iso(TODAY), who:who||"You (Regional)", text:note});
   if (state.meeting && state.meeting.club === it.club && (note || (patch.status && patch.status !== from)))
-    state.meeting.changes.push({item:id, from, to:patch.status || from, note:note || ""});
+    state.meeting.changes.push({item:id, from, to:patch.status||from, note:note||""});
   save();
 }
-
 function render(){
   renderRail();
   if (state.q.trim().length > 1) renderSearch();
   else if (state.view === "meeting") renderMeeting();
   else if (state.view === "recap") renderRecap();
-  else if (state.view === "calendar") renderCalendar();
-  else if (state.view === "club") renderClub();
-  else renderPortfolio();
+  else if (state.view === "club"){
+    if (state.tab === "calendar") renderCalendar();
+    else if (state.tab === "buckets") renderBuckets();
+    else if (state.tab === "notes") renderNotes();
+    else if (state.tab === "summaries") renderSummaries();
+    else renderClub();
+  } else renderPortfolio();
   renderDrawer();
   document.getElementById("topbar").style.display = state.view === "meeting" ? "none" : "";
 }
-
-function openClub(id){
-  state.club = id; state.view = "club"; state.month = null;
+function openClub(id, tab){
+  state.club = id; state.view = "club"; state.month = null; state.editing = null;
+  state.tab = tab || "plan";
   state.filter = club(id).real ? "all" : "open";
   state.q = ""; document.getElementById("q").value = "";
   render(); window.scrollTo(0,0);
 }
-
 function addItemPrompt(inMeeting){
   const cid = inMeeting ? state.meeting.club : state.club, c = club(cid);
-  const title = prompt("What is the item?");
-  if (!title || !title.trim()) return;
+  const title = prompt("What is the item?"); if (!title || !title.trim()) return;
   const buckets = c.buckets.concat(c.calendar ? MONTHS : []);
-  const bi = prompt("Where does it go?\n\n" + buckets.map((b,i)=>(i+1)+". "+b).join("\n"), "1");
-  const b = buckets[(parseInt(bi,10)||1)-1] || buckets[0];
+  const b = buckets[(parseInt(prompt("Where does it go?\n\n"+buckets.map((x,i)=>(i+1)+". "+x).join("\n"),"1"),10)||1)-1] || buckets[0];
   const team = teamOf(cid);
-  const oi = prompt("Who owns it?\n\n" + team.map((p,i)=>(i+1)+". "+p).join("\n"), "1");
-  const o = team[(parseInt(oi,10)||1)-1] || team[0];
-  const it = {
-    id:"n"+Date.now().toString(36), club:cid, bucket:b, track:isMonth(b)?"calendar":"program",
-    parent:null, title:title.trim(), type:"task", owner:o, status:"not_started",
-    created:iso(TODAY), due:null, completed:null, flagged:false, conflict:null, imported:false,
-    updates:[{date:iso(TODAY), who:"You (Regional)", text:"Added during the " + (inMeeting?"review":"plan edit") + "."}]
-  };
+  const o = team[(parseInt(prompt("Who owns it?\n\n"+team.map((x,i)=>(i+1)+". "+x).join("\n"),"1"),10)||1)-1] || team[0];
+  const it = {id:"n"+Date.now().toString(36), club:cid, bucket:b, track:isMonth(b)?"calendar":"program",
+    parent:null, title:title.trim(), type:"task", owner:o, status:"not_started", created:iso(TODAY),
+    due:null, completed:null, flagged:false, conflict:null, imported:false, lead:null,
+    updates:[{date:iso(TODAY), who:"You (Regional)", text:"Added during the "+(inMeeting?"review":"plan edit")+"."}]};
   db.items.push(it);
-  if (inMeeting && state.meeting){ state.meeting.created = state.meeting.created || []; state.meeting.created.push(it.id); }
-  save(); render(); toast("Added to " + b);
+  if (inMeeting && state.meeting){ state.meeting.created = state.meeting.created||[]; state.meeting.created.push(it.id); }
+  save(); render(); toast("Added to "+b);
+}
+function newSummary(kind){
+  const c = club(state.club);
+  const s = {id:"s"+Date.now().toString(36), club:c.id, kind, date:iso(TODAY),
+    title: kind==="month" ? `${MONTHS[monthIndex()]} ${TODAY.getFullYear()} — ${c.short}` : `Site visit — ${c.short}`,
+    body: seedSummary(c.id, kind), created:iso(TODAY), updated:iso(TODAY)};
+  db.summaries.push(s); save(); state.editing = s.id; state.tab = "summaries"; render(); window.scrollTo(0,0);
 }
 
 document.addEventListener("click", e => {
   const hit = sel => e.target.closest(sel);
+  if (hit('[data-nav="portfolio"]')){ state.view="portfolio"; state.club=null; state.month=null;
+    state.editing=null; state.q=""; document.getElementById("q").value=""; render(); window.scrollTo(0,0); return; }
 
-  if (hit('[data-nav="portfolio"]')){
-    state.view="portfolio"; state.club=null; state.month=null; state.q="";
-    document.getElementById("q").value=""; render(); window.scrollTo(0,0); return;
-  }
-  const cb = hit("[data-club]"); if (cb){ state.meeting = state.meeting && state.view==="recap" ? null : state.meeting; openClub(cb.dataset.club); return; }
+  const tb = hit("[data-tab]");
+  if (tb && tb.dataset.club){ openClub(tb.dataset.club, tb.dataset.tab); return; }
+  if (tb){ state.tab = tb.dataset.tab; state.month = null; state.editing = null;
+    if (state.tab === "plan" || state.tab === "calendar") state.filter = club(state.club).real ? "all" : "open";
+    render(); window.scrollTo(0,0); return; }
+
+  const cb = hit("[data-club]"); if (cb){ state.meeting = null; openClub(cb.dataset.club); return; }
   const card = hit("[data-open]"); if (card){ openClub(card.dataset.open); return; }
-  const mo = hit("[data-month]"); if (mo){
-    state.view="calendar"; state.month=mo.dataset.month; state.filter="all";
-    render(); window.scrollTo(0,0); return;
-  }
+  const gn = hit("[data-gonote]"); if (gn){ openClub(gn.dataset.gonote, "notes"); return; }
+  const gs = hit("[data-gosum]"); if (gs){ const s = db.summaries.find(x => x.id===gs.dataset.gosum);
+    if (s){ state.editing = s.id; openClub(s.club, "summaries"); } return; }
+  const mo = hit("[data-month]"); if (mo){ state.view="club"; state.tab="calendar";
+    state.month = mo.dataset.month || null; state.filter="all"; render(); window.scrollTo(0,0); return; }
   const f = hit("[data-filter]"); if (f){ state.filter = f.dataset.filter; render(); return; }
-  const bk = hit("[data-bucket]"); if (bk){
-    const k = state.club + bk.dataset.bucket;
-    state.collapsed[k] = !state.collapsed[k]; render(); return;
-  }
+  const bk = hit("[data-bucket]"); if (bk){ const k = state.club+bk.dataset.bucket;
+    state.collapsed[k] = !state.collapsed[k]; render(); return; }
+  const br = hit("[data-bucketrow]"); if (br){ state.tab="plan"; state.filter="all"; render();
+    toast("Filter the plan by bucket from an item's drawer"); return; }
 
-  if (hit("#closedrawer") || hit("#scrim")){ state.drawer = null; renderDrawer(); return; }
-  const oi = hit("[data-open-item]"); if (oi){ state.drawer = oi.dataset.openItem; renderDrawer(); return; }
+  if (hit("#closedrawer") || hit("#scrim")){ state.drawer=null; renderDrawer(); return; }
+  const oi = hit("[data-open-item]"); if (oi){ state.drawer=oi.dataset.openItem; renderDrawer(); return; }
   const row = hit("[data-item]"); if (row && !hit(".statusgroup") && !hit(".notefield")){
     state.drawer = row.dataset.item; renderDrawer(); return; }
 
-  if (hit("#addnote")){
-    const v = document.getElementById("newnote").value.trim(); if (!v) return;
+  if (hit("#addnote")){ const v = document.getElementById("newnote").value.trim(); if (!v) return;
     record(state.drawer, {}, v, (document.getElementById("noteWho")||{}).value);
-    render(); toast("Logged to history"); return;
-  }
+    render(); toast("Logged to history"); return; }
+  if (hit("#addnote2")){
+    const t = document.getElementById("newnotetext").value.trim(); if (!t) return;
+    db.notes.push({id:"n"+Date.now().toString(36), club:state.club, date:iso(TODAY),
+      who:(document.getElementById("noteWho2")||{}).value || "You (Regional)",
+      text:t, tag:(document.getElementById("noteTag")||{}).value || null, pinned:false});
+    save(); render(); toast("Note saved"); return; }
+  const pin = hit("[data-pin]"); if (pin){ const n = db.notes.find(x => x.id===pin.dataset.pin);
+    if (n){ n.pinned = !n.pinned; save(); render(); } return; }
+  const dn = hit("[data-delnote]"); if (dn){
+    if (confirm("Delete this note?")){ db.notes = db.notes.filter(x => x.id!==dn.dataset.delnote); save(); render(); toast("Note deleted"); }
+    return; }
+
+  const ns = hit("[data-newsum]"); if (ns){ newSummary(ns.dataset.newsum); return; }
+  const os = hit("[data-sum]"); if (os){ state.editing = os.dataset.sum; render(); window.scrollTo(0,0); return; }
+  if (hit("#sumsave")){
+    const s = db.summaries.find(x => x.id===state.editing); if (!s) return;
+    s.title = document.getElementById("sumtitle").value.trim() || s.title;
+    s.body = document.getElementById("sumbody").value;
+    s.kind = document.getElementById("sumkind").value;
+    s.date = document.getElementById("sumdate").value || s.date;
+    s.updated = iso(TODAY); save(); state.editing = null; render(); toast("Summary saved"); return; }
+  if (hit("#sumseed")){
+    const s = db.summaries.find(x => x.id===state.editing); if (!s) return;
+    const ta = document.getElementById("sumbody");
+    ta.value = seedSummary(s.club, document.getElementById("sumkind").value) + "\n" + ta.value;
+    toast("Pulled in the current numbers"); return; }
+  if (hit("#sumcopy")){
+    const s = db.summaries.find(x => x.id===state.editing); if (!s) return;
+    const txt = document.getElementById("sumtitle").value + "\n" +
+      club(s.club).name + " · " + fmtLong(document.getElementById("sumdate").value||s.date) + "\n\n" +
+      document.getElementById("sumbody").value;
+    navigator.clipboard.writeText(txt).then(() => toast("Copied — paste it into the email"),
+      () => toast("Copy blocked by the browser")); return; }
+  if (hit("#sumdel")){ if (confirm("Delete this summary?")){
+      db.summaries = db.summaries.filter(x => x.id!==state.editing);
+      save(); state.editing=null; render(); toast("Summary deleted"); } return; }
+  if (hit("#recap2sum")){
+    const m = state.meeting, c = club(m.club);
+    const s = {id:"s"+Date.now().toString(36), club:c.id, kind:"visit", date:m.date,
+      title:`Plan review — ${c.short}`, body:recapText(), created:iso(TODAY), updated:iso(TODAY)};
+    db.summaries.push(s); save(); state.meeting=null; state.editing=s.id;
+    openClub(c.id,"summaries"); toast("Saved into Summaries"); return; }
+
   if (hit("#addbtn")){ addItemPrompt(false); return; }
   if (hit("#meetadd")){ addItemPrompt(true); return; }
-  if (hit("#startmeet")){
-    state.meeting = {club:state.club, date:iso(TODAY), changes:[], created:[]};
-    state.view = "meeting"; state.drawer = null; render(); window.scrollTo(0,0); return;
-  }
-  const set = hit("[data-set]"); if (set){
-    const p = set.dataset.set.split("|"); record(p[0], {status:p[1]}); render(); return;
-  }
+  if (hit("#startmeet")){ state.meeting = {club:state.club, date:iso(TODAY), changes:[], created:[]};
+    state.view="meeting"; state.drawer=null; render(); window.scrollTo(0,0); return; }
+  const set = hit("[data-set]"); if (set){ const p = set.dataset.set.split("|");
+    record(p[0], {status:p[1]}); render(); return; }
   const sn = hit("[data-savenote]"); if (sn){
     const input = document.querySelector('[data-note="'+sn.dataset.savenote+'"]');
     const v = input.value.trim(); if (!v) return;
     record(sn.dataset.savenote, {}, v, (document.querySelector('[data-who="'+sn.dataset.savenote+'"]')||{}).value);
-    render(); toast("Logged"); return;
-  }
-  if (hit("#meetend")){
-    const m = state.meeting;
+    render(); toast("Logged"); return; }
+  if (hit("#meetend")){ const m = state.meeting;
     db.meetings.push({id:"m"+Date.now(), club:m.club, date:m.date, kind:"Plan review", changes:m.changes, closed:true});
-    save(); state.view = "recap"; render(); window.scrollTo(0,0); return;
-  }
-  if (hit("#copyrecap")){
-    navigator.clipboard.writeText(recapText()).then(
-      () => toast("Recap copied — paste it into the follow-up email"),
-      () => toast("Copy blocked by the browser"));
-    return;
-  }
-  if (hit("#resetbtn")){
-    if (confirm("Discard every status and note added here and restore all seven plans as they were imported?")){
-      db = buildSeed(); save(); state.meeting=null; state.drawer=null;
-      state.view="portfolio"; state.club=null; render(); toast("All plans reset");
-    }
-    return;
-  }
-  if (hit("#themebtn")){
-    const root = document.documentElement, cur = root.getAttribute("data-theme");
-    const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+    save(); state.view="recap"; render(); window.scrollTo(0,0); return; }
+  if (hit("#copyrecap")){ navigator.clipboard.writeText(recapText()).then(
+      () => toast("Recap copied"), () => toast("Copy blocked by the browser")); return; }
+  if (hit("#resetbtn")){ if (confirm("Discard every status, note and summary added here and restore all seven plans as imported?")){
+      db = buildSeed(); save(); state.meeting=null; state.drawer=null; state.editing=null;
+      state.view="portfolio"; state.club=null; render(); toast("All data reset"); } return; }
+  if (hit("#themebtn")){ const root = document.documentElement, cur = root.getAttribute("data-theme");
+    const next = cur ? (cur==="dark"?"light":"dark") : (window.matchMedia("(prefers-color-scheme: dark)").matches?"light":"dark");
     root.setAttribute("data-theme", next);
-    try { localStorage.setItem("clubplans.theme", next); } catch(err){}
-    return;
-  }
+    try { localStorage.setItem("clubplans.theme", next); } catch(err){} return; }
 });
 
 document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.id === "goalinput"){
+    const v = parseInt(t.value,10); if (v > 0){ db.goals = db.goals||{}; db.goals[state.club] = v; save(); render(); }
+    return;
+  }
   if (!state.drawer) return;
-  const id = state.drawer, t = e.target;
+  const id = state.drawer;
   if (t.id === "f-status"){ record(id, {status:t.value}); render(); }
   if (t.id === "f-type"){ record(id, {type:t.value}); render(); }
   if (t.id === "f-owner"){ record(id, {owner:t.value}); render(); }
-  if (t.id === "f-due"){ record(id, {due:t.value || null}); render(); }
+  if (t.id === "f-due"){ record(id, {due:t.value||null}); render(); }
+  if (t.id === "f-lead"){ record(id, {lead:t.value||null}); render(); }
 });
 
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && state.drawer){ state.drawer = null; renderDrawer(); }
+  if (e.key === "Escape" && state.drawer){ state.drawer=null; renderDrawer(); }
   if (e.key === "Enter" && e.target.dataset && e.target.dataset.note){
     const v = e.target.value.trim(); if (!v) return;
     record(e.target.dataset.note, {}, v, (document.querySelector('[data-who="'+e.target.dataset.note+'"]')||{}).value);
-    render(); toast("Logged");
-  }
+    render(); toast("Logged"); }
   if (e.key === "Enter" && e.target.classList && e.target.classList.contains("row")){
-    state.drawer = e.target.dataset.item; renderDrawer();
-  }
+    state.drawer = e.target.dataset.item; renderDrawer(); }
 });
 
 document.getElementById("q").addEventListener("input", e => { state.q = e.target.value; render(); });
 try { const th = localStorage.getItem("clubplans.theme"); if (th) document.documentElement.setAttribute("data-theme", th); } catch(e){}
-
 render();
 </script>
